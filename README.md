@@ -13,7 +13,7 @@ To compile
  → Qt5
  → Qwt
  
-Final thiughts
+Final thoughts
 =======
 It's written for linux, but there shall be no problem to port it to windows.
 I don't take any responsibility for how you use it.
