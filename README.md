@@ -15,6 +15,7 @@ PID controller based on VUSB device
 To compile
 =======
  You will need:
+ 
  → Qt5
  
  → Qwt
