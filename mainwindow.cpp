@@ -20,7 +20,7 @@ ssize_t device_count; //holding number of devices in list
 int r; //for return values
 libusb_context *ctx; //a libusb context for library intialization
 int USB_Flag_conected=0;
-uchar buffer[8];
+uchar buffer[8]={0,0,0,0,0,0,0};
 enum bufferByte{
     Flag,TempYoungADC,TempOldADC,TempYoungSet,TempOldSet,PID_P,PID_I,PID_D
     };
@@ -28,7 +28,7 @@ enum bufferByte{
 //Plot data
 double dupa=100;
 double hupa=4;
-double siupa=1;
+double timeSecs=1;
 QVector<double> PlotTempData(QVector<double>(100));
 QVector<double> PlotTempSet(QVector<double>(100));
 QVector<double> PlotTime(QVector<double>(100));
@@ -72,7 +72,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->qwtPlot->replot();
     // ADDED for timer
-    timerId = startTimer(1000);
+    // Moved to on send button clicked
+//    timerId = startTimer(1000);
 
     // USB init
     r = libusb_init(&ctx); //initializing the library
@@ -343,6 +344,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
     }*/
     /* Next part of tests, it's better to do it step by step
      * This part is actually nearly done */
+    /*
     static double insertion=20, i=0;
     if(i<341)
     {
@@ -361,6 +363,33 @@ void MainWindow::timerEvent(QTimerEvent *event)
         CurvePlotTempSet->setSamples(PlotTime,PlotTempSet);
         CurvePlotTempSet->setPen( QPen(Qt::blue));
         ui->qwtPlot->replot();
+    }*/
+    if((buffer[Flag]==1) && (USB_Flag_conected==1))
+    {
+        static double i=0;
+        if(i<341)
+        {
+            if(i<80) tempSet++;
+            else if(i<140) tempSet=100;
+            else if(i<280) tempSet++;
+            else if(i<340) tempSet--;
+            i++;
+            // Plot set temperature
+            PlotTempData.insert(PlotTempData.size(),tempSet);
+            // Plot flown fime
+            PlotTime.insert(PlotTime.size(),timeSecs);
+            // Plot aquired temperature
+            PlotTempSet.insert(PlotTempSet.size(),(double)(buffer[TempYoungADC]|(buffer[TempOldADC]<<8)));
+            timeSecs+=1;
+            // Normal ploting procedure :)
+            CurvePlotTempData->setSamples(PlotTime,PlotTempData);
+            CurvePlotTempData->setPen( QPen(Qt::red));
+            CurvePlotTempSet->setSamples(PlotTime,PlotTempSet);
+            CurvePlotTempSet->setPen( QPen(Qt::blue));
+            ui->qwtPlot->replot();
+        }
+    }else{
+        ui->textBrowser_usbMessage->setText("no USB, no plot");
     }
 }
 
@@ -372,14 +401,30 @@ void MainWindow::on_pushButton_send_clicked()
     // then maybe send rest of data
     // and finally program will be ready to test
     buffer[Flag]=1;
-
+    // ADDED for timer start
+    // Shall be moved to else part below
+    timerId = startTimer(1000);
     if(USB_Flag_conected==0)
     {
         ui->textBrowser_usbMessage->setText("Error - no USB connected");
     }
     else
     {
-        libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_IN,
+        // Write data to send - in use use data table → than tempSet
+        //                    - in use buttons and sliders → then temp
+        //                    - and so one... "make choice" button shall be added
+        // Grab LSB → Grab MSB → Set PID values (double to uint conversion!)
+        buffer[TempYoungSet]=(u_int8_t)tempSet&0xFF;
+        buffer[TempOldSet]  =((u_int8_t)tempSet>>8);
+        buffer[PID_P]=(u_int8_t)prop;
+        buffer[PID_I]=(u_int8_t)integ;
+        buffer[PID_D]=(u_int8_t)deriv;
+
+        // First of all send data
+        libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_OUT,
+                                5 , 0, 0, buffer, sizeof(buffer), 5000);
+        // Secondly grab data
+        libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_OUT,
                                 5 , 0, 0, buffer, sizeof(buffer), 5000);
     }
 }
