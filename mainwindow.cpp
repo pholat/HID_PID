@@ -5,6 +5,8 @@
 #include "qwt_plot_curve.h"
 #include "qvector.h"
 
+#include "tempTable.h"
+
 double pwm, pwm_min, pwm_max;
 double temp,temp_min, temp_max;
 double prop, prop_min, prop_maxp;
@@ -13,6 +15,8 @@ double deriv, deriv_min, deriv_max;
 int usb_number;
 
 //libUSB members
+#define USB_DATA_OUT 		2	//Device to PC
+#define USB_DATA_IN 		4	//Fine PC to Device
 libusb_device_handle *device_handle; //handle to USB device
 libusb_device_descriptor device_descriptor; //the device descriptor
 libusb_device  **device_list; //to store all found USB devices
@@ -366,6 +370,28 @@ void MainWindow::timerEvent(QTimerEvent *event)
     }*/
     if((buffer[Flag]==1) && (USB_Flag_conected==1))
     {
+        //
+        // Write data to send - in use use data table → than tempSet
+        //                    - in use buttons and sliders → then temp
+        //                    - and so one... "make choice" button shall be added
+        // Grab LSB → Grab MSB → Set PID values (double to uint conversion!)
+        // and finally program will be ready to test
+        //buffer[Flag]=1;
+        // Calculate temp to set
+        u_int16_t temp_to_device = temp_to_send(tempSet);
+        buffer[TempYoungSet]=temp_to_device&0xFF;
+        buffer[TempOldSet]  =(temp_to_device>>8)&0xFF;
+        buffer[PID_P]=(u_int8_t)prop;
+        buffer[PID_I]=(u_int8_t)integ;
+        buffer[PID_D]=(u_int8_t)deriv;
+
+        // First of all send data
+        libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_OUT,
+                                USB_DATA_IN , 0, 0, buffer, sizeof(buffer), 5000);
+        // Secondly grab data
+        libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_IN,
+                                USB_DATA_OUT , 0, 0, buffer, sizeof(buffer), 5000);
+        //
         static double i=0;
         if(i<341)
         {
@@ -379,7 +405,9 @@ void MainWindow::timerEvent(QTimerEvent *event)
             // Plot flown fime
             PlotTime.insert(PlotTime.size(),timeSecs);
             // Plot aquired temperature
-            PlotTempSet.insert(PlotTempSet.size(),(double)(buffer[TempYoungADC]|(buffer[TempOldADC]<<8)));
+            // First of all join ADC part than temp_find to Plot
+            u_int16_t ADC_grabbed = ( buffer[TempYoungADC] | (buffer[TempOldADC]<<8) );
+            PlotTempSet.insert(PlotTempSet.size(),temp_find(ADC_grabbed));
             timeSecs+=1;
             // Normal ploting procedure :)
             CurvePlotTempData->setSamples(PlotTime,PlotTempData);
@@ -399,8 +427,6 @@ void MainWindow::on_pushButton_send_clicked()
     // TODO in and out transfer
     // than add "start plotting"
     // then maybe send rest of data
-    // and finally program will be ready to test
-    buffer[Flag]=1;
     // ADDED for timer start
     // Shall be moved to else part below
     timerId = startTimer(1000);
@@ -414,17 +440,22 @@ void MainWindow::on_pushButton_send_clicked()
         //                    - in use buttons and sliders → then temp
         //                    - and so one... "make choice" button shall be added
         // Grab LSB → Grab MSB → Set PID values (double to uint conversion!)
-        buffer[TempYoungSet]=(u_int8_t)tempSet&0xFF;
-        buffer[TempOldSet]  =((u_int8_t)tempSet>>8);
+        // and finally program will be ready to test
+        buffer[Flag]=1;
+        // Calculate temp to set
+        u_int16_t temp_to_device = temp_to_send(tempSet);
+        buffer[TempYoungSet]=temp_to_device&0xFF;
+        buffer[TempOldSet]  =(temp_to_device>>8)&0xFF;
         buffer[PID_P]=(u_int8_t)prop;
         buffer[PID_I]=(u_int8_t)integ;
         buffer[PID_D]=(u_int8_t)deriv;
 
         // First of all send data
         libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_OUT,
-                                5 , 0, 0, buffer, sizeof(buffer), 5000);
+                                USB_DATA_IN , 0, 0, buffer, sizeof(buffer), 5000);
         // Secondly grab data
-        libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_OUT,
-                                5 , 0, 0, buffer, sizeof(buffer), 5000);
+        libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_IN,
+                                USB_DATA_OUT , 0, 0, buffer, sizeof(buffer), 5000);
+
     }
 }
