@@ -1,0 +1,483 @@
+Archive member included because of file (symbol)
+
+/usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_exit.o)
+                              /usr/lib/gcc/avr/4.5.3/../../../avr/lib/avr4/crtm8.o (exit)
+/usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_copy_data.o)
+                              ./usbdrv/usbdrv.o (__do_copy_data)
+/usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_clear_bss.o)
+                              ./usbdrv/usbdrv.o (__do_clear_bss)
+/usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_fixunssfsi.o)
+                              ./main.o (__fixunssfsi)
+/usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_addsub_sf.o)
+                              /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_fixunssfsi.o) (__subsf3)
+/usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_mul_sf.o)
+                              ./main.o (__mulsf3)
+/usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_gt_sf.o)
+                              ./main.o (__gtsf2)
+/usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_ge_sf.o)
+                              /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_fixunssfsi.o) (__gesf2)
+/usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_lt_sf.o)
+                              ./main.o (__ltsf2)
+/usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_sf_to_si.o)
+                              /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_fixunssfsi.o) (__fixsfsi)
+/usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_thenan_sf.o)
+                              /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_addsub_sf.o) (__thenan_sf)
+/usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_prologue.o)
+                              /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_addsub_sf.o) (__prologue_saves__)
+/usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_epilogue.o)
+                              /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_addsub_sf.o) (__epilogue_restores__)
+/usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_pack_sf.o)
+                              /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_addsub_sf.o) (__pack_f)
+/usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_unpack_sf.o)
+                              /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_addsub_sf.o) (__unpack_f)
+/usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_fpcmp_parts_sf.o)
+                              /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_gt_sf.o) (__fpcmp_parts_f)
+
+Allocating common symbols
+Common symbol       size              file
+
+usbTxBuf            0xb               ./usbdrv/usbdrv.o
+usbDeviceAddr       0x1               ./usbdrv/usbdrv.o
+usbRxToken          0x1               ./usbdrv/usbdrv.o
+usbInputBufOffset   0x1               ./usbdrv/usbdrv.o
+usbMsgPtr           0x2               ./usbdrv/usbdrv.o
+usbRxLen            0x1               ./usbdrv/usbdrv.o
+usbNewDeviceAddr    0x1               ./usbdrv/usbdrv.o
+usbCurrentTok       0x1               ./usbdrv/usbdrv.o
+usbConfiguration    0x1               ./usbdrv/usbdrv.o
+usbRxBuf            0x16              ./usbdrv/usbdrv.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+text             0x00000000         0x00002000         xr
+data             0x00800060         0x0000ffa0         rw !x
+eeprom           0x00810000         0x00010000         rw !x
+fuse             0x00820000         0x00000400         rw !x
+lock             0x00830000         0x00000400         rw !x
+signature        0x00840000         0x00000400         rw !x
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD /usr/lib/gcc/avr/4.5.3/../../../avr/lib/avr4/crtm8.o
+LOAD ./usbdrv/oddebug.o
+LOAD ./usbdrv/usbdrv.o
+LOAD ./usbdrv/usbdrvasm.o
+LOAD ./main.o
+LOAD /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a
+LOAD /usr/lib/gcc/avr/4.5.3/../../../avr/lib/avr4/libc.a
+LOAD /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a
+
+.hash
+ *(.hash)
+
+.dynsym
+ *(.dynsym)
+
+.dynstr
+ *(.dynstr)
+
+.gnu.version
+ *(.gnu.version)
+
+.gnu.version_d
+ *(.gnu.version_d)
+
+.gnu.version_r
+ *(.gnu.version_r)
+
+.rel.init
+ *(.rel.init)
+
+.rela.init
+ *(.rela.init)
+
+.rel.text
+ *(.rel.text)
+ *(.rel.text.*)
+ *(.rel.gnu.linkonce.t*)
+
+.rela.text
+ *(.rela.text)
+ *(.rela.text.*)
+ *(.rela.gnu.linkonce.t*)
+
+.rel.fini
+ *(.rel.fini)
+
+.rela.fini
+ *(.rela.fini)
+
+.rel.rodata
+ *(.rel.rodata)
+ *(.rel.rodata.*)
+ *(.rel.gnu.linkonce.r*)
+
+.rela.rodata
+ *(.rela.rodata)
+ *(.rela.rodata.*)
+ *(.rela.gnu.linkonce.r*)
+
+.rel.data
+ *(.rel.data)
+ *(.rel.data.*)
+ *(.rel.gnu.linkonce.d*)
+
+.rela.data
+ *(.rela.data)
+ *(.rela.data.*)
+ *(.rela.gnu.linkonce.d*)
+
+.rel.ctors
+ *(.rel.ctors)
+
+.rela.ctors
+ *(.rela.ctors)
+
+.rel.dtors
+ *(.rel.dtors)
+
+.rela.dtors
+ *(.rela.dtors)
+
+.rel.got
+ *(.rel.got)
+
+.rela.got
+ *(.rela.got)
+
+.rel.bss
+ *(.rel.bss)
+
+.rela.bss
+ *(.rela.bss)
+
+.rel.plt
+ *(.rel.plt)
+
+.rela.plt
+ *(.rela.plt)
+
+.text           0x00000000     0x142e
+ *(.vectors)
+ .vectors       0x00000000       0x26 /usr/lib/gcc/avr/4.5.3/../../../avr/lib/avr4/crtm8.o
+                0x00000000                __vectors
+                0x00000000                __vector_default
+ *(.vectors)
+ *(.progmem.gcc*)
+ *(.progmem*)
+ .progmem.data  0x00000026       0x48 ./usbdrv/usbdrv.o
+                0x00000026                usbDescriptorString0
+                0x0000002a                usbDescriptorStringVendor
+                0x00000040                usbDescriptorStringDevice
+                0x0000004a                usbDescriptorDevice
+                0x0000005c                usbDescriptorConfiguration
+                0x0000006e                . = ALIGN (0x2)
+                0x0000006e                __trampolines_start = .
+ *(.trampolines)
+ .trampolines   0x0000006e        0x0 linker stubs
+ *(.trampolines*)
+                0x0000006e                __trampolines_end = .
+ *(.jumptables)
+ *(.jumptables*)
+ *(.lowtext)
+ *(.lowtext*)
+                0x0000006e                __ctors_start = .
+ *(.ctors)
+                0x0000006e                __ctors_end = .
+                0x0000006e                __dtors_start = .
+ *(.dtors)
+                0x0000006e                __dtors_end = .
+ SORT(*)(.ctors)
+ SORT(*)(.dtors)
+ *(.init0)
+ .init0         0x0000006e        0x0 /usr/lib/gcc/avr/4.5.3/../../../avr/lib/avr4/crtm8.o
+                0x0000006e                __init
+ *(.init0)
+ *(.init1)
+ *(.init1)
+ *(.init2)
+ .init2         0x0000006e        0xc /usr/lib/gcc/avr/4.5.3/../../../avr/lib/avr4/crtm8.o
+ *(.init2)
+ *(.init3)
+ *(.init3)
+ *(.init4)
+ .init4         0x0000007a       0x16 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_copy_data.o)
+                0x0000007a                __do_copy_data
+ .init4         0x00000090       0x10 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_clear_bss.o)
+                0x00000090                __do_clear_bss
+ *(.init4)
+ *(.init5)
+ *(.init5)
+ *(.init6)
+ *(.init6)
+ *(.init7)
+ *(.init7)
+ *(.init8)
+ *(.init8)
+ *(.init9)
+ .init9         0x000000a0        0x4 /usr/lib/gcc/avr/4.5.3/../../../avr/lib/avr4/crtm8.o
+ *(.init9)
+ *(.text)
+ .text          0x000000a4        0x2 /usr/lib/gcc/avr/4.5.3/../../../avr/lib/avr4/crtm8.o
+                0x000000a4                __vector_12
+                0x000000a4                __bad_interrupt
+                0x000000a4                __vector_6
+                0x000000a4                __vector_3
+                0x000000a4                __vector_11
+                0x000000a4                __vector_13
+                0x000000a4                __vector_17
+                0x000000a4                __vector_7
+                0x000000a4                __vector_5
+                0x000000a4                __vector_4
+                0x000000a4                __vector_9
+                0x000000a4                __vector_2
+                0x000000a4                __vector_15
+                0x000000a4                __vector_8
+                0x000000a4                __vector_14
+                0x000000a4                __vector_10
+                0x000000a4                __vector_16
+                0x000000a4                __vector_18
+ .text          0x000000a6        0x0 ./usbdrv/oddebug.o
+ .text          0x000000a6      0x482 ./usbdrv/usbdrv.o
+                0x0000045c                usbPoll
+                0x000004f4                usbInit
+ .text          0x00000528      0x28c ./usbdrv/usbdrvasm.o
+                0x00000528                usbCrc16
+                0x00000552                usbCrc16Append
+                0x0000055a                __vector_1
+ .text          0x000007b4      0x1dc ./main.o
+                0x000007b4                usbFunctionSetup
+                0x0000081e                main
+ .text          0x00000990        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_exit.o)
+ .text          0x00000990        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_copy_data.o)
+ .text          0x00000990        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_clear_bss.o)
+ .text          0x00000990       0x50 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_fixunssfsi.o)
+                0x00000990                __fixunssfsi
+ .text          0x000009e0      0x334 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_addsub_sf.o)
+                0x00000c70                __addsf3
+                0x00000cbe                __subsf3
+ .text          0x00000d14      0x1ea /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_mul_sf.o)
+                0x00000d14                __mulsf3
+ .text          0x00000efe       0x56 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_gt_sf.o)
+                0x00000efe                __gtsf2
+ .text          0x00000f54       0x56 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_ge_sf.o)
+                0x00000f54                __gesf2
+ .text          0x00000faa       0x56 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_lt_sf.o)
+                0x00000faa                __ltsf2
+ .text          0x00001000       0x9e /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_sf_to_si.o)
+                0x00001000                __fixsfsi
+ .text          0x0000109e        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_thenan_sf.o)
+ .text          0x0000109e        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_prologue.o)
+ .text          0x0000109e        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_epilogue.o)
+ .text          0x0000109e      0x19a /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_pack_sf.o)
+                0x0000109e                __pack_f
+ .text          0x00001238       0xd2 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_unpack_sf.o)
+                0x00001238                __unpack_f
+ .text          0x0000130a       0xb2 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_fpcmp_parts_sf.o)
+                0x0000130a                __fpcmp_parts_f
+                0x000013bc                . = ALIGN (0x2)
+ *(.text.*)
+ .text.libgcc   0x000013bc        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_exit.o)
+ .text.libgcc   0x000013bc        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_copy_data.o)
+ .text.libgcc   0x000013bc        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_clear_bss.o)
+ .text.libgcc   0x000013bc       0x38 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_prologue.o)
+                0x000013bc                __prologue_saves__
+ .text.libgcc   0x000013f4       0x36 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_epilogue.o)
+                0x000013f4                __epilogue_restores__
+                0x0000142a                . = ALIGN (0x2)
+ *(.fini9)
+ .fini9         0x0000142a        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_exit.o)
+                0x0000142a                exit
+                0x0000142a                _exit
+ *(.fini9)
+ *(.fini8)
+ *(.fini8)
+ *(.fini7)
+ *(.fini7)
+ *(.fini6)
+ *(.fini6)
+ *(.fini5)
+ *(.fini5)
+ *(.fini4)
+ *(.fini4)
+ *(.fini3)
+ *(.fini3)
+ *(.fini2)
+ *(.fini2)
+ *(.fini1)
+ *(.fini1)
+ *(.fini0)
+ .fini0         0x0000142a        0x4 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_exit.o)
+ *(.fini0)
+                0x0000142e                _etext = .
+
+.data           0x00800060        0xa load address 0x0000142e
+                0x00800060                PROVIDE (__data_start, .)
+ *(.data)
+ .data          0x00800060        0x0 /usr/lib/gcc/avr/4.5.3/../../../avr/lib/avr4/crtm8.o
+ .data          0x00800060        0x0 ./usbdrv/oddebug.o
+ .data          0x00800060        0x2 ./usbdrv/usbdrv.o
+                0x00800060                usbTxLen
+ .data          0x00800062        0x0 ./usbdrv/usbdrvasm.o
+ .data          0x00800062        0x0 ./main.o
+ .data          0x00800062        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_exit.o)
+ .data          0x00800062        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_copy_data.o)
+ .data          0x00800062        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_clear_bss.o)
+ .data          0x00800062        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_fixunssfsi.o)
+ .data          0x00800062        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_addsub_sf.o)
+ .data          0x00800062        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_mul_sf.o)
+ .data          0x00800062        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_gt_sf.o)
+ .data          0x00800062        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_ge_sf.o)
+ .data          0x00800062        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_lt_sf.o)
+ .data          0x00800062        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_sf_to_si.o)
+ .data          0x00800062        0x8 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_thenan_sf.o)
+                0x00800062                __thenan_sf
+ .data          0x0080006a        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_prologue.o)
+ .data          0x0080006a        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_epilogue.o)
+ .data          0x0080006a        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_pack_sf.o)
+ .data          0x0080006a        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_unpack_sf.o)
+ .data          0x0080006a        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_fpcmp_parts_sf.o)
+ *(.data*)
+ *(.rodata)
+ *(.rodata*)
+ *(.gnu.linkonce.d*)
+                0x0080006a                . = ALIGN (0x2)
+                0x0080006a                _edata = .
+                0x0080006a                PROVIDE (__data_end, .)
+
+.bss            0x0080006a       0x2b
+                0x0080006a                PROVIDE (__bss_start, .)
+ *(.bss)
+ .bss           0x0080006a        0x0 /usr/lib/gcc/avr/4.5.3/../../../avr/lib/avr4/crtm8.o
+ .bss           0x0080006a        0x0 ./usbdrv/oddebug.o
+ .bss           0x0080006a        0x1 ./usbdrv/usbdrv.o
+ .bss           0x0080006b        0x0 ./usbdrv/usbdrvasm.o
+ .bss           0x0080006b        0x0 ./main.o
+ .bss           0x0080006b        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_exit.o)
+ .bss           0x0080006b        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_copy_data.o)
+ .bss           0x0080006b        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_clear_bss.o)
+ .bss           0x0080006b        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_fixunssfsi.o)
+ .bss           0x0080006b        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_addsub_sf.o)
+ .bss           0x0080006b        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_mul_sf.o)
+ .bss           0x0080006b        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_gt_sf.o)
+ .bss           0x0080006b        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_ge_sf.o)
+ .bss           0x0080006b        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_lt_sf.o)
+ .bss           0x0080006b        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_sf_to_si.o)
+ .bss           0x0080006b        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_thenan_sf.o)
+ .bss           0x0080006b        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_prologue.o)
+ .bss           0x0080006b        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_epilogue.o)
+ .bss           0x0080006b        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_pack_sf.o)
+ .bss           0x0080006b        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_unpack_sf.o)
+ .bss           0x0080006b        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_fpcmp_parts_sf.o)
+ *(.bss*)
+ *(COMMON)
+ COMMON         0x0080006b       0x2a ./usbdrv/usbdrv.o
+                0x0080006b                usbTxBuf
+                0x00800076                usbDeviceAddr
+                0x00800077                usbRxToken
+                0x00800078                usbInputBufOffset
+                0x00800079                usbMsgPtr
+                0x0080007b                usbRxLen
+                0x0080007c                usbNewDeviceAddr
+                0x0080007d                usbCurrentTok
+                0x0080007e                usbConfiguration
+                0x0080007f                usbRxBuf
+                0x00800095                PROVIDE (__bss_end, .)
+                0x0000142e                __data_load_start = LOADADDR (.data)
+                0x00001438                __data_load_end = (__data_load_start + SIZEOF (.data))
+
+.noinit         0x00800095        0x0
+                0x00800095                PROVIDE (__noinit_start, .)
+ *(.noinit*)
+                0x00800095                PROVIDE (__noinit_end, .)
+                0x00800095                _end = .
+                0x00800095                PROVIDE (__heap_start, .)
+
+.eeprom         0x00810000        0x0
+ *(.eeprom*)
+                0x00810000                __eeprom_end = .
+
+.fuse
+ *(.fuse)
+ *(.lfuse)
+ *(.hfuse)
+ *(.efuse)
+
+.lock
+ *(.lock*)
+
+.signature
+ *(.signature*)
+
+.stab           0x00000000     0x19b0
+ *(.stab)
+ .stab          0x00000000      0x6cc /usr/lib/gcc/avr/4.5.3/../../../avr/lib/avr4/crtm8.o
+ .stab          0x000006cc      0x3cc ./usbdrv/oddebug.o
+                                0x3d8 (size before relaxing)
+ .stab          0x00000a98      0xb94 ./usbdrv/usbdrv.o
+                                0xe10 (size before relaxing)
+ .stab          0x0000162c      0x384 ./main.o
+                                0x654 (size before relaxing)
+
+.stabstr        0x00000000      0xf22
+ *(.stabstr)
+ .stabstr       0x00000000      0xf22 /usr/lib/gcc/avr/4.5.3/../../../avr/lib/avr4/crtm8.o
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment
+ *(.comment)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges
+ *(.debug_aranges)
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info
+ *(.debug_info)
+ *(.gnu.linkonce.wi.*)
+
+.debug_abbrev
+ *(.debug_abbrev)
+
+.debug_line
+ *(.debug_line)
+
+.debug_frame
+ *(.debug_frame)
+
+.debug_str
+ *(.debug_str)
+
+.debug_loc
+ *(.debug_loc)
+
+.debug_macinfo
+ *(.debug_macinfo)
+OUTPUT(m8testboard3_vusb.elf elf32-avr)
+LOAD linker stubs
