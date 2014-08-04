@@ -40,7 +40,13 @@ double temp_find(uint16_t ADC)
     // Temperatures are 0,5,10... ADC measurements resolution variates which is included with
     // deltTable. i*5 is alvays too big, and here comes
     // temperature = (actual ADC - standard values)*(5*C )/ (per actual ADC per 5*C resolution)
-    temperature= i*5;// - (double)((ADC-tempTable[i])*5)/deltTable[i];
+    // If else is to remember not to divide by 0...
+    double multiply;
+    if(deltTable[i])
+    {
+            multiply = 5/(double)(deltTable[i]);
+    } else { multiply = 0; };
+    temperature= i*5 + (ADC - tempTable[i])*multiply;//*5/deltTable[i];// - (double)((ADC-tempTable[i])*5)/deltTable[i];
     return temperature;
 }
 
