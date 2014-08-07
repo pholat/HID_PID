@@ -3,6 +3,8 @@ HID_PID
 
 PID controller based on VUSB device
 
+→ Right now it works with written into Qt temperature curve in bistate mode. PID and choice between temp curve / constatn temperature / only measure ment is to be done yet.
+
 → It's goal it to create usable, minimal PID controller and soft needed to calibrate PID values
 
 → Mesure ments are usable now, tested only on old chineese pecos clone. Yet to be tested PID controll.
