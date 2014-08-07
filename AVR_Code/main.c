@@ -3,6 +3,13 @@
  *
  *  Created on: 18-11-2013
  *      Author: pholat
+ *
+ *      It's Bistate controller right now - as it works really nice.
+ *      Next to do is to add flag for choosing type of work
+ *      	→ Bistate
+ *      	→ Tristate
+ *      	→ PID
+ *
  */
 
 //////////////// includes		/////////////////////////
@@ -12,8 +19,8 @@
 #include "usbdrv/usbdrv.h"
 #include <util/delay.h>
 #include "adc.h"
-#include "spi.h"
-#include "n5110.h"
+//#include "spi.h"
+//#include "n5110.h"
 
 //////////////// Flaga dla nRF
 #define DATA_READY (1<<0)
@@ -32,6 +39,12 @@ enum bufferByte{
 
 volatile uint8_t replyBuf[USB_DATA_SIZE]={0,0,0,0,0,0,0,0};
 static uchar dataReceived = 0, dataLength = 0; // for USB_DATA_IN
+
+union TwoBytes
+{
+   uint16_t u16;
+   uint8_t u8[2];
+}TempSet;
 
 // this gets called when custom control message is received
 USB_PUBLIC uchar usbFunctionSetup(uchar *data)
@@ -80,6 +93,9 @@ USB_PUBLIC uchar usbFunctionWrite(uchar *data, uchar len) {
 
 
 int main() {
+	replyBuf[TempOldSet]=0x03;
+	replyBuf[TempYoungSet]=0xFF;
+
 	uchar i;
 	DDRC&=~(1<<PC5);
 	PORTC&=~(1<<PC5);
@@ -100,13 +116,35 @@ int main() {
    }
     usbDeviceConnect();
     sei(); // Enable interrupts after re-enumeration
+    uint16_t counter=1;
 
     while(1)
     {
         wdt_reset(); // keep the watchdog happy
-        adc_one(5);
+        uint16_t inUseADCval=adc_one(5);
+        // If you send TempOldSet / Temps Young set it's ping: data which you send from PC
+        // shall be back at you and both plots shall be the same.
+        //        replyBuf[TempOldADC]=replyBuf[TempOldSet];//=(ADC>>8)&0x03;
+        //        replyBuf[TempYoungADC]=replyBuf[TempYoungSet];//=(ADC&0xFF);//ADCL;
         replyBuf[TempOldADC]=(ADC>>8)&0x03;
-        replyBuf[TempYoungADC]=(ADC&0xFF);//ADCL;
+        replyBuf[TempYoungADC]=(ADC&0xFF);//ADCL
+        // Bistate controll - check per 1 sec.
+//        PORTC|=(1<<PC4);
+        if((counter==1))
+        	{
+        	TempSet.u8[1]=replyBuf[TempOldSet];
+        	TempSet.u8[0]=replyBuf[TempYoungSet];
+        		if(inUseADCval>TempSet.u16) PORTC|=(1<<PC4);
+        		else
+        			{
+        				PORTC&=~(1<<PC4);
+        				PORTC|=(1<<PC3);
+        			}
+        		counter=250;
+        	}
+        counter--;
+            _delay_ms(1);
+
 /*        lcd_clear();
         lcd_place(0,0);
         lcd_int(ADCH);

@@ -393,12 +393,13 @@ void MainWindow::timerEvent(QTimerEvent *event)
                                 USB_DATA_OUT , 0, 0, buffer, sizeof(buffer), 5000);
         //
         static double i=0;
-        if(i<341)
+        if(i<441)
         {
             if(i<80) tempSet++;
             else if(i<140) tempSet=100;
             else if(i<280) tempSet++;
-            else if(i<340) tempSet--;
+            else if(i<340);
+            else if(i<440) tempSet--;
             i++;
             // Plot set temperature
             PlotTempData.insert(PlotTempData.size(),tempSet);

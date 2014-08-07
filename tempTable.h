@@ -59,9 +59,8 @@ u_int16_t temp_to_send(double temp)
     // and than we add what would be from deltTable scaling
     // Temp set is actually value betveen 0 - 1024 (roughly...)
     int integral = (uint)(temp)/5;
-    int hundreth = temp - (uint)temp;
-    u_int16_t temp_to_Set;
-    temp_to_Set = tempTable[integral] + deltTable[integral]*hundreth/5;
+    double hundreth = temp - (uint)temp;
+    u_int16_t temp_to_Set = tempTable[integral] + deltTable[integral]*hundreth/5;
     return temp_to_Set;
 }
 

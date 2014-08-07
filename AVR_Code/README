@@ -12,3 +12,6 @@
 	and temp_to_send functions on PC, and raw temperature would be send on USB bus
 	instead. (It would be more acurate too). Now it's not like that due to AVR 
 	calculating power (which I do not want to test too much :) )
+→ Right now it's bistate only if you nid PID you can port it from catalog PORT where
+	all necessary functions are. I'll port it in some time - but I don't need it 
+	yet as bistate temperature controll is working pretty nice.

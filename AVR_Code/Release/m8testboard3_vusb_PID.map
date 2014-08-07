@@ -19,6 +19,7 @@ usbInputBufOffset   0x1               ./usbdrv/usbdrv.o
 usbMsgPtr           0x2               ./usbdrv/usbdrv.o
 usbRxLen            0x1               ./usbdrv/usbdrv.o
 usbNewDeviceAddr    0x1               ./usbdrv/usbdrv.o
+TempSet             0x2               ./main.o
 usbCurrentTok       0x1               ./usbdrv/usbdrv.o
 usbConfiguration    0x1               ./usbdrv/usbdrv.o
 usbRxBuf            0x16              ./usbdrv/usbdrv.o
@@ -138,7 +139,7 @@ LOAD /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x91c
+.text           0x00000000      0x96e
  *(.vectors)
  .vectors       0x00000000       0x26 /usr/lib/gcc/avr/4.5.3/../../../avr/lib/avr4/crtm8.o
                 0x00000000                __vectors
@@ -253,48 +254,48 @@ LOAD /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a
  .text.usbFunctionWrite
                 0x0000060e       0x36 ./main.o
                 0x0000060e                usbFunctionWrite
- .text.main     0x00000644       0x60 ./main.o
+ .text.main     0x00000644       0xb2 ./main.o
                 0x00000644                main
  .text.lcd_write_byte
-                0x000006a4       0x16 ./n5110.o
-                0x000006a4                lcd_write_byte
- .text.lcd_dot  0x000006ba       0x44 ./n5110.o
-                0x000006ba                lcd_dot
+                0x000006f6       0x16 ./n5110.o
+                0x000006f6                lcd_write_byte
+ .text.lcd_dot  0x0000070c       0x44 ./n5110.o
+                0x0000070c                lcd_dot
  .text.lcd_char
-                0x000006fe       0x52 ./n5110.o
-                0x000006fe                lcd_char
+                0x00000750       0x52 ./n5110.o
+                0x00000750                lcd_char
  .text.lcd_string
-                0x00000750       0x26 ./n5110.o
-                0x00000750                lcd_string
+                0x000007a2       0x26 ./n5110.o
+                0x000007a2                lcd_string
  .text.lcd_place
-                0x00000776       0x18 ./n5110.o
-                0x00000776                lcd_place
+                0x000007c8       0x18 ./n5110.o
+                0x000007c8                lcd_place
  .text.lcd_clear
-                0x0000078e       0x24 ./n5110.o
-                0x0000078e                lcd_clear
+                0x000007e0       0x24 ./n5110.o
+                0x000007e0                lcd_clear
  .text.lcd_init
-                0x000007b2       0x6a ./n5110.o
-                0x000007b2                lcd_init
- .text.lcd_int  0x0000081c       0x60 ./n5110.o
-                0x0000081c                lcd_int
- .text.lcd_bin  0x0000087c       0x5a ./n5110.o
-                0x0000087c                lcd_bin
+                0x00000804       0x6a ./n5110.o
+                0x00000804                lcd_init
+ .text.lcd_int  0x0000086e       0x60 ./n5110.o
+                0x0000086e                lcd_int
+ .text.lcd_bin  0x000008ce       0x5a ./n5110.o
+                0x000008ce                lcd_bin
  .text.spi_init
-                0x000008d6       0x10 ./spi.o
-                0x000008d6                spi_init
+                0x00000928       0x10 ./spi.o
+                0x00000928                spi_init
  .text.spi_write_byte
-                0x000008e6        0xa ./spi.o
-                0x000008e6                spi_write_byte
- .text.libgcc   0x000008f0       0x28 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_udivmodhi4.o)
-                0x000008f0                __udivmodhi4
- .text.libgcc   0x00000918        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_exit.o)
- .text.libgcc   0x00000918        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_copy_data.o)
- .text.libgcc   0x00000918        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_clear_bss.o)
-                0x00000918                . = ALIGN (0x2)
+                0x00000938        0xa ./spi.o
+                0x00000938                spi_write_byte
+ .text.libgcc   0x00000942       0x28 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_udivmodhi4.o)
+                0x00000942                __udivmodhi4
+ .text.libgcc   0x0000096a        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_exit.o)
+ .text.libgcc   0x0000096a        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_copy_data.o)
+ .text.libgcc   0x0000096a        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_clear_bss.o)
+                0x0000096a                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000918        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_exit.o)
-                0x00000918                exit
-                0x00000918                _exit
+ .fini9         0x0000096a        0x0 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_exit.o)
+                0x0000096a                exit
+                0x0000096a                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -313,11 +314,11 @@ LOAD /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000918        0x4 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_exit.o)
+ .fini0         0x0000096a        0x4 /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a(_exit.o)
  *(.fini0)
-                0x0000091c                _etext = .
+                0x0000096e                _etext = .
 
-.data           0x00800060      0x1e6 load address 0x0000091c
+.data           0x00800060      0x1e6 load address 0x0000096e
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800060        0x0 /usr/lib/gcc/avr/4.5.3/../../../avr/lib/avr4/crtm8.o
@@ -346,7 +347,7 @@ LOAD /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a
                 0x00800246                _edata = .
                 0x00800246                PROVIDE (__data_end, .)
 
-.bss            0x00800246       0x44
+.bss            0x00800246       0x46
                 0x00800246                PROVIDE (__bss_start, .)
  *(.bss)
  .bss           0x00800246        0x0 /usr/lib/gcc/avr/4.5.3/../../../avr/lib/avr4/crtm8.o
@@ -386,16 +387,18 @@ LOAD /usr/lib/gcc/avr/4.5.3/avr4/libgcc.a
                 0x00800272                usbCurrentTok
                 0x00800273                usbConfiguration
                 0x00800274                usbRxBuf
-                0x0080028a                PROVIDE (__bss_end, .)
-                0x0000091c                __data_load_start = LOADADDR (.data)
-                0x00000b02                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x0080028a        0x2 ./main.o
+                0x0080028a                TempSet
+                0x0080028c                PROVIDE (__bss_end, .)
+                0x0000096e                __data_load_start = LOADADDR (.data)
+                0x00000b54                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x0080028a        0x0
-                0x0080028a                PROVIDE (__noinit_start, .)
+.noinit         0x0080028c        0x0
+                0x0080028c                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x0080028a                PROVIDE (__noinit_end, .)
-                0x0080028a                _end = .
-                0x0080028a                PROVIDE (__heap_start, .)
+                0x0080028c                PROVIDE (__noinit_end, .)
+                0x0080028c                _end = .
+                0x0080028c                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
