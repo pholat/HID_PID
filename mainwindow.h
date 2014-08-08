@@ -5,9 +5,14 @@
 #include <QListWidget>
 #include <QTime>
 #include <QVector>
+#include <QFileDialog>
 #include "qwt_plot_curve.h"
-
-
+#include "setup.h"
+#include "setupbistate.h"
+#include "setupexttempcurv.h"
+#include "setuptempcheck.h"
+#include "setuptristate.h"
+#include "setupsolidering.h"
 
 namespace Ui {
 class MainWindow;
@@ -20,6 +25,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    Setup *RegulationType;
+    int TimmingValue;
 
 public slots:
     void listview_populate_usb_devices();
@@ -57,6 +64,22 @@ private slots:
 
     void on_pushButton_send_clicked();
 
+    void on_radioButton_clicked();
+
+    void on_radioButton_bistate_clicked();
+
+    void on_radioButton_tristate_clicked();
+
+    void on_radioButton_tempCheck_clicked();
+
+    void on_radioButton_tempCurve_clicked();
+
+    void on_radioButton_2_clicked();
+
+    void on_pushButton_2_clicked();
+
+    void on_pushButton_loadFile_clicked();
+
 private:
     Ui::MainWindow *ui;
     // ADDED for timer
@@ -64,8 +87,6 @@ private:
     // ADDED for plot
     QwtPlotCurve *CurvePlotTempData;
     QwtPlotCurve *CurvePlotTempSet;
-    // ADDED for creation of Temp curve
-    double tempSet;
     // ADDED for usable dev count
     int *usableDevCount;
 };

@@ -13,10 +13,24 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    setup.cpp \
+    setupbistate.cpp \
+    setuptristate.cpp \
+    setuptempcheck.cpp \
+    setupexttempcurv.cpp \
+    setupsolidering.cpp \
+    setuppidcontroll.cpp
 
 HEADERS  += mainwindow.h \
-    tempTable.h
+    tempTable.h \
+    setup.h \
+    setupbistate.h \
+    setuptristate.h \
+    setuptempcheck.h \
+    setupexttempcurv.h \
+    setupsolidering.h \
+    setuppidcontroll.h
 
 FORMS    += mainwindow.ui
 

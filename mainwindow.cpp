@@ -39,11 +39,11 @@ QVector<double> PlotTime(QVector<double>(100));
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    // Setting temperature to 20*C
-    tempSet(20)
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    // Setting temperature to 20*C
+    TimmingValue=0;
     setWindowTitle("Fila Controll");
 // Set USB flag byte clear
     buffer[0]=0;
@@ -84,6 +84,12 @@ MainWindow::MainWindow(QWidget *parent) :
     //detecting all the connected devices
     device_count = libusb_get_device_list(ctx, &device_list);
     usableDevCount = new int(device_count);
+
+    // Setup initialisation
+    // It's so that if we destroy 0 we do nothing.
+    // Each time we select something we destroy "before class"
+    // and than we use new class.
+    RegulationType=0;
 }
 
 MainWindow::~MainWindow()
@@ -289,6 +295,7 @@ void MainWindow::listview_populate_usb_devices()
                     }
                 }
             }
+            ui->progressBar->setValue(100);
             //closing opened USB device
             if (device_open == 1)
             {
@@ -368,7 +375,8 @@ void MainWindow::timerEvent(QTimerEvent *event)
         CurvePlotTempSet->setPen( QPen(Qt::blue));
         ui->qwtPlot->replot();
     }*/
-    if((buffer[Flag]==1) && (USB_Flag_conected==1))
+    TimmingValue+=1;
+    if((buffer[Flag]==1) && (USB_Flag_conected==1) && (RegulationType!=0))
     {
         //
         // Write data to send - in use use data table → than tempSet
@@ -378,7 +386,10 @@ void MainWindow::timerEvent(QTimerEvent *event)
         // and finally program will be ready to test
         //buffer[Flag]=1;
         // Calculate temp to set
-        u_int16_t temp_to_device = temp_to_send(tempSet);
+
+        double tempToSet = RegulationType->returnTemp(TimmingValue,temp);
+
+        u_int16_t temp_to_device = temp_to_send(tempToSet);
         buffer[TempYoungSet]=temp_to_device&0xFF;
         buffer[TempOldSet]  =(temp_to_device>>8)&0xFF;
         buffer[PID_P]=(u_int8_t)prop;
@@ -392,17 +403,11 @@ void MainWindow::timerEvent(QTimerEvent *event)
         libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_IN,
                                 USB_DATA_OUT , 0, 0, buffer, sizeof(buffer), 5000);
         //
-        static double i=0;
-        if(i<441)
+
+        // This shall be a function...
         {
-            if(i<80) tempSet++;
-            else if(i<140) tempSet=100;
-            else if(i<280) tempSet++;
-            else if(i<340);
-            else if(i<440) tempSet--;
-            i++;
             // Plot set temperature
-            PlotTempData.insert(PlotTempData.size(),tempSet);
+            PlotTempData.insert(PlotTempData.size(),tempToSet);
             // Plot flown fime
             PlotTime.insert(PlotTime.size(),timeSecs);
             // Plot aquired temperature
@@ -418,7 +423,8 @@ void MainWindow::timerEvent(QTimerEvent *event)
             ui->qwtPlot->replot();
         }
     }else{
-        ui->textBrowser_usbMessage->setText("no USB, no plot");
+        if(USB_Flag_conected==0) ui->textBrowser_usbMessage->setText("no USB, no plot");
+        if(RegulationType==0) ui->textBrowser_usbMessage->setText("No regulation");
     }
 }
 
@@ -437,26 +443,95 @@ void MainWindow::on_pushButton_send_clicked()
     }
     else
     {
-        // Write data to send - in use use data table → than tempSet
-        //                    - in use buttons and sliders → then temp
-        //                    - and so one... "make choice" button shall be added
-        // Grab LSB → Grab MSB → Set PID values (double to uint conversion!)
-        // and finally program will be ready to test
-        buffer[Flag]=1;
-        // Calculate temp to set
-        u_int16_t temp_to_device = temp_to_send(tempSet);
-        buffer[TempYoungSet]=temp_to_device&0xFF;
-        buffer[TempOldSet]  =(temp_to_device>>8)&0xFF;
-        buffer[PID_P]=(u_int8_t)prop;
-        buffer[PID_I]=(u_int8_t)integ;
-        buffer[PID_D]=(u_int8_t)deriv;
+        if(RegulationType==0)
+        {
+            if(RegulationType==0) ui->textBrowser_usbMessage->setText("No regulation");
+        }else{
+            // Write data to send - in use use data table → than tempSet
+            //                    - in use buttons and sliders → then temp
+            //                    - and so one... "make choice" button shall be added
+            // Grab LSB → Grab MSB → Set PID values (double to uint conversion!)
+            // and finally program will be ready to test
+            buffer[Flag]=1;
+            // Calculate temp to set
+            // TODO set position
+            u_int16_t temp_to_device = temp_to_send(RegulationType->returnTemp(0,temp));
+            buffer[TempYoungSet]=temp_to_device&0xFF;
+            buffer[TempOldSet]  =(temp_to_device>>8)&0xFF;
+            buffer[PID_P]=(u_int8_t)prop;
+            buffer[PID_I]=(u_int8_t)integ;
+            buffer[PID_D]=(u_int8_t)deriv;
 
-        // First of all send data
-        libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_OUT,
-                                USB_DATA_IN , 0, 0, buffer, sizeof(buffer), 5000);
-        // Secondly grab data
-        libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_IN,
-                                USB_DATA_OUT , 0, 0, buffer, sizeof(buffer), 5000);
+            // First of all send data
+            libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_OUT,
+                                    USB_DATA_IN , 0, 0, buffer, sizeof(buffer), 5000);
+            // Secondly grab data
+            libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_IN,
+                                    USB_DATA_OUT , 0, 0, buffer, sizeof(buffer), 5000);
+        }
 
+    }
+}
+
+void MainWindow::on_radioButton_clicked()
+{
+    delete RegulationType;
+    ui->textBrowser_select->setText("In this setup simple temp curve is send to device to easily solider on halogen lamp-oven. \n"
+                                    "Firstly there is pre heat to cure cheap solder paste, than there is one minute solidering "
+                                    "after that slow dropdown to 100*C");
+    RegulationType = new SetupSolidering;
+    //TODO RegulationType->returnTemp(0,temp); add if i move to setTemp part :)
+}
+
+void MainWindow::on_radioButton_bistate_clicked()
+{
+    delete RegulationType;
+    ui->textBrowser_select->setText("In this setup controller is operating as bistate controller, temperature is being set in"
+                                    "start tab");
+    RegulationType = new SetupBistate;
+}
+
+void MainWindow::on_radioButton_tristate_clicked()
+{
+    delete RegulationType;
+    ui->textBrowser_select->setText("In this setup controller is operating as tristate controller, temperature is being set in"
+                                    "start tab");
+    RegulationType = new SetupTristate;
+}
+
+void MainWindow::on_radioButton_tempCheck_clicked()
+{
+    delete RegulationType;
+    ui->textBrowser_select->setText("In this setup controller is operating as thermometer with constant temperature plot");
+    RegulationType = new SetupTempCheck;
+}
+
+
+void MainWindow::on_radioButton_tempCurve_clicked()
+{
+    delete RegulationType;
+    ui->textBrowser_select->setText("In this setup external temperature curve is used - is shall be named dataCurve.txt. \n"
+                                    "Data format shall be: \n\n"
+                                    "\t start\n\t ... \n\tdouble value\n\tdouble value\n\t...\n\tend");
+    RegulationType = new SetupExtTempCurv;
+}
+
+void MainWindow::on_radioButton_2_clicked()
+{
+    delete RegulationType;
+    ui->textBrowser_select->setText("Not supported yet.");
+}
+
+void MainWindow::on_pushButton_loadFile_clicked()
+{
+    if(RegulationType!=0)
+    {
+        QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
+                                                       "/home",
+                                                       tr("Text (*.txt *.TXT)"));
+         RegulationType->changeFileName(fileName);
+
+    }else{
+        ui->textBrowser_select->setText("None type of work selected");
     }
 }

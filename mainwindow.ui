@@ -37,7 +37,7 @@
     </property>
     <widget class="QWidget" name="tab_usb">
      <attribute name="title">
-      <string>USB</string>
+      <string>Start</string>
      </attribute>
      <widget class="QListWidget" name="listWidget">
       <property name="geometry">
@@ -85,7 +85,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Send Data</string>
+       <string>Start</string>
       </property>
      </widget>
      <widget class="QSpinBox" name="spinBox_DevNum">
@@ -356,6 +356,166 @@
      <zorder>pushButton_close1</zorder>
      <zorder>progressBar</zorder>
     </widget>
+    <widget class="QWidget" name="tab_setup">
+     <attribute name="title">
+      <string>Select</string>
+     </attribute>
+     <widget class="QScrollArea" name="scrollArea">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>50</y>
+        <width>251</width>
+        <height>251</height>
+       </rect>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>249</width>
+         <height>249</height>
+        </rect>
+       </property>
+       <widget class="QRadioButton" name="radioButton">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>10</y>
+          <width>231</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Solidering </string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="radioButton_bistate">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>40</y>
+          <width>241</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Bistate constant temp. controll</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="radioButton_tristate">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>70</y>
+          <width>241</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Tristate constant temp controll</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="radioButton_tempCheck">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>100</y>
+          <width>241</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Temperature check</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="radioButton_tempCurve">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>130</y>
+          <width>241</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>External temperature curve file</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="radioButton_2">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>160</y>
+          <width>241</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>PID temperature controll</string>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+     <widget class="QTextBrowser" name="textBrowser_select">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>50</y>
+        <width>391</width>
+        <height>251</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_6">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>272</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Select type of work:</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_close2">
+      <property name="geometry">
+       <rect>
+        <x>568</x>
+        <y>350</y>
+        <width>91</width>
+        <height>27</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Close</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_loadFile">
+      <property name="geometry">
+       <rect>
+        <x>568</x>
+        <y>316</y>
+        <width>91</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Load file</string>
+      </property>
+     </widget>
+    </widget>
     <widget class="QWidget" name="tab_plot">
      <attribute name="title">
       <string>Plot</string>
@@ -378,6 +538,19 @@
         <width>71</width>
         <height>301</height>
        </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_close3">
+      <property name="geometry">
+       <rect>
+        <x>590</x>
+        <y>340</y>
+        <width>81</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Close</string>
       </property>
      </widget>
     </widget>
@@ -439,6 +612,38 @@
     <hint type="sourcelabel">
      <x>50</x>
      <y>82</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>337</x>
+     <y>231</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_close2</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>615</x>
+     <y>432</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>337</x>
+     <y>231</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_close3</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>632</x>
+     <y>424</y>
     </hint>
     <hint type="destinationlabel">
      <x>337</x>
