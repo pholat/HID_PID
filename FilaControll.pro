@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     setuptempcheck.cpp \
     setupexttempcurv.cpp \
     setupsolidering.cpp \
-    setuppidcontroll.cpp
+    setuppidcontroll.cpp \
+    usbdevcon.cpp
 
 HEADERS  += mainwindow.h \
     tempTable.h \
@@ -30,7 +31,8 @@ HEADERS  += mainwindow.h \
     setuptempcheck.h \
     setupexttempcurv.h \
     setupsolidering.h \
-    setuppidcontroll.h
+    setuppidcontroll.h \
+    usbdevcon.h
 
 FORMS    += mainwindow.ui
 

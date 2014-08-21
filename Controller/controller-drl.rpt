@@ -1,0 +1,18 @@
+Drill report for /home/pholat/Dokumenty/kicad/FilaStruderRemake/Controller/controller.kicad_pcb
+Created on czw, 7 sie 2014, 20:04:11
+Drill report for plated through holes :
+T1  0,64mm  0,025"  (12 holes)
+T2  0,80mm  0,031"  (2 holes)
+T3  0,81mm  0,032"  (28 holes)
+T4  1,02mm  0,040"  (17 holes)  (with 3 slots)
+T5  1,32mm  0,052"  (6 holes)
+
+Total plated holes count 65
+
+
+Drill report for unplated through holes :
+T1  0,90mm  0,035"  (2 holes)
+
+Total unplated holes count 2
+
+
