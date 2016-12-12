@@ -28,7 +28,11 @@ To compile
  
  → libusb
  
- 
+Looks
+========
+![selection](https://raw.githubusercontent.com/pholat/HID_PID/master/in_work1.png)
+![chart](https://raw.githubusercontent.com/pholat/HID_PID/master/itsworking.png)
+
 Final thoughts
 =======
 It's written for linux, but there shall be no problem to port it to windows.
