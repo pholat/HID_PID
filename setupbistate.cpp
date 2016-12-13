@@ -14,6 +14,5 @@ double SetupBistate::returnTemp(int position/*In seconds*/,double tempValue/*Not
 {
     position=position;
     position=0; // NOT needed as its constant bistable regulation, this line is to avoit warn :)
-    double returnVal=tempValue;
     return returnVal;
 }

@@ -1,4 +1,3 @@
-→ It's totaly in test mode on my Phlt m8 brd
 → In use:
 	V-USB, WARNING - not standard Pins are being used for Interrupt and Data
 	ADC (10 bit) TODO check if maybe free running might be a bit better
@@ -6,12 +5,3 @@
 → ADC is connected like that: Vcc → divider (100k epcos NTC / (100k epcos NTC + 1kR) )
 	it will be better ilustrated when I make a special brd just for that controller
 	Actually its connected to ADC5
-→ It remembering that it shall be easy to port to any V-USB device
-→ It would be great to port to the cheapest stm32 with USB, although I have no 
-	succes in moving USB any stm32. Than it would be possible to avoid temp_find
-	and temp_to_send functions on PC, and raw temperature would be send on USB bus
-	instead. (It would be more acurate too). Now it's not like that due to AVR 
-	calculating power (which I do not want to test too much :) )
-→ Right now it's bistate only if you nid PID you can port it from catalog PORT where
-	all necessary functions are. I'll port it in some time - but I don't need it 
-	yet as bistate temperature controll is working pretty nice.

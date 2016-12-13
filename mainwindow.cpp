@@ -29,8 +29,6 @@ enum bufferByte {
 };
 
 //Plot data
-double dupa=100;
-double hupa=4;
 double timeSecs=1;
 QVector<double> PlotTempData(QVector<double>(100));
 QVector<double> PlotTempSet(QVector<double>(100));
@@ -55,10 +53,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->qwtPlot->setTitle("Set and real temp");
     ui->qwtPlot->setAxisTitle( QwtPlot::yLeft ,"Temp [*C]");
     ui->qwtPlot->setAxisTitle( QwtPlot::xBottom, "Time [s] ");
-//    ui->qwtPlot->set
-//    PlotTempData.insert(PlotTempData.size(),dupa);
-//    PlotTime.insert(PlotTime.size(),siupa);
-//    PlotTempSet.insert(PlotTempSet.size(),hupa);
     CurvePlotTempData->setSamples(PlotTime,PlotTempData);
     CurvePlotTempData->setPen( QPen(Qt::red));
     CurvePlotTempSet->setSamples(PlotTime,PlotTempSet);
@@ -74,9 +68,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->dSpinBox_PWM->setMaximum(100);
 
     ui->qwtPlot->replot();
-    // ADDED for timer
-    // Moved to on send button clicked
-//    timerId = startTimer(1000);
 
     // USB init
     r = libusb_init(&ctx); //initializing the library
@@ -320,47 +311,23 @@ void MainWindow::on_spinBox_DevNum_valueChanged(int arg1)
     ui->textBrowser_usbMessage->setText("Bad Kitty!");
 }
 
-//ADDED for timer
+void plotChart( double T_set, double actual_time, double T_measured )
+{
+    PlotTempData.insert(PlotTempData.size(), T_set );
+    PlotTime.insert(PlotTime.size(), actual_time );
+    PlotTempSet.insert(PlotTempSet.size(), T_measured );
+
+    CurvePlotTempData->setSamples(PlotTime,PlotTempData);
+    CurvePlotTempData->setPen( QPen(Qt::red));
+    CurvePlotTempSet->setSamples(PlotTime,PlotTempSet);
+    CurvePlotTempSet->setPen( QPen(Qt::blue));
+    ui->qwtPlot->replot();
+}
+
+
 void MainWindow::timerEvent(QTimerEvent *event)
 {
-    /*
-     * This part was to check if Timer event is working :)
-     * → If it's working, than each 1 sec you see Timeout or Wazzaaa
-     *
-    static int i=0;
-    if(i==0)
-    {
-        ui->textBrowser_sendMessage->setText("Timeout!");
-        i++;
-    }else{
-        i=0;
-        ui->textBrowser_sendMessage->setText("Wazzaaa!");
-    }*/
-    /* Next part of tests, it's better to do it step by step
-     * This part is actually nearly done */
-    /*
-    static double insertion=20, i=0;
-    if(i<341)
-    {
-        if(i<80) tempSet++;
-        else if(i<140) tempSet=100;
-        else if(i<280) tempSet++;
-        else if(i<340) tempSet--;
-        i++;
-        PlotTempData.insert(PlotTempData.size(),tempSet);
-        PlotTime.insert(PlotTime.size(),siupa);
-        PlotTempSet.insert(PlotTempSet.size(),hupa+insertion);
-        insertion+=1;
-        siupa+=1;
-        CurvePlotTempData->setSamples(PlotTime,PlotTempData);
-        CurvePlotTempData->setPen( QPen(Qt::red));
-        CurvePlotTempSet->setSamples(PlotTime,PlotTempSet);
-        CurvePlotTempSet->setPen( QPen(Qt::blue));
-        ui->qwtPlot->replot();
-    }*/
-    TimmingValue+=1;
     if((buffer[Flag]==1) && (USB_Flag_conected==1) && (RegulationType!=0)) {
-        //
         // Write data to send - in use use data table → than tempSet
         //                    - in use buttons and sliders → then temp
         //                    - and so one... "make choice" button shall be added
@@ -385,25 +352,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
         libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_IN,
                                 USB_DATA_OUT , 0, 0, buffer, sizeof(buffer), 5000);
         //
-
-        // This shall be a function...
-        {
-            // Plot set temperature
-            PlotTempData.insert(PlotTempData.size(),tempToSet);
-            // Plot flown fime
-            PlotTime.insert(PlotTime.size(),timeSecs);
-            // Plot aquired temperature
-            // First of all join ADC part than temp_find to Plot
-            u_int16_t ADC_grabbed = ( buffer[TempYoungADC] | (buffer[TempOldADC]<<8) );
-            PlotTempSet.insert(PlotTempSet.size(),temp_find(ADC_grabbed));
-            timeSecs+=1;
-            // Normal ploting procedure :)
-            CurvePlotTempData->setSamples(PlotTime,PlotTempData);
-            CurvePlotTempData->setPen( QPen(Qt::red));
-            CurvePlotTempSet->setSamples(PlotTime,PlotTempSet);
-            CurvePlotTempSet->setPen( QPen(Qt::blue));
-            ui->qwtPlot->replot();
-        }
+        plotChart(tempToSet, timeSecs++, temp_find( buffer[TempYoungADC] | (buffer[TempOldADC]<<8) ) );
     } else {
         if(USB_Flag_conected==0) ui->textBrowser_usbMessage->setText("no USB, no plot");
         if(RegulationType==0) ui->textBrowser_usbMessage->setText("No regulation");
@@ -458,7 +407,6 @@ void MainWindow::on_radioButton_clicked()
                                     "Firstly there is pre heat to cure cheap solder paste, than there is one minute solidering "
                                     "after that slow dropdown to 100*C");
     RegulationType = new SetupSolidering;
-    //TODO RegulationType->returnTemp(0,temp); add if i move to setTemp part :)
 }
 
 void MainWindow::on_radioButton_bistate_clicked()
