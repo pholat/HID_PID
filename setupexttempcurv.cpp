@@ -18,7 +18,7 @@ SetupExtTempCurv::~SetupExtTempCurv()
 double SetupExtTempCurv::returnTemp(int position/*In seconds*/,double tempValue/*Not needed if temp is not constant*/)
 {
     if(!fileName.compare("0"));
-    else if (fileIsSet==0){
+    else if (fileIsSet==0) {
         delete inputData;
         FileToRead.reset();
         FileToRead.setFileName(fileName);
@@ -30,29 +30,21 @@ double SetupExtTempCurv::returnTemp(int position/*In seconds*/,double tempValue/
 
     QString line;
     double returnVal=0;
-    if(!dataReadyFlag)
-    {
+    if(!dataReadyFlag) {
         returnVal=100;
-    }else
-    {
-        if(!inputData->atEnd())
-        {
+    } else {
+        if(!inputData->atEnd()) {
             line = inputData->readLine(10);
             qDebug() <<"Newline is \n" << line;
         } else return 0;
 
-        if(!line.compare("end"))
-        {
+        if(!line.compare("end")) {
             returnVal=0;
             qDebug()<<"End";
-        }
-        else if(!line.compare("start"))
-        {
+        } else if(!line.compare("start")) {
             returnVal=0;
             qDebug()<<"Start\n";
-        }
-        else
-        {
+        } else {
             qDebug()<<"Conversion: ";
             returnVal=line.toDouble();
             qDebug()<<returnVal<<"\n";

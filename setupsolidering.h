@@ -9,10 +9,10 @@ public:
     SetupSolidering();
     ~SetupSolidering();
     virtual double returnTemp(int position/*In seconds*/,double tempValue/*Not needed if temp is not constant*/);
-    virtual void changeFileName(QString){};
+    virtual void changeFileName(QString) {};
 
 private:
-        double tempToReturn;
+    double tempToReturn;
 };
 
 #endif // SETUPSOLIDERING_H

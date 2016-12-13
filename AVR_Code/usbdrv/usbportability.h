@@ -98,11 +98,11 @@ Thanks to Oleg Semyonov for his help with the IAR tools port!
 #ifndef __ASSEMBLER__
 static inline void  cli(void)
 {
-    #asm("cli");
+#asm("cli");
 }
 static inline void  sei(void)
 {
-    #asm("sei");
+#asm("sei");
 }
 #endif
 #define _delay_ms(t)    delay_ms(t)

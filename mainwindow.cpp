@@ -24,10 +24,10 @@ ssize_t device_count; //holding number of devices in list
 int r; //for return values
 libusb_context *ctx; //a libusb context for library intialization
 int USB_Flag_conected=0;
-uchar buffer[8]={0,0,0,0,0,0,0};
-enum bufferByte{
+uchar buffer[8]= {0,0,0,0,0,0,0};
+enum bufferByte {
     Flag,TempYoungADC,TempOldADC,TempYoungSet,TempOldSet,PID_P,PID_I,PID_D
-    };
+};
 
 //Plot data
 double dupa=100;
@@ -182,41 +182,35 @@ void MainWindow::listview_populate_usb_devices()
     //inform error on status bar
     if(r < 0) ui->statusBar->showMessage("Error: Initializing libusb");
 
-    else
-    {
+    else {
 
         //inform error on status bar
         if(device_count <= 0) ui->statusBar->showMessage("Info: No device found");
 
-        else
-        {
+        else {
             //resetting the progress bar
             ui->progressBar->reset();
 
             //for loop iterating through found devices
-            for(i=0;i<device_count;i++)
-            {
+            for(i=0; i<device_count; i++) {
                 //getting device descriptor
                 r = libusb_get_device_descriptor(device_list[i], &device_descriptor);
 
                 //inform error on status bar
                 if(r < 0)   ui->statusBar->showMessage("Error: Failed to get device descriptor");
 
-                else
-                {
+                else {
                     //opening the device
                     r = libusb_open(device_list[i],&device_handle);
 
-                    if(r < 0)
-                    {
+                    if(r < 0) {
                         //inform error on status bar
                         ui->statusBar->showMessage("Error: Opening USB device");
                         //indicating that device is not open
                         device_open = 0;
                     }
 
-                    else
-                    {
+                    else {
                         //indicating that device is open
                         device_open = 1;
 
@@ -231,29 +225,25 @@ void MainWindow::listview_populate_usb_devices()
                         //getting the ASCII text value from the descriptor field
                         r = libusb_get_string_descriptor_ascii(device_handle,device_descriptor.iManufacturer,string_buffer_manufacturer,sizeof(string_buffer_manufacturer));
 
-                        if(r < 0)
-                        {
+                        if(r < 0) {
                             //reporting error on the list entry
                             ui->listWidget->addItem("Error: Converting descriptor to ASCII [iManufacturer]");
                             ui->listWidget->item(ui->listWidget->count() - 1)->setForeground(Qt::white);
                             ui->listWidget->item(ui->listWidget->count() - 1)->setBackground(Qt::red);
                         }
 
-                        else
-                        {
+                        else {
                             //getting the ASCII text value from the descriptor field
                             r = libusb_get_string_descriptor_ascii(device_handle,device_descriptor.iProduct,string_buffer_product,sizeof(string_buffer_product));
 
-                            if(r < 0)
-                            {
+                            if(r < 0) {
                                 //reporting error on the list entry
                                 ui->listWidget->addItem("Error: Converting descriptor to ASCII [iProduct]");
                                 ui->listWidget->item(ui->listWidget->count() - 1)->setForeground(Qt::white);
                                 ui->listWidget->item(ui->listWidget->count() - 1)->setBackground(Qt::red);
                             }
 
-                            else
-                            {
+                            else {
                                 //converting the string to const char*
                                 cc_manufacturer = (const char*)string_buffer_manufacturer;
                                 QString manufacturer(cc_manufacturer);
@@ -270,8 +260,7 @@ void MainWindow::listview_populate_usb_devices()
                                 ui->listWidget->addItem(list_entry); //adding the list entry
 
                                 //closing opened USB device
-                                if (device_open == 1)
-                                {
+                                if (device_open == 1) {
                                     //closing the deivce
                                     libusb_close(device_handle);
                                     //indicating that device is open
@@ -282,8 +271,7 @@ void MainWindow::listview_populate_usb_devices()
                                 progress_bar_value = (i+1) * (100/device_count);
 
                                 //correcting value
-                                if ( (i+1) == device_count)
-                                {
+                                if ( (i+1) == device_count) {
                                     progress_bar_correction = 100 - progress_bar_value;
                                     progress_bar_value = progress_bar_value + progress_bar_correction;
                                 }
@@ -297,8 +285,7 @@ void MainWindow::listview_populate_usb_devices()
             }
             ui->progressBar->setValue(100);
             //closing opened USB device
-            if (device_open == 1)
-            {
+            if (device_open == 1) {
                 //closing the deivce
                 libusb_close(device_handle);
                 //indicating that device is open
@@ -319,13 +306,10 @@ void MainWindow::on_pushButton_link_clicked()
 {
     USB_Flag_conected=1;
     int usb_fail_flag=libusb_open(device_list[*(usableDevCount+usb_number)],&device_handle);
-    if (usb_fail_flag<0)
-    {
+    if (usb_fail_flag<0) {
         ui->textBrowser_usbMessage->setTextBackgroundColor(Qt::red);
         ui->textBrowser_usbMessage->setText("Connection fali");
-    }
-    else
-    {
+    } else {
         ui->textBrowser_usbMessage->setTextBackgroundColor(Qt::green);
         ui->textBrowser_usbMessage->setText("Connected!");
     }
@@ -376,8 +360,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
         ui->qwtPlot->replot();
     }*/
     TimmingValue+=1;
-    if((buffer[Flag]==1) && (USB_Flag_conected==1) && (RegulationType!=0))
-    {
+    if((buffer[Flag]==1) && (USB_Flag_conected==1) && (RegulationType!=0)) {
         //
         // Write data to send - in use use data table → than tempSet
         //                    - in use buttons and sliders → then temp
@@ -422,7 +405,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
             CurvePlotTempSet->setPen( QPen(Qt::blue));
             ui->qwtPlot->replot();
         }
-    }else{
+    } else {
         if(USB_Flag_conected==0) ui->textBrowser_usbMessage->setText("no USB, no plot");
         if(RegulationType==0) ui->textBrowser_usbMessage->setText("No regulation");
     }
@@ -437,16 +420,12 @@ void MainWindow::on_pushButton_send_clicked()
     // ADDED for timer start
     // Shall be moved to else part below
     timerId = startTimer(1000);
-    if(USB_Flag_conected==0)
-    {
+    if(USB_Flag_conected==0) {
         ui->textBrowser_usbMessage->setText("Error - no USB connected");
-    }
-    else
-    {
-        if(RegulationType==0)
-        {
+    } else {
+        if(RegulationType==0) {
             if(RegulationType==0) ui->textBrowser_usbMessage->setText("No regulation");
-        }else{
+        } else {
             // Write data to send - in use use data table → than tempSet
             //                    - in use buttons and sliders → then temp
             //                    - and so one... "make choice" button shall be added
@@ -524,14 +503,13 @@ void MainWindow::on_radioButton_2_clicked()
 
 void MainWindow::on_pushButton_loadFile_clicked()
 {
-    if(RegulationType!=0)
-    {
+    if(RegulationType!=0) {
         QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
-                                                       "/home",
-                                                       tr("Text (*.txt *.TXT)"));
-         RegulationType->changeFileName(fileName);
+                           "/home",
+                           tr("Text (*.txt *.TXT)"));
+        RegulationType->changeFileName(fileName);
 
-    }else{
+    } else {
         ui->textBrowser_select->setText("None type of work selected");
     }
 }

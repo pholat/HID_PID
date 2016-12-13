@@ -29,22 +29,22 @@ uint16_t KI=0;
 
 uint8_t pid(int16_t error)
 {
-	static uint16_t old_error=0,sum_error=0,sub_error=0;
-	sum_error=sum_error+error;
-	sub_error=error-old_error;
-	static uint8_t set = 0;
-	set=KP*error + KI*sum_error + KD*sub_error;
-	old_error=error;
-	// Set value between 0-PWM_MAX
-	(set>PWM_MAX) ? (set=PWM_MAX) : (set < 1 ? set=0 : set);
-	return set;
+    static uint16_t old_error=0,sum_error=0,sub_error=0;
+    sum_error=sum_error+error;
+    sub_error=error-old_error;
+    static uint8_t set = 0;
+    set=KP*error + KI*sum_error + KD*sub_error;
+    old_error=error;
+    // Set value between 0-PWM_MAX
+    (set>PWM_MAX) ? (set=PWM_MAX) : (set < 1 ? set=0 : set);
+    return set;
 }
 
 uint16_t pid_calc()
 {
-	uint16_t error = pgm_read_word_near(PT1000 + Get_Measurement());
-	error = error - Get_Reference();
-	return error;
+    uint16_t error = pgm_read_word_near(PT1000 + Get_Measurement());
+    error = error - Get_Reference();
+    return error;
 }
 
 #endif /* PID_H_ */

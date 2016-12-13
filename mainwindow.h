@@ -14,14 +14,15 @@
 #include "setuptristate.h"
 #include "setupsolidering.h"
 
-namespace Ui {
+namespace Ui
+{
 class MainWindow;
 }
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-    
+
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -30,7 +31,7 @@ public:
 
 public slots:
     void listview_populate_usb_devices();
-    
+
 private slots:
     void on_dial_PWM_sliderMoved(int position);
 

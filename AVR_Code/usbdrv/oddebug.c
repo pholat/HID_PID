@@ -38,7 +38,7 @@ void    odDebug(uchar prefix, uchar *data, uchar len)
 {
     printHex(prefix);
     uartPutc(':');
-    while(len--){
+    while(len--) {
         uartPutc(' ');
         printHex(*data++);
     }

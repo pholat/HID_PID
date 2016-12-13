@@ -15,7 +15,10 @@ public:
     SetupExtTempCurv();
     ~SetupExtTempCurv();
     virtual double returnTemp(int position/*In seconds*/,double tempValue/*Not needed if temp is not constant*/);
-    virtual void changeFileName(QString Name) { fileName=Name; }
+    virtual void changeFileName(QString Name)
+    {
+        fileName=Name;
+    }
 
 private:
     QFile FileToRead;

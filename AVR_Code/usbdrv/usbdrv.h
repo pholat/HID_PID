@@ -586,9 +586,9 @@ int usbDescriptorStringSerialNumber[];
 #ifndef USB_INTR_CFG_SET    /* allow user to override our default */
 #   if defined(USB_COUNT_SOF) || defined(USB_SOF_HOOK)
 #       define USB_INTR_CFG_SET (1 << ISC01)                    /* cfg for falling edge */
-        /* If any SOF logic is used, the interrupt must be wired to D- where
-         * we better trigger on falling edge
-         */
+/* If any SOF logic is used, the interrupt must be wired to D- where
+ * we better trigger on falling edge
+ */
 #   else
 #       define USB_INTR_CFG_SET ((1 << ISC00) | (1 << ISC01))   /* cfg for rising edge */
 #   endif
@@ -654,10 +654,10 @@ at90s1200, attiny11, attiny12, attiny15, attiny28: these have no RAM
 
 #ifndef __ASSEMBLER__
 
-typedef struct usbTxStatus{
+typedef struct usbTxStatus {
     volatile uchar   len;
     uchar   buffer[USB_BUFSIZE];
-}usbTxStatus_t;
+} usbTxStatus_t;
 
 extern usbTxStatus_t   usbTxStatus1, usbTxStatus3;
 #define usbTxLen1   usbTxStatus1.len
@@ -666,18 +666,18 @@ extern usbTxStatus_t   usbTxStatus1, usbTxStatus3;
 #define usbTxBuf3   usbTxStatus3.buffer
 
 
-typedef union usbWord{
+typedef union usbWord {
     unsigned    word;
     uchar       bytes[2];
-}usbWord_t;
+} usbWord_t;
 
-typedef struct usbRequest{
+typedef struct usbRequest {
     uchar       bmRequestType;
     uchar       bRequest;
     usbWord_t   wValue;
     usbWord_t   wIndex;
     usbWord_t   wLength;
-}usbRequest_t;
+} usbRequest_t;
 /* This structure matches the 8 byte setup request */
 #endif
 
