@@ -36,13 +36,6 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui
 
-unix:!macx:!symbian: LIBS += -L$$PWD/../../../../../usr/lib/i386-linux-gnu/ -lusb-1.0
+LIBS += -lqwt-qt5 -lusb-1.0
 
-INCLUDEPATH += $$PWD/../../../../../usr/include/libusb-1.0
-DEPENDPATH += $$PWD/../../../../../usr/include/libusb-1.0
-
-unix:!macx:!symbian: PRE_TARGETDEPS += $$PWD/../../../../../usr/lib/i386-linux-gnu/libusb.a
-
-QMAKE_LFLAGS += -Wl,-O1 -Wl,-rpath,./lib
-
-CONFIG += qwt
+QMAKE_LFLAGS += -Wl,-O2 -Wl,-rpath,./lib

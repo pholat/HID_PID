@@ -1,12 +1,12 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QListWidget>
+#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QListWidget>
 #include <QTime>
 #include <QVector>
-#include <QFileDialog>
-#include "qwt_plot_curve.h"
+#include <QtWidgets/QFileDialog>
+#include "qwt/qwt_plot_curve.h"
 #include "setup.h"
 #include "setupbistate.h"
 #include "setupexttempcurv.h"

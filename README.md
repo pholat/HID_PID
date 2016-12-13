@@ -16,22 +16,18 @@ Temperature controller based on VUSB device
 → To be yet added PID functionality - it's in name but it occured to me that bistable type of setup works suprisingly well, so it's far on the to do list.
 
 → USB and global values shall be packed in class.
-
-
-To compile
-=======
- You will need:
- 
- → Qt5
- 
- → Qwt
- 
- → libusb
  
 Looks
 ========
 ![selection](https://raw.githubusercontent.com/pholat/HID_PID/master/in_work1.png)
 ![chart](https://raw.githubusercontent.com/pholat/HID_PID/master/itsworking.png)
+
+Qt app compilation
+========
+App needs libusb-1.0 and qwt to compile:  
+```bash
+sudo apt-get install libqwt-qt5-dev libusb-1.0-0-dev  
+```
 
 Final thoughts
 =======

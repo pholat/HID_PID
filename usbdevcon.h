@@ -1,7 +1,7 @@
 #ifndef USBSIMPLECONT_H
 #define USBSIMPLECONT_H
 
-#include <libusb.h>
+#include <libusb-1.0/libusb.h>
 #include <QString>
 
 /* Future UsbDevCon class needed to connect device

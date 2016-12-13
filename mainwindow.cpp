@@ -1,9 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <libusb.h>
-
-#include "qwt_plot_curve.h"
-#include "qvector.h"
+#include <libusb-1.0/libusb.h>
+#include <qwt/qwt_plot_curve.h>
+#include <QVector>
 
 #include "tempTable.h"
 
