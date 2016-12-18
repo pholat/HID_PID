@@ -19,8 +19,6 @@
 #include "usbdrv/usbdrv.h"
 #include <util/delay.h>
 #include "adc.h"
-//#include "spi.h"
-//#include "n5110.h"
 
 //////////////// Flaga dla nRF
 #define DATA_READY (1<<0)

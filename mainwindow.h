@@ -55,10 +55,6 @@ private slots:
 
     void on_verticalSlider_D_valueChanged(int value);
 
-    void on_pushButton_link_clicked();
-
-    void on_spinBox_DevNum_valueChanged(int arg1);
-
     void on_listWidget_clicked(const QModelIndex &index);
     //ADDED for timer
     void timerEvent(QTimerEvent *event);

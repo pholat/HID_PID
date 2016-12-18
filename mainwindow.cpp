@@ -11,28 +11,28 @@ double temp,temp_min, temp_max;
 double prop, prop_min, prop_maxp;
 double integ, integ_min, integ_max;
 double deriv, deriv_min, deriv_max;
-int usb_number;
 
-//libUSB members
+//libUSB members - these tells us on what endpoints we work
 #define USB_DATA_OUT 		2	//Device to PC
 #define USB_DATA_IN 		4	//Fine PC to Device
-libusb_device_handle *device_handle; //handle to USB device
-libusb_device_descriptor device_descriptor; //the device descriptor
-libusb_device  **device_list; //to store all found USB devices
-ssize_t device_count; //holding number of devices in list
-int r; //for return values
-libusb_context *ctx; //a libusb context for library intialization
-int USB_Flag_conected=0;
+
+// Maybe instead globals use unique pointer here for plot data and usb send / receive data
 uchar buffer[8]= {0,0,0,0,0,0,0};
 enum bufferByte {
     Flag,TempYoungADC,TempOldADC,TempYoungSet,TempOldSet,PID_P,PID_I,PID_D
 };
 
-//Plot data
+// Plot data
 double timeSecs=1;
 QVector<double> PlotTempData(QVector<double>(100));
 QVector<double> PlotTempSet(QVector<double>(100));
 QVector<double> PlotTime(QVector<double>(100));
+
+void ReportError( QListWidget *on, QString &str ) {
+    on->addItem(str);
+    on->item(on->count() - 1)->setForeground(Qt::white);
+    on->item(on->count() - 1)->setBackground(Qt::red);
+}
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // Setting temperature to 20*C
     TimmingValue=0;
     setWindowTitle("Fila Controll");
-// Set USB flag byte clear
+    // Set USB flag byte clear
     buffer[0]=0;
 
     // PLOT Init
@@ -70,10 +70,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->qwtPlot->replot();
 
     // USB init
-    r = libusb_init(&ctx); //initializing the library
     //detecting all the connected devices
-    device_count = libusb_get_device_list(ctx, &device_list);
-    usableDevCount = new int(device_count);
+    // TODO inset QtUsb here
 
     // Setup initialisation
     // It's so that if we destroy 0 we do nothing.
@@ -84,7 +82,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    libusb_close(device_handle);
     killTimer(timerId);
     delete usableDevCount;
     delete ui;
@@ -153,162 +150,14 @@ void MainWindow::on_dSpinBox_D_valueChanged(double arg1)
 }
 
 //------------------------------ USB controll
-
-void MainWindow::listview_populate_usb_devices()
+void MainWindow::listview_populate_usb_devices() : throws(std::runtime_error)
 {
-    ui->listWidget->clear(); //clearing the list view
-
-    ssize_t i; //for the device iterator for loop
-    QString list_entry; //for using library outputs in char * in Qt framework
-
-    int progress_bar_value = 0;
-    int progress_bar_correction = 0;
-    char device_open = 0; //for checking whether a device was opened or not
-    unsigned char string_buffer_manufacturer[4096]; //for storing manufacturer descriptor
-    unsigned char string_buffer_product[4096]; //for storing product descriptor
-    const char *cc_manufacturer; //for the casting to use the string output from libusb in Qt
-    const char *cc_product; //for the casting to use the string output from libusb in Qt
-
-    //inform error on status bar
-    if(r < 0) ui->statusBar->showMessage("Error: Initializing libusb");
-
-    else {
-
-        //inform error on status bar
-        if(device_count <= 0) ui->statusBar->showMessage("Info: No device found");
-
-        else {
-            //resetting the progress bar
-            ui->progressBar->reset();
-
-            //for loop iterating through found devices
-            for(i=0; i<device_count; i++) {
-                //getting device descriptor
-                r = libusb_get_device_descriptor(device_list[i], &device_descriptor);
-
-                //inform error on status bar
-                if(r < 0)   ui->statusBar->showMessage("Error: Failed to get device descriptor");
-
-                else {
-                    //opening the device
-                    r = libusb_open(device_list[i],&device_handle);
-
-                    if(r < 0) {
-                        //inform error on status bar
-                        ui->statusBar->showMessage("Error: Opening USB device");
-                        //indicating that device is not open
-                        device_open = 0;
-                    }
-
-                    else {
-                        //indicating that device is open
-                        device_open = 1;
-
-                        // local int for counting usable devices;
-                        // alternaticve is to use list or vector with UsableDevCount
-                        static int LocalUsableDevCounter=0;
-                        //setting opened dev number in usable_dev_count as usable device
-                        *(usableDevCount+LocalUsableDevCounter)=i;
-                        // LocalUsableDevCounter needs to be num of next prey
-                        LocalUsableDevCounter++;
-
-                        //getting the ASCII text value from the descriptor field
-                        r = libusb_get_string_descriptor_ascii(device_handle,device_descriptor.iManufacturer,string_buffer_manufacturer,sizeof(string_buffer_manufacturer));
-
-                        if(r < 0) {
-                            //reporting error on the list entry
-                            ui->listWidget->addItem("Error: Converting descriptor to ASCII [iManufacturer]");
-                            ui->listWidget->item(ui->listWidget->count() - 1)->setForeground(Qt::white);
-                            ui->listWidget->item(ui->listWidget->count() - 1)->setBackground(Qt::red);
-                        }
-
-                        else {
-                            //getting the ASCII text value from the descriptor field
-                            r = libusb_get_string_descriptor_ascii(device_handle,device_descriptor.iProduct,string_buffer_product,sizeof(string_buffer_product));
-
-                            if(r < 0) {
-                                //reporting error on the list entry
-                                ui->listWidget->addItem("Error: Converting descriptor to ASCII [iProduct]");
-                                ui->listWidget->item(ui->listWidget->count() - 1)->setForeground(Qt::white);
-                                ui->listWidget->item(ui->listWidget->count() - 1)->setBackground(Qt::red);
-                            }
-
-                            else {
-                                //converting the string to const char*
-                                cc_manufacturer = (const char*)string_buffer_manufacturer;
-                                QString manufacturer(cc_manufacturer);
-
-                                //converting the string to const char*
-                                cc_product = (const char*)string_buffer_product;
-                                QString product(cc_product);
-
-                                //constructing the string for list entry
-                                list_entry = manufacturer + " " + product;
-
-                                ui->listWidget->horizontalScrollBar();
-                                ui->listWidget->verticalScrollBar();
-                                ui->listWidget->addItem(list_entry); //adding the list entry
-
-                                //closing opened USB device
-                                if (device_open == 1) {
-                                    //closing the deivce
-                                    libusb_close(device_handle);
-                                    //indicating that device is open
-                                    device_open = 0;
-                                }
-
-                                //calculate and set the progress bar value
-                                progress_bar_value = (i+1) * (100/device_count);
-
-                                //correcting value
-                                if ( (i+1) == device_count) {
-                                    progress_bar_correction = 100 - progress_bar_value;
-                                    progress_bar_value = progress_bar_value + progress_bar_correction;
-                                }
-
-                                //setting the value
-                                ui->progressBar->setValue(progress_bar_value);
-                            }
-                        }
-                    }
-                }
-            }
-            ui->progressBar->setValue(100);
-            //closing opened USB device
-            if (device_open == 1) {
-                //closing the deivce
-                libusb_close(device_handle);
-                //indicating that device is open
-                device_open = 0;
-            }
-        }
-    }
+    // TODO populate the devices
 }
 
 void MainWindow::on_listWidget_clicked(const QModelIndex &index)
 {
-    usb_number=index.row();
-    ui->spinBox_DevNum->setValue(*(usableDevCount+usb_number));
-}
-
-
-void MainWindow::on_pushButton_link_clicked()
-{
-    USB_Flag_conected=1;
-    int usb_fail_flag=libusb_open(device_list[*(usableDevCount+usb_number)],&device_handle);
-    if (usb_fail_flag<0) {
-        ui->textBrowser_usbMessage->setTextBackgroundColor(Qt::red);
-        ui->textBrowser_usbMessage->setText("Connection fali");
-    } else {
-        ui->textBrowser_usbMessage->setTextBackgroundColor(Qt::green);
-        ui->textBrowser_usbMessage->setText("Connected!");
-    }
-}
-
-void MainWindow::on_spinBox_DevNum_valueChanged(int arg1)
-{
-    ui->textBrowser_usbMessage->setTextBackgroundColor(Qt::red);
-    ui->textBrowser_usbMessage->setText("Bad Kitty!");
+    // TODO connect the device
 }
 
 void plotChart( double T_set, double actual_time, double T_measured )
@@ -325,16 +174,16 @@ void plotChart( double T_set, double actual_time, double T_measured )
 }
 
 
+/// Write data to send - in use use data table → than tempSet
+///                    - in use buttons and sliders → then temp
+///                    - and so one... "make choice" button shall be added
+/// Grab LSB → Grab MSB → Set PID values (double to uint conversion!)
+/// and finally program will be ready to test
+///buffer[Flag]=1;
+/// Calculate temp to set
 void MainWindow::timerEvent(QTimerEvent *event)
 {
-    if((buffer[Flag]==1) && (USB_Flag_conected==1) && (RegulationType!=0)) {
-        // Write data to send - in use use data table → than tempSet
-        //                    - in use buttons and sliders → then temp
-        //                    - and so one... "make choice" button shall be added
-        // Grab LSB → Grab MSB → Set PID values (double to uint conversion!)
-        // and finally program will be ready to test
-        //buffer[Flag]=1;
-        // Calculate temp to set
+    if((buffer[Flag]==1) && (RegulationType!=0)) {
 
         double tempToSet = RegulationType->returnTemp(TimmingValue,temp);
 
@@ -345,12 +194,13 @@ void MainWindow::timerEvent(QTimerEvent *event)
         buffer[PID_I]=(u_int8_t)integ;
         buffer[PID_D]=(u_int8_t)deriv;
 
-        // First of all send data
-        libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_OUT,
-                                USB_DATA_IN , 0, 0, buffer, sizeof(buffer), 5000);
-        // Secondly grab data
-        libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_IN,
-                                USB_DATA_OUT , 0, 0, buffer, sizeof(buffer), 5000);
+        // TODO this transfer needs to be done via QtUsb
+        // // First of all send data
+        // libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_OUT,
+        //         USB_DATA_IN , 0, 0, buffer, sizeof(buffer), 5000);
+        // // Secondly grab data
+        // libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_IN,
+        //         USB_DATA_OUT , 0, 0, buffer, sizeof(buffer), 5000);
         //
         plotChart(tempToSet, timeSecs++, temp_find( buffer[TempYoungADC] | (buffer[TempOldADC]<<8) ) );
     } else {
@@ -359,6 +209,11 @@ void MainWindow::timerEvent(QTimerEvent *event)
     }
 }
 
+/// Write data to send - in use use data table → than tempSet
+///                    - in use buttons and sliders → then temp
+///                    - and so one... "make choice" button shall be added
+/// Grab LSB → Grab MSB → Set PID values (double to uint conversion!)
+/// and finally program will be ready to test
 void MainWindow::on_pushButton_send_clicked()
 {
 
@@ -368,44 +223,36 @@ void MainWindow::on_pushButton_send_clicked()
     // ADDED for timer start
     // Shall be moved to else part below
     timerId = startTimer(1000);
-    if(USB_Flag_conected==0) {
-        ui->textBrowser_usbMessage->setText("Error - no USB connected");
+    if(RegulationType==0) {
+        if(RegulationType==0) ui->textBrowser_usbMessage->setText("No regulation");
     } else {
-        if(RegulationType==0) {
-            if(RegulationType==0) ui->textBrowser_usbMessage->setText("No regulation");
-        } else {
-            // Write data to send - in use use data table → than tempSet
-            //                    - in use buttons and sliders → then temp
-            //                    - and so one... "make choice" button shall be added
-            // Grab LSB → Grab MSB → Set PID values (double to uint conversion!)
-            // and finally program will be ready to test
-            buffer[Flag]=1;
-            // Calculate temp to set
-            // TODO set position
-            u_int16_t temp_to_device = temp_to_send(RegulationType->returnTemp(0,temp));
-            buffer[TempYoungSet]=temp_to_device&0xFF;
-            buffer[TempOldSet]  =(temp_to_device>>8)&0xFF;
-            buffer[PID_P]=(u_int8_t)prop;
-            buffer[PID_I]=(u_int8_t)integ;
-            buffer[PID_D]=(u_int8_t)deriv;
+        buffer[Flag]=1;
+        // Calculate temp to set
+        // TODO set position
+        u_int16_t temp_to_device = temp_to_send(RegulationType->returnTemp(0,temp));
+        buffer[TempYoungSet]=temp_to_device&0xFF;
+        buffer[TempOldSet]  =(temp_to_device>>8)&0xFF;
+        buffer[PID_P]=(u_int8_t)prop;
+        buffer[PID_I]=(u_int8_t)integ;
+        buffer[PID_D]=(u_int8_t)deriv;
 
-            // First of all send data
-            libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_OUT,
-                                    USB_DATA_IN , 0, 0, buffer, sizeof(buffer), 5000);
-            // Secondly grab data
-            libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_IN,
-                                    USB_DATA_OUT , 0, 0, buffer, sizeof(buffer), 5000);
-        }
-
+        // TODO this transfer needs to be done via QtUsb
+        // // First of all send data
+        // libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_OUT,
+        //         USB_DATA_IN , 0, 0, buffer, sizeof(buffer), 5000);
+        // // Secondly grab data
+        // libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_IN,
+        USB_DATA_OUT , 0, 0, buffer, sizeof(buffer), 5000);
     }
+
 }
 
 void MainWindow::on_radioButton_clicked()
 {
     delete RegulationType;
     ui->textBrowser_select->setText("In this setup simple temp curve is send to device to easily solider on halogen lamp-oven. \n"
-                                    "Firstly there is pre heat to cure cheap solder paste, than there is one minute solidering "
-                                    "after that slow dropdown to 100*C");
+            "Firstly there is pre heat to cure cheap solder paste, than there is one minute solidering "
+            "after that slow dropdown to 100*C");
     RegulationType = new SetupSolidering;
 }
 
@@ -413,7 +260,7 @@ void MainWindow::on_radioButton_bistate_clicked()
 {
     delete RegulationType;
     ui->textBrowser_select->setText("In this setup controller is operating as bistate controller, temperature is being set in"
-                                    "start tab");
+            "start tab");
     RegulationType = new SetupBistate;
 }
 
@@ -421,7 +268,7 @@ void MainWindow::on_radioButton_tristate_clicked()
 {
     delete RegulationType;
     ui->textBrowser_select->setText("In this setup controller is operating as tristate controller, temperature is being set in"
-                                    "start tab");
+            "start tab");
     RegulationType = new SetupTristate;
 }
 
@@ -437,8 +284,8 @@ void MainWindow::on_radioButton_tempCurve_clicked()
 {
     delete RegulationType;
     ui->textBrowser_select->setText("In this setup external temperature curve is used - is shall be named dataCurve.txt. \n"
-                                    "Data format shall be: \n\n"
-                                    "\t start\n\t ... \n\tdouble value\n\tdouble value\n\t...\n\tend");
+            "Data format shall be: \n\n"
+            "\t start\n\t ... \n\tdouble value\n\tdouble value\n\t...\n\tend");
     RegulationType = new SetupExtTempCurv;
 }
 
@@ -452,8 +299,8 @@ void MainWindow::on_pushButton_loadFile_clicked()
 {
     if(RegulationType!=0) {
         QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
-                           "/home",
-                           tr("Text (*.txt *.TXT)"));
+                "/home",
+                tr("Text (*.txt *.TXT)"));
         RegulationType->changeFileName(fileName);
 
     } else {
