@@ -83,7 +83,6 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     killTimer(timerId);
-    delete usableDevCount;
     delete ui;
 }
 
@@ -150,7 +149,7 @@ void MainWindow::on_dSpinBox_D_valueChanged(double arg1)
 }
 
 //------------------------------ USB controll
-void MainWindow::listview_populate_usb_devices() : throws(std::runtime_error)
+void MainWindow::listview_populate_usb_devices()
 {
     // TODO populate the devices
 }
@@ -160,7 +159,7 @@ void MainWindow::on_listWidget_clicked(const QModelIndex &index)
     // TODO connect the device
 }
 
-void plotChart( double T_set, double actual_time, double T_measured )
+void MainWindow::plotChart( double T_set, double actual_time, double T_measured )
 {
     PlotTempData.insert(PlotTempData.size(), T_set );
     PlotTime.insert(PlotTime.size(), actual_time );
@@ -204,8 +203,8 @@ void MainWindow::timerEvent(QTimerEvent *event)
         //
         plotChart(tempToSet, timeSecs++, temp_find( buffer[TempYoungADC] | (buffer[TempOldADC]<<8) ) );
     } else {
-        if(USB_Flag_conected==0) ui->textBrowser_usbMessage->setText("no USB, no plot");
-        if(RegulationType==0) ui->textBrowser_usbMessage->setText("No regulation");
+//        if(USB_Flag_conected==0) ui->textBrowser_usbMessage->setText("no USB, no plot");
+//        if(RegulationType==0) ui->textBrowser_usbMessage->setText("No regulation");
     }
 }
 
@@ -224,7 +223,7 @@ void MainWindow::on_pushButton_send_clicked()
     // Shall be moved to else part below
     timerId = startTimer(1000);
     if(RegulationType==0) {
-        if(RegulationType==0) ui->textBrowser_usbMessage->setText("No regulation");
+//        if(RegulationType==0) ui->textBrowser_usbMessage->setText("No regulation");
     } else {
         buffer[Flag]=1;
         // Calculate temp to set
@@ -242,7 +241,7 @@ void MainWindow::on_pushButton_send_clicked()
         //         USB_DATA_IN , 0, 0, buffer, sizeof(buffer), 5000);
         // // Secondly grab data
         // libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_IN,
-        USB_DATA_OUT , 0, 0, buffer, sizeof(buffer), 5000);
+        // USB_DATA_OUT , 0, 0, buffer, sizeof(buffer), 5000);
     }
 
 }

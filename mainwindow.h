@@ -73,8 +73,6 @@ private slots:
 
     void on_radioButton_2_clicked();
 
-    void on_pushButton_2_clicked();
-
     void on_pushButton_loadFile_clicked();
 
 private:
@@ -84,8 +82,7 @@ private:
     // ADDED for plot
     QwtPlotCurve *CurvePlotTempData;
     QwtPlotCurve *CurvePlotTempSet;
-    // ADDED for usable dev count
-    int *usableDevCount;
+    void plotChart( double T_set, double actual_time, double T_measured );
 };
 
 #endif // MAINWINDOW_H
