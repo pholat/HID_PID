@@ -24,7 +24,13 @@ Looks
 
 Qt app compilation
 ========
-App needs libusb-1.0 and qwt to compile:  
+Please checkout with:
+```
+git pull --recurse-submodules
+```
+Working wersions marked with tag. To compile a working/compileable version checkout last tag. Right now it's:  
+#### v0.1
+App needs libusb-1.0 and qwt to compile, on Ubuntu it means you need to install:
 ```bash
 sudo apt-get install libqwt-qt5-dev libusb-1.0-0-dev  
 ```
