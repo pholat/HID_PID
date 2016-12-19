@@ -34,9 +34,9 @@ void ReportError( QListWidget *on, QString &str ) {
     on->item(on->count() - 1)->setBackground(Qt::red);
 }
 
-void printNonRootUSBDevs( QListWidget *listWidget, UsbContainer *usbContainer) {
+void printNonRootUSBDevs( QListWidget *listWidget, UsbContainer &usbContainer) {
     listWidget->clear();
-    listWidget->addItems(usbContainer->listNonRootDevices());
+    listWidget->addItems(usbContainer.listNonRootDevices());
 }
 
 
@@ -70,15 +70,14 @@ MainWindow::MainWindow(QWidget *parent) :
     //USB setup
     ui->dial_Temp->setMaximum(250);
     ui->dSpinBox_Temp->setMaximum(250);
-    ui->progressBar->setValue(0);
     ui->dial_PWM->setMaximum(100);
     ui->dSpinBox_PWM->setMaximum(100);
 
     ui->qwtPlot->replot();
 
     // USB initialised
-    ui->textBrowserLOG->textMessage(usbErrorLog);
-    printNonRootUSBDevs( ui->listWidget, usbContainer);
+    ui->textBrowserLOG->addItems(usbErrorLog.split("\n"));
+    printNonRootUSBDevs( ui->listWidget, *usbcontainer);
 
     // Setup initialisation
     // It's so that if we destroy 0 we do nothing.
@@ -157,7 +156,7 @@ void MainWindow::on_dSpinBox_D_valueChanged(double arg1)
 void MainWindow::listview_populate_usb_devices()
 {
     // TODO populate the devices and then ( one below )
-    printNonRootUSBDevs( ui->listWidget, usbContainer);
+    printNonRootUSBDevs( ui->listWidget, *usbcontainer);
 }
 
 void MainWindow::on_listWidget_clicked(const QModelIndex &index)

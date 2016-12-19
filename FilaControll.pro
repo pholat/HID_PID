@@ -21,7 +21,10 @@ SOURCES += main.cpp\
     setupexttempcurv.cpp \
     setupsolidering.cpp \
     setuppidcontroll.cpp \
-    usbdevcon.cpp
+    usbdevcon.cpp \
+    QtUsb/baseinfo.cpp \
+    QtUsb/usb-container.cpp \
+    QtUsb/usbdev.cpp
 
 HEADERS  += mainwindow.h \
     tempTable.h \
@@ -32,7 +35,10 @@ HEADERS  += mainwindow.h \
     setupexttempcurv.h \
     setupsolidering.h \
     setuppidcontroll.h \
-    usbdevcon.h
+    usbdevcon.h \
+    QtUsb/baseinfo.h \
+    QtUsb/usb-container.h \
+    QtUsb/usbdev.h
 
 FORMS    += mainwindow.ui
 

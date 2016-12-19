@@ -88,19 +88,6 @@
        <string>Close</string>
       </property>
      </widget>
-     <widget class="QProgressBar" name="progressBar">
-      <property name="geometry">
-       <rect>
-        <x>210</x>
-        <y>350</y>
-        <width>461</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="value">
-       <number>24</number>
-      </property>
-     </widget>
      <widget class="QGroupBox" name="groupBox">
       <property name="geometry">
        <rect>
@@ -288,13 +275,13 @@
        </rect>
       </property>
      </widget>
-     <widget class="QTextBrowser" name="textBrowserLOG">
+     <widget class="QListWidget" name="textBrowserLOG">
       <property name="geometry">
        <rect>
         <x>210</x>
         <y>200</y>
         <width>461</width>
-        <height>151</height>
+        <height>171</height>
        </rect>
       </property>
      </widget>
@@ -303,7 +290,6 @@
      <zorder>pushButton_connect</zorder>
      <zorder>pushButton_send</zorder>
      <zorder>pushButton_close1</zorder>
-     <zorder>progressBar</zorder>
      <zorder>dial_PWM</zorder>
      <zorder>label_4</zorder>
      <zorder>label_5</zorder>
