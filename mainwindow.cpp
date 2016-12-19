@@ -34,9 +34,16 @@ void ReportError( QListWidget *on, QString &str ) {
     on->item(on->count() - 1)->setBackground(Qt::red);
 }
 
+void printNonRootUSBDevs( QListWidget *listWidget, UsbContainer *usbContainer) {
+    listWidget->clear();
+    listWidget->addItems(usbContainer->listNonRootDevices());
+}
+
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    usbcontainer(new UsbContainer(&usbErrorLog))
 {
     ui->setupUi(this);
     // Setting temperature to 20*C
@@ -69,9 +76,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->qwtPlot->replot();
 
-    // USB init
-    //detecting all the connected devices
-    // TODO inset QtUsb here
+    // USB initialised
+    ui->textBrowserLOG->textMessage(usbErrorLog);
+    printNonRootUSBDevs( ui->listWidget, usbContainer);
 
     // Setup initialisation
     // It's so that if we destroy 0 we do nothing.
@@ -85,8 +92,6 @@ MainWindow::~MainWindow()
     killTimer(timerId);
     delete ui;
 }
-
-
 
 void MainWindow::on_dial_PWM_sliderMoved(int position)
 {
@@ -151,12 +156,15 @@ void MainWindow::on_dSpinBox_D_valueChanged(double arg1)
 //------------------------------ USB controll
 void MainWindow::listview_populate_usb_devices()
 {
-    // TODO populate the devices
+    // TODO populate the devices and then ( one below )
+    printNonRootUSBDevs( ui->listWidget, usbContainer);
 }
 
 void MainWindow::on_listWidget_clicked(const QModelIndex &index)
 {
     // TODO connect the device
+    // reimplement!!! selection here write below
+    // QString string =_usbContainer->writeToDevice(_clickedProduct);
 }
 
 void MainWindow::plotChart( double T_set, double actual_time, double T_measured )
