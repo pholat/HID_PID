@@ -6,20 +6,20 @@
 C_SRCS += \
 ../adc.c \
 ../main.c \
-../n5110.c \
-../spi.c 
+# ../spi.c 
+# ../n5110.c
 
 OBJS += \
 ./adc.o \
 ./main.o \
-./n5110.o \
-./spi.o 
+# ./spi.o 
+#./n5110.o
 
 C_DEPS += \
 ./adc.d \
 ./main.d \
-./n5110.d \
-./spi.d 
+# ./spi.d 
+# ./n5110.d
 
 
 # Each subdirectory must supply rules for building sources it contributes

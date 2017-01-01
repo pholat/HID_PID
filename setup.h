@@ -14,7 +14,7 @@ public:
     enum {SimpleCurve,BistateReg,TristateReg,TempCheck,ExternCurve} SetType;
     //Setup();
     virtual ~Setup();
-    virtual double returnTemp(int position/*In seconds*/,double tempValue/*Not needed if temp is not constant*/);
+    virtual double returnTemp(int position/*In seconds*/,double tempValue/*Not needed if temp is not constant*/) =0;
     virtual void changeFileName(QString) {};
 };
 

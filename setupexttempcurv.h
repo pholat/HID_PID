@@ -7,6 +7,8 @@
 #include <QtCore/QString>
 #include <QDebug>
 
+#include <list>
+
 /* If no file is selected it's trying to open file in actual dir called dataC*/
 
 class SetupExtTempCurv : public Setup
@@ -21,11 +23,8 @@ public:
     }
 
 private:
-    QFile FileToRead;
-    QTextStream *inputData;
-    int dataReadyFlag;
+    std::list< double> _values;
     QString fileName;
-    int fileIsSet;
 };
 
 #endif // SETUPEXTTEMPCURV_H

@@ -6,18 +6,22 @@
 
 #include "tempTable.h"
 
+#include "QtUsb/usb-container.h"
+
 double pwm, pwm_min, pwm_max;
 double temp,temp_min, temp_max;
 double prop, prop_min, prop_maxp;
 double integ, integ_min, integ_max;
 double deriv, deriv_min, deriv_max;
 
-//libUSB members - these tells us on what endpoints we work
+// libUSB members - these tells us on what endpoints we work
+// this actually might have been done in one transmitt ;=:
 #define USB_DATA_OUT 		2	//Device to PC
 #define USB_DATA_IN 		4	//Fine PC to Device
 
 // Maybe instead globals use unique pointer here for plot data and usb send / receive data
-uchar buffer[8]= {0,0,0,0,0,0,0};
+const size_t bufsize =8;
+uchar buffer[bufsize]= {0};
 enum bufferByte {
     Flag,TempYoungADC,TempOldADC,TempYoungSet,TempOldSet,PID_P,PID_I,PID_D
 };
@@ -185,7 +189,7 @@ void MainWindow::plotChart( double T_set, double actual_time, double T_measured 
 ///                    - and so one... "make choice" button shall be added
 /// Grab LSB → Grab MSB → Set PID values (double to uint conversion!)
 /// and finally program will be ready to test
-///buffer[Flag]=1;
+/// buffer[Flag]=1;
 /// Calculate temp to set
 void MainWindow::timerEvent(QTimerEvent *event)
 {
@@ -201,13 +205,9 @@ void MainWindow::timerEvent(QTimerEvent *event)
         buffer[PID_D]=(u_int8_t)deriv;
 
         // TODO this transfer needs to be done via QtUsb
-        // // First of all send data
-        // libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_OUT,
-        //         USB_DATA_IN , 0, 0, buffer, sizeof(buffer), 5000);
-        // // Secondly grab data
-        // libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_IN,
-        //         USB_DATA_OUT , 0, 0, buffer, sizeof(buffer), 5000);
-        //
+        UsbHid TODO;
+        TODO.control_transfer(buffer, bufsize, USB_DATA_IN );
+        TODO.control_transfer(buffer, bufsize, USB_DATA_OUT);
         plotChart(tempToSet, timeSecs++, temp_find( buffer[TempYoungADC] | (buffer[TempOldADC]<<8) ) );
     } else {
 //        if(USB_Flag_conected==0) ui->textBrowser_usbMessage->setText("no USB, no plot");
@@ -222,7 +222,6 @@ void MainWindow::timerEvent(QTimerEvent *event)
 /// and finally program will be ready to test
 void MainWindow::on_pushButton_send_clicked()
 {
-
     // TODO in and out transfer
     // than add "start plotting"
     // then maybe send rest of data
@@ -242,13 +241,10 @@ void MainWindow::on_pushButton_send_clicked()
         buffer[PID_I]=(u_int8_t)integ;
         buffer[PID_D]=(u_int8_t)deriv;
 
-        // TODO this transfer needs to be done via QtUsb
-        // // First of all send data
-        // libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_OUT,
-        //         USB_DATA_IN , 0, 0, buffer, sizeof(buffer), 5000);
-        // // Secondly grab data
-        // libusb_control_transfer(device_handle,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_IN,
-        // USB_DATA_OUT , 0, 0, buffer, sizeof(buffer), 5000);
+        // TODO this transfer needs to be done via QtUsb ( 50% )
+        UsbHid TODO;
+        TODO.control_transfer(buffer, bufsize, USB_DATA_IN );
+        TODO.control_transfer(buffer, bufsize, USB_DATA_OUT );
     }
 
 }

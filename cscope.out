@@ -1,1482 +1,4 @@
-cscope 15 $HOME/workspace/HID_PID -q 0000001066 0000087288
-	@AVR_Code/PORT/ascii.h
-
-8 #iâdeà
-ASCII_H_
-
-
-9 
-	#ASCII_H_
-
-
-	)
-
-11 cÚ¡ 
-ušt8_t
- 
-	gASCII
-[][5] = {
-
-	@AVR_Code/PORT/main.c
-
-23 
-	~<avr/io.h
->
-
-24 
-	~<avr/š‹¼u±.h
->
-
-25 
-	~<avr/pgm¥aû.h
->
-
-26 
-	~"pid.h
-"
-
-28 
-	~"³rhs.h
-"
-
-29 
-	~"maš.h
-"
-
-31 
-	~"ascii.h
-"
-
-32 
-	~"¥i.h
-"
-
-33 
-	~"n5110.h
-"
-
-39 
-ušt8_t
- 
-	g´zyro¡1
-=20;
-
-40 
-ušt8_t
- 
-	g´zyro¡2
-=28;
-
-43 
-³rh_š™
-();
-
-45 
-ms_d–ay
-(
-ušt16_t
-);
-
-47 
-št16_t
- 
-G‘_Reã»nû
-();
-
-49 
-	$maš
-()
-
-52 
-ušt16_t
- 
-”rÜ
-;
-
-53 
-	`£i
-();
-
-55 
-”rÜ
-=
-	`pid_ÿlc
-();
-
-56 if(
-PID_FÏg
-) {
-
-57 
-OCR2
-=
-	`pid
-(
-”rÜ
-);
-
-58 
-PID_FÏg
-=0;
-
-60 
-	`lcd_¶aû
-(0,4);
-
-61 
-	`lcd_¡ršg
-("Err:");
-
-62 
-	`lcd_št
-(
-”rÜ
-/100);
-
-64 
-	}
-}
-
-66 
-št16_t
- 
-	$G‘_Reã»nû
-()
-
-68 
-ušt16_t
- 
-Ç¡awa_‹mp
-=0;
-
-69 
-æag
-) {
-
-72 
-Ç¡awa_‹mp
-=(
-´zyro¡1
-*
-decys
-);
-
-75 
-Ç¡awa_‹mp
-=9000;
-
-79 
-Ç¡awa_‹mp
-=(
-´zyro¡2
-*
-decys
-)+9000;
-
-82 
-Ç¡awa_‹mp
-=24500;
-
-85 
-Ç¡awa_‹mp
-=2500;
-
-88  
-Ç¡awa_‹mp
-;
-
-89 
-	}
-}
-
-92 
-	$ISR
-(
-TIMER2_COMP_veù
-)
-
-95 (
-ms
->999) ? (ms=0):(ms++);
-
-97 (
-ms
-/100è? 
-decys
-++,
-PID_FÏg
-=1:decys;
-
-99 (
-decys
->600è? 
-æag
-++ , decys=0: flag;
-
-103 
-ušt16_t
- 
-couÁ”
-=0;
-
-104 (
-couÁ”
-<1000) ? (counter++) : (counter=0);
-
-105 (
-pwm
-<
-couÁ”
-è? (
-PORTC
-&=~(1<<
-PC5
-)) : (PORTC|=(1<<PC5));
-
-106 
-	}
-}
-
-108 
-	$ms_d–ay
-(
-ušt16_t
- 
-wh©
-)
-
-110 
-ušt16_t
- 
-is
-=
-ms
-+
-wh©
-;
-
-111 
-is
-!=
-ms
-);
-
-112 
-	}
-}
-
-114 
-	$³rh_š™
-()
-
-116 
-	`adc_Ú
-(1);
-
-117 
-	`pwm_Ú
-();
-
-118 
-	`In™
-();
-
-119 
-	`¥i_š™
-();
-
-120 
-	`lcd_š™
-();
-
-121 
-	`lcd_ş—r
-();
-
-122 
-	}
-}
-
-	@AVR_Code/PORT/main.h
-
-8 #iâdeà
-MAIN_H_
-
-
-9 
-	#MAIN_H_
-
-
-	)
-
-11 
-	#PWM_MAX
- 1000
-
-	)
-
-13 vŞ©
-ušt16_t
- 
-	gms
-=0;
-
-14 vŞ©
-ušt8_t
- 
-	gæag
-=0;
-
-15 vŞ©
-ušt16_t
- 
-	gdecys
-=0;
-
-16 vŞ©
-ušt16_t
- 
-	gpwm
-=0;
-
-18 
-ms_d–ay
-(
-ušt16_t
- 
-wh©
-);
-
-19 
-št16_t
- 
-G‘_Reã»nû
-();
-
-	@AVR_Code/PORT/n5110.c
-
-8 
-	~"n5110.h
-"
-
-10 
-	$lcd_wr™e_by‹
-(
-sü“n
-,
-ušt8_t
- 
-d©a
-)
-
-12 
-PORTD
-&=~(1<<
-SCE
-);
-
-13 if(
-sü“n
-è
-PORTD
-|=(1<<
-DC
-);
-
-14 
-PORTD
-&=~(1<<
-DC
-);
-
-15 
-SPDR
- = 
-d©a
-;
-
-16 !(
-SPSR
-&(1<<
-SPIF
-)));
-
-17 
-PORTD
-|=(1<<
-SCE
-);
-
-18 
-	}
-}
-
-20 
-	$lcd_š™
-()
-
-22 
-PORTD
-&=~(1<<
-RES
-);
-
-24 
-DDRD
-|=(1<<
-RES
-)|(1<<
-DC
-)|(1<<
-SCE
-);
-
-25 
-DDRB
-|=(1<<
-SDIN
-)|(1<<
-SCKL
-);
-
-27 
-DDRB
-|=(1<<
-PB2
-);
-
-29 
-SPCR
- = (1<<
-SPE
-)|(1<<
-MSTR
-)|(1<<
-SPR0
-) ;
-
-31 
-	`ms_d–ay
-(15);
-
-33 
-PORTD
-&=~(1<<
-RES
-);
-
-34 
-	`ms_d–ay
-(1);
-
-35 
-PORTD
-|=(1<<
-RES
-);
-
-36 
-PORTD
-&=~(1<<
-SCE
-);
-
-37 
-	`ms_d–ay
-(1);
-
-38 
-PORTD
-|=(1<<
-SCE
-);
-
-40 
-	`ms_d–ay
-(1);
-
-43 
-	`lcd_wr™e_by‹
-(
-CMD
-, 0x21 );
-
-44 
-	`lcd_wr™e_by‹
-(
-CMD
-, 0xc8 );
-
-45 
-	`lcd_wr™e_by‹
-(
-CMD
-, 0x06 );
-
-46 
-	`lcd_wr™e_by‹
-(
-CMD
-, 0x13 );
-
-47 
-	`lcd_wr™e_by‹
-(
-CMD
-, 0x20 );
-
-48 
-	`lcd_ş—r
-();
-
-49 
-	`lcd_wr™e_by‹
-(
-CMD
-, 0x0c );
-
-51 
-PORTD
-&=~(1<<
-SCE
-);
-
-52 
-	`ms_d–ay
-(1);
-
-53 
-	}
-}
-
-56 
-	$lcd_dÙ
-()
-
-58 
-	`lcd_wr™e_by‹
-(
-IMG
-,0x00);
-
-59 
-	`lcd_wr™e_by‹
-(
-IMG
-,0x3C);
-
-60 
-	`lcd_wr™e_by‹
-(
-IMG
-,0x7E);
-
-61 
-	`lcd_wr™e_by‹
-(
-IMG
-,0x7E);
-
-62 
-	`lcd_wr™e_by‹
-(
-IMG
-,0xFC);
-
-63 
-	`lcd_wr™e_by‹
-(
-IMG
-,0xF8);
-
-64 
-	`lcd_wr™e_by‹
-(
-IMG
-,0xFC);
-
-65 
-	`lcd_wr™e_by‹
-(
-IMG
-,0x7E);
-
-66 
-	`lcd_wr™e_by‹
-(
-IMG
-,0x7E);
-
-67 
-	`lcd_wr™e_by‹
-(
-IMG
-,0x3C);
-
-68 
-	`lcd_wr™e_by‹
-(
-IMG
-,0x00);
-
-69 
-	}
-}
-
-71 
-	$lcd_ch¬
-(
-ch¬aù”
-)
-
-73 
-	`lcd_wr™e_by‹
-(
-IMG
-,0x00);
-
-74 
-šdex
-=0; index<5 ; index++è
-	`lcd_wr™e_by‹
-(
-IMG
-,
-ASCII
-[
-ch¬aù”
--0x20][index]);
-
-75 
-	`lcd_wr™e_by‹
-(
-IMG
-,0x00);
-
-76 
-	}
-}
-
-78 
-	$lcd_¡ršg
-(*
-¡ršgi
-)
-
-80 *
-¡ršgi
-è
-	`lcd_ch¬
-(*stringi++);
-
-81 
-	}
-}
-
-83 
-	$lcd_¶aû
-(
-ušt8_t
- 
-x
-,ušt8_ˆ
-y
-)
-
-85 
-	`lcd_wr™e_by‹
-(
-CMD
-,0x80|
-x
-);
-
-86 
-	`lcd_wr™e_by‹
-(
-CMD
-,0x40|
-y
-);
-
-87 
-	}
-}
-
-89 
-	$lcd_ş—r
-()
-
-91 
-	`lcd_wr™e_by‹
-(
-CMD
-,0x0c);
-
-92 
-	`lcd_wr™e_by‹
-(
-CMD
-,0x80);
-
-93 
-šdex
-=0; index<504; index++è
-	`lcd_wr™e_by‹
-(
-IMG
-,0x00);
-
-94 
-	}
-}
-
-96 
-	$lcd_št
-(
-ušt16_t
- 
-a
-)
-
-98 if(
-a
-/10è
-	`lcd_št
-(a/10);
-
-99 
-	`lcd_wr™e_by‹
-(
-IMG
-,0x00);
-
-100 
-šdex
-=0; index<5 ; index++è
-	`lcd_wr™e_by‹
-(
-IMG
-,
-ASCII
-[(
-a
-%10)-0x20+'0'][index]);
-
-101 
-	`lcd_wr™e_by‹
-(
-IMG
-,0x00);
-
-102 
-	}
-}
-
-104 
-	$lcd_bš
-(
-ušt8_t
- 
-hex®
-)
-
-106 
-ušt8_t
- 
-a
-=7;
-
-107 
-	`lcd_¡ršg
-("b: ");
-
-108 ; 
-a
-!=0;‡--è
-	`lcd_št
-((
-hex®
-&(1<<a))/(1<<a));
-
-109 
-	`lcd_št
-((
-hex®
-&(1<<
-a
-))/(1<<a));
-
-110 
-	}
-}
-
-	@AVR_Code/PORT/n5110.h
-
-8 
-	~<avr/io.h
->
-
-9 
-	~"ascii.h
-"
-
-10 
-	~"maš.h
-"
-
-12 #iâdeà
-N5110_H_
-
-
-13 
-	#N5110_H_
-
-
-	)
-
-15 #iâdeà
-£tb™
-
-
-16 
-	#£tb™
-(
-x
-,
-y
-èx|=(1<<y)
-
-	)
-
-19 #iâdeà
-ş—rb™
-
-
-20 
-	#ş—rb™
-(
-x
-,
-y
-èx&=~(1<<y)
-
-	)
-
-23 #iâdeà
-Ãgb™
-
-
-24 
-	#Ãgb™
-(
-x
-,
-y
-èx^=(1<<y)
-
-	)
-
-27 #iâdeà
-checkb™
-
-
-28 
-	#checkb™
-(
-x
-,
-y
-èx&(1<<y)
-
-	)
-
-32 
-	#SCE
- 
-PD7
-
-
-33 
-	#RES
- 
-PD4
-
-
-34 
-	#DC
- 
-PD5
-
-
-35 
-	#SDIN
- 
-PB3
-
-
-36 
-	#SCKL
- 
-PB5
-
-
-38 
-	#CMD
- 0
-
-39 
-	#IMG
- 1
-
-40 
-	#LCD_X
- 84
-
-41 
-	#LCD_Y
- 48
-
-42 
-
-	)
-
-43 
-lcd_wr™e_by‹
-(
-sü“n
-,
-ušt8_t
- 
-d©a
-);
-
-44 
-lcd_š™
-();
-
-45 
-lcd_dÙ
-();
-
-46 
-lcd_ch¬
-(
-ch¬aù”
-);
-
-47 
-lcd_¡ršg
-(*
-¡ršgi
-);
-
-48 
-lcd_¶aû
-(
-ušt8_t
-,uint8_t);
-
-49 
-lcd_ş—r
-();
-
-50 
-lcd_št
-(
-ušt16_t
-);
-
-51 
-lcd_bš
-(
-ušt8_t
-);
-
-	@AVR_Code/PORT/periphs.c
-
-1 
-	~"³rhs.h
-"
-
-3 
-	$In™
-()
-
-9 
-TCCR1B
- = (1<<
-CS12
-);
-
-10 
-TIMSK
- = (1<<
-TOIE0
-);
-
-11 
-TCNT0
- = 0;
-
-12 
-	}
-}
-
-14 
-št16_t
- 
-	$G‘_M—su»m’t
-()
-
-16 
-ADCSRA
- |ğ(1<<
-ADSC
-);
-
-17 
-ADCSRA
- & (1<<
-ADSC
-));
-
-18  
-ADC
-;
-
-19 
-	}
-}
-
-21 
-	$adc_Ú
-Ğ
-ušt8_t
- 
-šput
- )
-
-23 
-ADMUX
-|=(1<<
-REFS0
-);
-
-24 
-šput
-) {
-
-27 
-ADMUX
-&=~((1<<
-MUX1
-)|(1<<
-MUX0
-));
-
-30 
-ADMUX
-&=~(1<<
-MUX1
-);
-
-31 
-ADMUX
-|=(1<<
-MUX0
-);
-
-34 
-ADMUX
-|=(1<<
-MUX1
-);
-
-35 
-ADMUX
-&=~(1<<
-MUX0
-);
-
-38 
-ADMUX
-|=(1<<
-MUX1
-)|(1<<
-MUX0
-);
-
-42 
-ADCSRA
-|=(1<<
-ADEN
-);
-
-43 
-ADCSRA
-|=(1<<
-ADPS1
-);
-
-44 
-	}
-}
-
-46 
-	$pwm_Ú
-()
-
-55 
-TCCR2
-|=(1<<
-WGM21
-);
-
-56 
-TCCR2
-|=(1<<
-CS21
-)|(1<<
-CS20
-);
-
-57 
-TIMSK
-|=(1<<
-OCIE2
-);
-
-58 
-OCR2
-=250;
-
-59 
-	}
-}
-
-	@AVR_Code/PORT/periphs.h
-
-8 #iâdeà
-PERIPHS_H_
-
-
-9 
-	#PERIPHS_H_
-
-
-	)
-
-11 
-	~<avr/io.h
->
-
-13 
-In™
-();
-
-14 
-št16_t
- 
-G‘_M—su»m’t
-();
-
-15 
-adc_Ú
-Ğ
-ušt8_t
- 
-šput
- );
-
-16 
-pwm_Ú
-();
-
-	@AVR_Code/PORT/pid.h
-
-10 #iâdeà
-PID_H_
-
-
-11 
-	#PID_H_
-
-
-	)
-
-13 
-	~<avr/io.h
->
-
-14 
-	~"maš.h
-"
-
-15 
-	~"³rhs.h
-"
-
-16 
-	~"±1000.h
-"
-
-18 vŞ©
-ušt8_t
- 
-	gPID_FÏg
-=0;
-
-20 
-ušt16_t
- 
-	gKP
-=100;
-
-21 
-ušt16_t
- 
-	gKD
-=0;
-
-22 
-ušt16_t
- 
-	gKI
-=0;
-
-30 
-ušt8_t
- 
-	$pid
-(
-št16_t
- 
-”rÜ
-)
-
-32 
-ušt16_t
- 
-Şd_”rÜ
-=0,
-sum_”rÜ
-=0,
-sub_”rÜ
-=0;
-
-33 
-sum_”rÜ
-=sum_”rÜ+
-”rÜ
-;
-
-34 
-sub_”rÜ
-=
-”rÜ
--
-Şd_”rÜ
-;
-
-35 
-ušt8_t
- 
-£t
- = 0;
-
-36 
-£t
-=
-KP
-*
-”rÜ
- + 
-KI
-*
-sum_”rÜ
- + 
-KD
-*
-sub_”rÜ
-;
-
-37 
-Şd_”rÜ
-=
-”rÜ
-;
-
-39 (
-£t
->
-PWM_MAX
-) ? (set=PWM_MAX) : (set < 1 ? set=0 : set);
-
-40  
-£t
-;
-
-41 
-	}
-}
-
-43 
-ušt16_t
- 
-	$pid_ÿlc
-()
-
-45 
-ušt16_t
- 
-”rÜ
- = 
-	`pgm_»ad_wÜd_Ã¬
-(
-PT1000
- + 
-	`G‘_M—su»m’t
-());
-
-46 
-”rÜ
- =ƒ¼Ü - 
-	`G‘_Reã»nû
-();
-
-47  
-”rÜ
-;
-
-48 
-	}
-}
-
-	@AVR_Code/PORT/pt1000.h
-
-8 #iâdeà
-PT1000_H_
-
-
-9 
-	#PT1000_H_
-
-
-	)
-
-10 
-	~<avr/pgm¥aû.h
->
-
-12 cÚ¡ 
-ušt16_t
- 
-	gPT1000
-[1024] 
-	gPROGMEM
-= {
-
-	@AVR_Code/PORT/spi.c
-
-8 
-	~"¥i.h
-"
-
-10 
-	$¥i_š™
-()
-
-14 
-DDRB
-|=(1<<
-PB5
-)|(1<<
-PB3
-)|(1<<
-PB1
-)|(1<<
-PB0
-);
-
-16 
-DDRB
-|=(1<<
-PB2
-);
-
-18 
-SPCR
-|=(1<<
-SPE
-)|(1<<
-MSTR
-)|(1<<
-SPR0
-);
-
-26 
-	}
-}
-
-28 
-ušt8_t
- 
-	$¥i_wr™e_by‹
-(
-ušt8_t
- 
-cD©a
-)
-
-31 
-SPDR
- = 
-cD©a
-;
-
-33 !(
-SPSR
-&(1<<
-SPIF
-)));
-
-35  
-SPDR
-;
-
-36 
-	}
-}
-
-	@AVR_Code/PORT/spi.h
-
-8 #iâdeà
-SPI_H_
-
-
-9 
-	#SPI_H_
-
-
-	)
-
-11 
-	~<avr/io.h
->
-
-12 
-¥i_š™
-();
-
-13 
-ušt8_t
- 
-¥i_wr™e_by‹
-(ušt8_ˆ
-cD©a
-);
-
+cscope 15 $HOME/workspace/HID_PID -q 0000000961 0000075584
 	@AVR_Code/adc.c
 
 9 
@@ -2198,746 +720,6 @@ couÁ”
 160 
 	}
 }
-
-	@AVR_Code/n5110.c
-
-8 
-	~"n5110.h
-"
-
-10 
-	$lcd_š™
-()
-
-12 
-PORTD
-&=~(1<<
-RES
-);
-
-14 
-DDRD
-|=(1<<
-RES
-)|(1<<
-DC
-)|(1<<
-SCE
-);
-
-15 
-DDRB
-|=(1<<
-SDIN
-)|(1<<
-SCKL
-);
-
-17 
-DDRB
-|=(1<<
-PB2
-);
-
-19 
-SPCR
- = (1<<
-SPE
-)|(1<<
-MSTR
-)|(1<<
-SPR0
-) ;
-
-21 
-	`_d–ay_ms
-(15);
-
-23 
-PORTD
-&=~(1<<
-RES
-);
-
-24 
-	`_d–ay_us
-(1);
-
-25 
-PORTD
-|=(1<<
-RES
-);
-
-26 
-PORTD
-&=~(1<<
-SCE
-);
-
-27 
-	`_d–ay_us
-(1);
-
-28 
-PORTD
-|=(1<<
-SCE
-);
-
-30 
-	`_d–ay_us
-(1);
-
-33 
-	`lcd_wr™e_by‹
-(
-CMD
-, 0x21 );
-
-34 
-	`lcd_wr™e_by‹
-(
-CMD
-, 0xc8 );
-
-35 
-	`lcd_wr™e_by‹
-(
-CMD
-, 0x06 );
-
-36 
-	`lcd_wr™e_by‹
-(
-CMD
-, 0x13 );
-
-37 
-	`lcd_wr™e_by‹
-(
-CMD
-, 0x20 );
-
-38 
-	`lcd_ş—r
-();
-
-39 
-	`lcd_wr™e_by‹
-(
-CMD
-, 0x0c );
-
-41 
-PORTD
-&=~(1<<
-SCE
-);
-
-42 
-	`_d–ay_us
-(1);
-
-43 
-	}
-}
-
-45 
-	$lcd_wr™e_by‹
-(
-sü“n
-,
-ušt8_t
- 
-d©a
-)
-
-47 
-PORTD
-&=~(1<<
-SCE
-);
-
-48 if(
-sü“n
-è
-PORTD
-|=(1<<
-DC
-);
-
-49 
-PORTD
-&=~(1<<
-DC
-);
-
-50 
-SPDR
- = 
-d©a
-;
-
-51 !(
-SPSR
-&(1<<
-SPIF
-)));
-
-52 
-PORTD
-|=(1<<
-SCE
-);
-
-53 
-	}
-}
-
-56 
-	$lcd_dÙ
-()
-
-58 
-	`lcd_wr™e_by‹
-(
-IMG
-,0x00);
-
-59 
-	`lcd_wr™e_by‹
-(
-IMG
-,0x3C);
-
-60 
-	`lcd_wr™e_by‹
-(
-IMG
-,0x7E);
-
-61 
-	`lcd_wr™e_by‹
-(
-IMG
-,0x7E);
-
-62 
-	`lcd_wr™e_by‹
-(
-IMG
-,0xFC);
-
-63 
-	`lcd_wr™e_by‹
-(
-IMG
-,0xF8);
-
-64 
-	`lcd_wr™e_by‹
-(
-IMG
-,0xFC);
-
-65 
-	`lcd_wr™e_by‹
-(
-IMG
-,0x7E);
-
-66 
-	`lcd_wr™e_by‹
-(
-IMG
-,0x7E);
-
-67 
-	`lcd_wr™e_by‹
-(
-IMG
-,0x3C);
-
-68 
-	`lcd_wr™e_by‹
-(
-IMG
-,0x00);
-
-69 
-	}
-}
-
-71 
-	$lcd_ch¬
-(
-ch¬aù”
-)
-
-73 
-	`lcd_wr™e_by‹
-(
-IMG
-,0x00);
-
-74 
-šdex
-=0; index<5 ; index++è
-	`lcd_wr™e_by‹
-(
-IMG
-,
-ASCII
-[
-ch¬aù”
--0x20][index]);
-
-75 
-	`lcd_wr™e_by‹
-(
-IMG
-,0x00);
-
-76 
-	}
-}
-
-78 
-	$lcd_¡ršg
-(*
-¡ršgi
-)
-
-80 *
-¡ršgi
-è
-	`lcd_ch¬
-(*stringi++);
-
-81 
-	}
-}
-
-83 
-	$lcd_¶aû
-(
-ušt8_t
- 
-x
-,ušt8_ˆ
-y
-)
-
-85 
-	`lcd_wr™e_by‹
-(
-CMD
-,0x80|
-x
-);
-
-86 
-	`lcd_wr™e_by‹
-(
-CMD
-,0x40|
-y
-);
-
-87 
-	}
-}
-
-89 
-	$lcd_ş—r
-()
-
-91 
-	`lcd_wr™e_by‹
-(
-CMD
-,0x0c);
-
-92 
-	`lcd_wr™e_by‹
-(
-CMD
-,0x80);
-
-93 
-šdex
-=0; index<504; index++è
-	`lcd_wr™e_by‹
-(
-IMG
-,0x00);
-
-94 
-	}
-}
-
-96 
-	$lcd_št
-(
-ušt16_t
- 
-a
-)
-
-98 if(
-a
-/10è
-	`lcd_št
-(a/10);
-
-99 
-	`lcd_wr™e_by‹
-(
-IMG
-,0x00);
-
-100 
-šdex
-=0; index<5 ; index++è
-	`lcd_wr™e_by‹
-(
-IMG
-,
-ASCII
-[(
-a
-%10)-0x20+'0'][index]);
-
-101 
-	`lcd_wr™e_by‹
-(
-IMG
-,0x00);
-
-102 
-	}
-}
-
-104 
-	$lcd_bš
-(
-ušt8_t
- 
-hex®
-)
-
-106 
-ušt8_t
- 
-a
-=7;
-
-107 
-	`lcd_¡ršg
-("b: ");
-
-108 ; 
-a
-!=0;‡--è
-	`lcd_št
-((
-hex®
-&(1<<a))/(1<<a));
-
-109 
-	`lcd_št
-((
-hex®
-&(1<<
-a
-))/(1<<a));
-
-110 
-	}
-}
-
-	@AVR_Code/n5110.h
-
-8 
-	~<avr/io.h
->
-
-9 
-	~<ut/d–ay.h
->
-
-10 
-	~"ascii.h
-"
-
-12 #iâdeà
-N5110_H_
-
-
-13 
-	#N5110_H_
-
-
-	)
-
-15 #iâdeà
-£tb™
-
-
-16 
-	#£tb™
-(
-x
-,
-y
-èx|=(1<<y)
-
-	)
-
-19 #iâdeà
-ş—rb™
-
-
-20 
-	#ş—rb™
-(
-x
-,
-y
-èx&=~(1<<y)
-
-	)
-
-23 #iâdeà
-Ãgb™
-
-
-24 
-	#Ãgb™
-(
-x
-,
-y
-èx^=(1<<y)
-
-	)
-
-27 #iâdeà
-checkb™
-
-
-28 
-	#checkb™
-(
-x
-,
-y
-èx&(1<<y)
-
-	)
-
-32 
-	#SCE
- 
-PD7
-
-
-33 
-	#RES
- 
-PD4
-
-
-34 
-	#DC
- 
-PD5
-
-
-35 
-	#SDIN
- 
-PB3
-
-
-36 
-	#SCKL
- 
-PB5
-
-
-38 
-	#CMD
- 0
-
-39 
-	#IMG
- 1
-
-40 
-	#LCD_X
- 84
-
-41 
-	#LCD_Y
- 48
-
-42 
-
-	)
-
-43 
-lcd_wr™e_by‹
-(
-sü“n
-,
-ušt8_t
- 
-d©a
-);
-
-44 
-lcd_š™
-();
-
-45 
-lcd_dÙ
-();
-
-46 
-lcd_ch¬
-(
-ch¬aù”
-);
-
-47 
-lcd_¡ršg
-(*
-¡ršgi
-);
-
-48 
-lcd_¶aû
-(
-ušt8_t
-,uint8_t);
-
-49 
-lcd_ş—r
-();
-
-50 
-lcd_št
-(
-ušt16_t
-);
-
-51 
-lcd_bš
-(
-ušt8_t
-);
-
-	@AVR_Code/spi.c
-
-8 
-	~"¥i.h
-"
-
-10 
-	$¥i_š™
-()
-
-14 
-DDRB
-|=(1<<
-PB5
-)|(1<<
-PB3
-)|(1<<
-PB1
-)|(1<<
-PB0
-);
-
-16 
-DDRB
-|=(1<<
-PB2
-);
-
-18 
-SPCR
-|=(1<<
-SPE
-)|(1<<
-MSTR
-)|(1<<
-SPR0
-);
-
-26 
-	}
-}
-
-28 
-ušt8_t
- 
-	$¥i_wr™e_by‹
-(
-ušt8_t
- 
-cD©a
-)
-
-31 
-SPDR
- = 
-cD©a
-;
-
-33 !(
-SPSR
-&(1<<
-SPIF
-)));
-
-35  
-SPDR
-;
-
-36 
-	}
-}
-
-	@AVR_Code/spi.h
-
-8 #iâdeà
-SPI_H_
-
-
-9 
-	#SPI_H_
-
-
-	)
-
-11 
-	~<avr/io.h
->
-
-12 
-¥i_š™
-();
-
-13 
-ušt8_t
- 
-¥i_wr™e_by‹
-(ušt8_ˆ
-cD©a
-);
 
 	@AVR_Code/temptable.h
 
@@ -8625,56 +6407,6 @@ QSŒšg
 	m_şickedProduù
 ;
 
-	@QtUsb/main.cpp
-
-1 
-	~"maš-wšdow.h
-"
-
-2 
-	~<QAµliÿtiÚ
->
-
-4 
-	$maš
-(
-¬gc
-, *
-¬gv
-[])
-
-6 
-QAµliÿtiÚ
- 
-	`a
-(
-¬gc
-, 
-¬gv
-);
-
-7 
-MašWšdow
- 
-w
-;
-
-8 
-w
-.
-	`show
-();
-
-10  
-a
-.
-	`exec
-();
-
-11 
-	}
-}
-
 	@QtUsb/usb-container.cpp
 
 1 
@@ -10349,7 +8081,7 @@ _deviû_hªdË
 	`QTextSŒ—m
 (
 ”rÜLog
-) << "Error: Opening USB devicenr: "
+) << "Error: Opening USB device‚r: "
 
 352 << 
 devNr
@@ -11253,7 +8985,7 @@ DœeùiÚ
 IO
 , cÚ¡ 
 timeout
-=5000 )
+)
 
 555 
 boŞ
@@ -11404,7 +9136,7 @@ E¼Ü
 581 
 QSŒšg
  
-	gUsbDeb
+	gUsbDev
 ::
 	$cÚŒŞl_Œªsãr
 (
@@ -11421,7 +9153,7 @@ size_t
 buf_size
 , cÚ¡ 
 timeout
-=5000)
+ )
 
 583 
 	`libusb_cÚŒŞ_Œªsãr
@@ -11445,7 +9177,7 @@ LIBUSB_ENDPOINT_OUT
 IO
 ,
 
-589 
+589 (*)
 buãr
 ,
 
@@ -11892,8 +9624,8 @@ USBDEV_H
 >
 
 11 
-	~<ba£šfo.h
->
+	~"ba£šfo.h
+"
 
 12 
 	~<QDebug
@@ -12479,7 +10211,9 @@ Endpošt
 DœeùiÚ
  
 IO
-);
+, cÚ¡ 
+timeout
+=5000 );
 
 163 
 QSŒšg
@@ -12491,7 +10225,15 @@ Endpošt
 DœeùiÚ
  
 IO
-);
+, * 
+buãr
+, 
+size_t
+ 
+buf_size
+, cÚ¡ 
+timeout
+=5000 );
 
 165 
 	$deCÏim
@@ -12796,56 +10538,20 @@ a
  4
 
 18 
-libusb_deviû_hªdË
- *
-deviû_hªdË
-;
-
-19 
-libusb_deviû_desütÜ
- 
-deviû_desütÜ
-;
-
-20 
-libusb_deviû
- **
-deviû_li¡
-;
-
-21 
-ssize_t
- 
-deviû_couÁ
-;
-
-22 
-r
-;
-
-23 
-libusb_cÚ‹xt
- *
-ùx
-;
-
-24 
-USB_FÏg_cÚeùed
-=0;
 
 	)
 
-25 
+20 
 uch¬
  
 	gbufãr
 [8]= {0,0,0,0,0,0,0};
 
-26 
+21 
 	ebufãrBy‹
  {
 
-27 
+22 
 	mFÏg
 ,
 	mTempYoungADC
@@ -12863,11 +10569,11 @@ uch¬
 	mPID_D
 
 
-31 
+26 
 	gtimeSecs
 =1;
 
-32 
+27 
 	gQVeùÜ
 <> 
 PlÙTempD©a
@@ -12875,7 +10581,7 @@ PlÙTempD©a
 QVeùÜ
 <>(100));
 
-33 
+28 
 	gQVeùÜ
 <> 
 PlÙTempS‘
@@ -12883,7 +10589,7 @@ PlÙTempS‘
 QVeùÜ
 <>(100));
 
-34 
+29 
 	gQVeùÜ
 <> 
 PlÙTime
@@ -12891,7 +10597,7 @@ PlÙTime
 QVeùÜ
 <>(100));
 
-36 
+31 
 	$R•ÜtE¼Ü
 Ğ
 QLi¡Widg‘
@@ -12903,7 +10609,7 @@ QSŒšg
 ¡r
  ) {
 
-37 
+32 
 Ú
 ->
 	`addI‹m
@@ -12911,7 +10617,7 @@ QSŒšg
 ¡r
 );
 
-38 
+33 
 Ú
 ->
 	`™em
@@ -12925,7 +10631,7 @@ Qt
 wh™e
 );
 
-39 
+34 
 Ú
 ->
 	`™em
@@ -12939,11 +10645,43 @@ Qt
 »d
 );
 
+35 
+	}
+}
+
+37 
+	$´štNÚRoÙUSBDevs
+Ğ
+QLi¡Widg‘
+ *
+li¡Widg‘
+, 
+UsbCÚš”
+ &
+usbCÚš”
+) {
+
+38 
+li¡Widg‘
+->
+	`ş—r
+();
+
+39 
+li¡Widg‘
+->
+	`addI‹ms
+(
+usbCÚš”
+.
+	`li¡NÚRoÙDeviûs
+());
+
 40 
 	}
 }
 
-42 
+43 
 	gMašWšdow
 ::
 	$MašWšdow
@@ -12953,23 +10691,33 @@ QWidg‘
 ·»Á
 ) :
 
-43 
+44 
 	`QMašWšdow
 (
 ·»Á
 ),
 
-44 
-	$ui
+45 
+	`ui
 (
 Ãw
  
 Ui
 ::
 MašWšdow
-)
+),
 
 46 
+	`usbcÚš”
+(
+Ãw
+ 
+	$UsbCÚš”
+(&
+usbE¼ÜLog
+))
+
+48 
 ui
 ->
 	`£tupUi
@@ -12977,19 +10725,19 @@ ui
 this
 );
 
-48 
+50 
 TimmšgV®ue
 =0;
 
-49 
+51 
 	`£tWšdowT™Ë
 ("Fila Controll");
 
-51 
+53 
 bufãr
 [0]=0;
 
-54 
+56 
 CurvePlÙTempD©a
  = 
 Ãw
@@ -12997,7 +10745,7 @@ CurvePlÙTempD©a
 	`QwtPlÙCurve
 ("Real 1");
 
-55 
+57 
 CurvePlÙTempS‘
  = 
 Ãw
@@ -13005,7 +10753,7 @@ CurvePlÙTempS‘
 	`QwtPlÙCurve
 ("Set 2");
 
-58 
+60 
 ui
 ->
 qwtPlÙ
@@ -13013,7 +10761,7 @@ qwtPlÙ
 	`£tT™Ë
 ("Set‡nd„ealemp");
 
-59 
+61 
 ui
 ->
 qwtPlÙ
@@ -13025,7 +10773,7 @@ QwtPlÙ
 yLeá
  ,"Temp [*C]");
 
-60 
+62 
 ui
 ->
 qwtPlÙ
@@ -13037,7 +10785,7 @@ QwtPlÙ
 xBÙtom
 , "Time [s] ");
 
-61 
+63 
 CurvePlÙTempD©a
 ->
 	`£tSam¶es
@@ -13047,7 +10795,7 @@ PlÙTime
 PlÙTempD©a
 );
 
-62 
+64 
 CurvePlÙTempD©a
 ->
 	`£tP’
@@ -13059,7 +10807,7 @@ Qt
 »d
 ));
 
-63 
+65 
 CurvePlÙTempS‘
 ->
 	`£tSam¶es
@@ -13069,7 +10817,7 @@ PlÙTime
 PlÙTempS‘
 );
 
-64 
+66 
 CurvePlÙTempS‘
 ->
 	`£tP’
@@ -13081,7 +10829,7 @@ Qt
 blue
 ));
 
-65 
+67 
 CurvePlÙTempD©a
 ->
 	`©ch
@@ -13091,7 +10839,7 @@ ui
 qwtPlÙ
 );
 
-66 
+68 
 CurvePlÙTempS‘
 ->
 	`©ch
@@ -13101,7 +10849,7 @@ ui
 qwtPlÙ
 );
 
-69 
+71 
 ui
 ->
 dŸl_Temp
@@ -13109,7 +10857,7 @@ dŸl_Temp
 	`£tMaximum
 (250);
 
-70 
+72 
 ui
 ->
 dSpšBox_Temp
@@ -13117,15 +10865,7 @@ dSpšBox_Temp
 	`£tMaximum
 (250);
 
-71 
-ui
-->
-´og»ssB¬
-->
-	`£tV®ue
-(0);
-
-72 
+73 
 ui
 ->
 dŸl_PWM
@@ -13133,7 +10873,7 @@ dŸl_PWM
 	`£tMaximum
 (100);
 
-73 
+74 
 ui
 ->
 dSpšBox_PWM
@@ -13141,7 +10881,7 @@ dSpšBox_PWM
 	`£tMaximum
 (100);
 
-75 
+76 
 ui
 ->
 qwtPlÙ
@@ -13149,75 +10889,59 @@ qwtPlÙ
 	`»¶Ù
 ();
 
-78 
-r
- = 
-	`libusb_š™
-(&
-ùx
-);
+79 
+ui
+->
+‹xtBrow£rLOG
+->
+	`addI‹ms
+(
+usbE¼ÜLog
+.
+	`¥l™
+("\n"));
 
 80 
-deviû_couÁ
- = 
-	`libusb_g‘_deviû_li¡
-(
-ùx
-, &
-deviû_li¡
+	`´štNÚRoÙUSBDevs
+Ğ
+ui
+->
+li¡Widg‘
+, *
+usbcÚš”
 );
 
-81 
-u§bËDevCouÁ
- = 
-Ãw
- (
-deviû_couÁ
-);
-
-87 
+86 
 ReguÏtiÚTy³
 =0;
 
-88 
+87 
 	}
 }
 
-90 
+89 
 	gMašWšdow
 ::~
 	$MašWšdow
 ()
 
-92 
-	`libusb_şo£
-(
-deviû_hªdË
-);
-
-93 
+91 
 	`klTim”
 (
 tim”Id
 );
 
-94 
-d–‘e
- 
-u§bËDevCouÁ
-;
-
-95 
+92 
 d–‘e
  
 ui
 ;
 
-96 
+93 
 	}
 }
 
-100 
+95 
 	gMašWšdow
 ::
 	$Ú_dŸl_PWM_¦id”Moved
@@ -13225,13 +10949,13 @@ ui
 pos™iÚ
 )
 
-102 
+97 
 pwm
 =
 pos™iÚ
 ;
 
-103 
+98 
 ui
 ->
 dSpšBox_PWM
@@ -13241,11 +10965,11 @@ dSpšBox_PWM
 pwm
 );
 
-104 
+99 
 	}
 }
 
-105 
+100 
 	gMašWšdow
 ::
 	$Ú_dŸl_Temp_¦id”Moved
@@ -13253,13 +10977,13 @@ pwm
 pos™iÚ
 )
 
-107 
+102 
 ‹mp
 =
 pos™iÚ
 ;
 
-108 
+103 
 ui
 ->
 dSpšBox_Temp
@@ -13269,11 +10993,11 @@ dSpšBox_Temp
 ‹mp
 );
 
-109 
+104 
 	}
 }
 
-111 
+106 
 	gMašWšdow
 ::
 	$Ú_v”tiÿlSlid”_P_¦id”Moved
@@ -13281,10 +11005,38 @@ dSpšBox_Temp
 pos™iÚ
 )
 
-113 
+108 
 ´İ
 =
 pos™iÚ
+;
+
+109 
+ui
+->
+dSpšBox_P
+->
+	`£tV®ue
+(
+´İ
+);
+
+110 
+	}
+}
+
+111 
+	gMašWšdow
+::
+	$Ú_v”tiÿlSlid”_P_v®ueChªged
+(
+v®ue
+)
+
+113 
+´İ
+=
+v®ue
 ;
 
 114 
@@ -13297,39 +11049,11 @@ dSpšBox_P
 ´İ
 );
 
-115 
+116 
 	}
 }
 
-116 
-	gMašWšdow
-::
-	$Ú_v”tiÿlSlid”_P_v®ueChªged
-(
-v®ue
-)
-
-118 
-´İ
-=
-v®ue
-;
-
-119 
-ui
-->
-dSpšBox_P
-->
-	`£tV®ue
-(
-´İ
-);
-
-121 
-	}
-}
-
-122 
+117 
 	gMašWšdow
 ::
 	$Ú_dSpšBox_P_v®ueChªged
@@ -13337,13 +11061,13 @@ dSpšBox_P
 ¬g1
 )
 
-124 
+119 
 ´İ
 =
 ¬g1
 ;
 
-125 
+120 
 ui
 ->
 v”tiÿlSlid”_P
@@ -13353,11 +11077,11 @@ v”tiÿlSlid”_P
 ¬g1
 ));
 
-126 
+121 
 	}
 }
 
-128 
+123 
 	gMašWšdow
 ::
 	$Ú_v”tiÿlSlid”_I_¦id”Moved
@@ -13365,10 +11089,38 @@ v”tiÿlSlid”_P
 pos™iÚ
 )
 
-130 
+125 
 š‹g
 =
 pos™iÚ
+;
+
+126 
+ui
+->
+dSpšBox_I
+->
+	`£tV®ue
+(
+š‹g
+);
+
+127 
+	}
+}
+
+128 
+	gMašWšdow
+::
+	$Ú_v”tiÿlSlid”_I_v®ueChªged
+(
+v®ue
+)
+
+130 
+š‹g
+=
+v®ue
 ;
 
 131 
@@ -13388,21 +11140,21 @@ dSpšBox_I
 133 
 	gMašWšdow
 ::
-	$Ú_v”tiÿlSlid”_I_v®ueChªged
-(
-v®ue
+	$Ú_dSpšBox_I_v®ueChªged
+(
+¬g1
 )
 
 135 
 š‹g
 =
-v®ue
+¬g1
 ;
 
 136 
 ui
 ->
-dSpšBox_I
+v”tiÿlSlid”_I
 ->
 	`£tV®ue
 (
@@ -13413,35 +11165,7 @@ dSpšBox_I
 	}
 }
 
-138 
-	gMašWšdow
-::
-	$Ú_dSpšBox_I_v®ueChªged
-(
-¬g1
-)
-
-140 
-š‹g
-=
-¬g1
-;
-
-141 
-ui
-->
-v”tiÿlSlid”_I
-->
-	`£tV®ue
-(
-š‹g
-);
-
-142 
-	}
-}
-
-144 
+139 
 	gMašWšdow
 ::
 	$Ú_v”tiÿlSlid”_D_¦id”Moved
@@ -13449,10 +11173,38 @@ v”tiÿlSlid”_I
 pos™iÚ
 )
 
-146 
+141 
 d”iv
 =
 pos™iÚ
+;
+
+142 
+ui
+->
+dSpšBox_D
+->
+	`£tV®ue
+(
+d”iv
+);
+
+143 
+	}
+}
+
+144 
+	gMašWšdow
+::
+	$Ú_v”tiÿlSlid”_D_v®ueChªged
+(
+v®ue
+)
+
+146 
+d”iv
+=
+v®ue
 ;
 
 147 
@@ -13472,21 +11224,21 @@ d”iv
 149 
 	gMašWšdow
 ::
-	$Ú_v”tiÿlSlid”_D_v®ueChªged
-(
-v®ue
+	$Ú_dSpšBox_D_v®ueChªged
+(
+¬g1
 )
 
 151 
 d”iv
 =
-v®ue
+¬g1
 ;
 
 152 
 ui
 ->
-dSpšBox_D
+v”tiÿlSlid”_D
 ->
 	`£tV®ue
 (
@@ -13497,52 +11249,28 @@ d”iv
 	}
 }
 
-154 
-	gMašWšdow
-::
-	$Ú_dSpšBox_D_v®ueChªged
-(
-¬g1
-)
-
-156 
-d”iv
-=
-¬g1
-;
-
-157 
-ui
-->
-v”tiÿlSlid”_D
-->
-	`£tV®ue
-(
-d”iv
-);
-
-158 
-	}
-}
-
-161 
+156 
 	gMašWšdow
 ::
 	$li¡v›w_pİuÏ‹_usb_deviûs
-(è: 
-	$throws
-(
-¡d
-::
-ruÁime_”rÜ
-)
+()
 
-164 
+159 
+	`´štNÚRoÙUSBDevs
+Ğ
+ui
+->
+li¡Widg‘
+, *
+usbcÚš”
+);
+
+160 
 	}
 }
 
-166 
-MašWšdow
+162 
+	gMašWšdow
 ::
 	$Ú_li¡Widg‘_şicked
 (cÚ¡ 
@@ -13551,11 +11279,13 @@ QMod–Index
 šdex
 )
 
-169 
+167 
 	}
 }
 
-171 
+169 
+MašWšdow
+::
 	$¶ÙCh¬t
 Ğ
 T_£t
@@ -13565,7 +11295,7 @@ aùu®_time
 T_m—su»d
  )
 
-173 
+171 
 PlÙTempD©a
 .
 	`š£¹
@@ -13575,7 +11305,7 @@ PlÙTempD©a
 T_£t
  );
 
-174 
+172 
 PlÙTime
 .
 	`š£¹
@@ -13585,7 +11315,7 @@ PlÙTime
 aùu®_time
  );
 
-175 
+173 
 PlÙTempS‘
 .
 	`š£¹
@@ -13595,7 +11325,7 @@ PlÙTempS‘
 T_m—su»d
  );
 
-177 
+175 
 CurvePlÙTempD©a
 ->
 	`£tSam¶es
@@ -13605,7 +11335,7 @@ PlÙTime
 PlÙTempD©a
 );
 
-178 
+176 
 CurvePlÙTempD©a
 ->
 	`£tP’
@@ -13617,7 +11347,7 @@ Qt
 »d
 ));
 
-179 
+177 
 CurvePlÙTempS‘
 ->
 	`£tSam¶es
@@ -13627,7 +11357,7 @@ PlÙTime
 PlÙTempS‘
 );
 
-180 
+178 
 CurvePlÙTempS‘
 ->
 	`£tP’
@@ -13639,7 +11369,7 @@ Qt
 blue
 ));
 
-181 
+179 
 ui
 ->
 qwtPlÙ
@@ -13647,11 +11377,11 @@ qwtPlÙ
 	`»¶Ù
 ();
 
-182 
+180 
 	}
 }
 
-185 
+190 
 	gMašWšdow
 ::
 	$tim”Ev’t
@@ -13661,17 +11391,15 @@ QTim”Ev’t
 ev’t
 )
 
-187 if((
+192 if((
 bufãr
 [
 FÏg
 ]==1è&& (
-USB_FÏg_cÚeùed
-==1è&& (
 ReguÏtiÚTy³
 !=0)) {
 
-196 
+194 
 ‹mpToS‘
  = 
 ReguÏtiÚTy³
@@ -13683,7 +11411,7 @@ TimmšgV®ue
 ‹mp
 );
 
-198 
+196 
 u_št16_t
  
 ‹mp_to_deviû
@@ -13693,7 +11421,7 @@ u_št16_t
 ‹mpToS‘
 );
 
-199 
+197 
 bufãr
 [
 TempYoungS‘
@@ -13701,7 +11429,7 @@ TempYoungS‘
 ‹mp_to_deviû
 &0xFF;
 
-200 
+198 
 bufãr
 [
 TempOldS‘
@@ -13709,7 +11437,7 @@ TempOldS‘
 ‹mp_to_deviû
 >>8)&0xFF;
 
-201 
+199 
 bufãr
 [
 PID_P
@@ -13719,7 +11447,7 @@ u_št8_t
 ´İ
 ;
 
-202 
+200 
 bufãr
 [
 PID_I
@@ -13729,7 +11457,7 @@ u_št8_t
 š‹g
 ;
 
-203 
+201 
 bufãr
 [
 PID_D
@@ -13739,43 +11467,7 @@ u_št8_t
 d”iv
 ;
 
-206 
-	`libusb_cÚŒŞ_Œªsãr
-(
-deviû_hªdË
-,
-LIBUSB_REQUEST_TYPE_VENDOR
- | 
-LIBUSB_RECIPIENT_DEVICE
- | 
-LIBUSB_ENDPOINT_OUT
-,
-
-207 
-USB_DATA_IN
- , 0, 0, 
-bufãr
-, (buffer), 5000);
-
-209 
-	`libusb_cÚŒŞ_Œªsãr
-(
-deviû_hªdË
-,
-LIBUSB_REQUEST_TYPE_VENDOR
- | 
-LIBUSB_RECIPIENT_DEVICE
- | 
-LIBUSB_ENDPOINT_IN
-,
-
-210 
-USB_DATA_OUT
- , 0, 0, 
-bufãr
-, (buffer), 5000);
-
-212 
+211 
 	`¶ÙCh¬t
 (
 ‹mpToS‘
@@ -13791,75 +11483,33 @@ TempYoungADC
 TempOldADC
 ]<<8) ) );
 
-214 if(
-USB_FÏg_cÚeùed
-==0è
-ui
-->
-‹xtBrow£r_usbMes§ge
-->
-	`£tText
-("no USB,‚o…lot");
-
-215 if(
-ReguÏtiÚTy³
-==0è
-ui
-->
-‹xtBrow£r_usbMes§ge
-->
-	`£tText
-("No„egulation");
-
-217 
+216 
 	}
 }
 
-219 
+223 
 	gMašWšdow
 ::
 	$Ú_pushBu‰Ú_£nd_şicked
 ()
 
-227 
+231 
 tim”Id
  = 
 	`¡¬tTim”
 (1000);
 
-228 if(
-USB_FÏg_cÚeùed
-==0) {
-
-229 
-ui
-->
-‹xtBrow£r_usbMes§ge
-->
-	`£tText
-("Error -‚o USB connected");
-
-231 if(
-ReguÏtiÚTy³
-==0) {
-
 232 if(
 ReguÏtiÚTy³
-==0è
-ui
-->
-‹xtBrow£r_usbMes§ge
-->
-	`£tText
-("No„egulation");
+==0) {
 
-239 
+235 
 bufãr
 [
 FÏg
 ]=1;
 
-242 
+238 
 u_št16_t
  
 ‹mp_to_deviû
@@ -13873,7 +11523,7 @@ ReguÏtiÚTy³
 ‹mp
 ));
 
-243 
+239 
 bufãr
 [
 TempYoungS‘
@@ -13881,7 +11531,7 @@ TempYoungS‘
 ‹mp_to_deviû
 &0xFF;
 
-244 
+240 
 bufãr
 [
 TempOldS‘
@@ -13889,7 +11539,7 @@ TempOldS‘
 ‹mp_to_deviû
 >>8)&0xFF;
 
-245 
+241 
 bufãr
 [
 PID_P
@@ -13899,7 +11549,7 @@ u_št8_t
 ´İ
 ;
 
-246 
+242 
 bufãr
 [
 PID_I
@@ -13909,7 +11559,7 @@ u_št8_t
 š‹g
 ;
 
-247 
+243 
 bufãr
 [
 PID_D
@@ -13919,59 +11569,23 @@ u_št8_t
 d”iv
 ;
 
-250 
-	`libusb_cÚŒŞ_Œªsãr
-(
-deviû_hªdË
-,
-LIBUSB_REQUEST_TYPE_VENDOR
- | 
-LIBUSB_RECIPIENT_DEVICE
- | 
-LIBUSB_ENDPOINT_OUT
-,
-
-251 
-USB_DATA_IN
- , 0, 0, 
-bufãr
-, (buffer), 5000);
-
-253 
-	`libusb_cÚŒŞ_Œªsãr
-(
-deviû_hªdË
-,
-LIBUSB_REQUEST_TYPE_VENDOR
- | 
-LIBUSB_RECIPIENT_DEVICE
- | 
-LIBUSB_ENDPOINT_IN
-,
-
 254 
-USB_DATA_OUT
- , 0, 0, 
-bufãr
-, (buffer), 5000);
-
-258 
 	}
 }
 
-260 
+256 
 	gMašWšdow
 ::
 	$Ú_¿dioBu‰Ú_şicked
 ()
 
-262 
+258 
 d–‘e
  
 ReguÏtiÚTy³
 ;
 
-263 
+259 
 ui
 ->
 ‹xtBrow£r_£Ëù
@@ -13979,7 +11593,7 @@ ui
 	`£tText
 ("Inhis setup simpleemp curve is sendo deviceoƒasily solider on halogen†amp-oven. \n"
 
-266 
+262 
 ReguÏtiÚTy³
  = 
 Ãw
@@ -13987,23 +11601,23 @@ ReguÏtiÚTy³
 S‘upSŞid”šg
 ;
 
-267 
+263 
 	}
 }
 
-269 
+265 
 	gMašWšdow
 ::
 	$Ú_¿dioBu‰Ú_bi¡©e_şicked
 ()
 
-271 
+267 
 d–‘e
  
 ReguÏtiÚTy³
 ;
 
-272 
+268 
 ui
 ->
 ‹xtBrow£r_£Ëù
@@ -14011,7 +11625,7 @@ ui
 	`£tText
 ("Inhis setup controller is operating‡s bistate controller,emperature is being set in"
 
-274 
+270 
 ReguÏtiÚTy³
  = 
 Ãw
@@ -14019,23 +11633,23 @@ ReguÏtiÚTy³
 S‘upBi¡©e
 ;
 
-275 
+271 
 	}
 }
 
-277 
+273 
 	gMašWšdow
 ::
 	$Ú_¿dioBu‰Ú_Œi¡©e_şicked
 ()
 
-279 
+275 
 d–‘e
  
 ReguÏtiÚTy³
 ;
 
-280 
+276 
 ui
 ->
 ‹xtBrow£r_£Ëù
@@ -14043,7 +11657,7 @@ ui
 	`£tText
 ("Inhis setup controller is operating‡sristate controller,emperature is being set in"
 
-282 
+278 
 ReguÏtiÚTy³
  = 
 Ãw
@@ -14051,23 +11665,23 @@ ReguÏtiÚTy³
 S‘upTri¡©e
 ;
 
-283 
+279 
 	}
 }
 
-285 
+281 
 	gMašWšdow
 ::
 	$Ú_¿dioBu‰Ú_‹mpCheck_şicked
 ()
 
-287 
+283 
 d–‘e
  
 ReguÏtiÚTy³
 ;
 
-288 
+284 
 ui
 ->
 ‹xtBrow£r_£Ëù
@@ -14075,7 +11689,7 @@ ui
 	`£tText
 ("Inhis setup controller is operating‡shermometer with constantemperature…lot");
 
-289 
+285 
 ReguÏtiÚTy³
  = 
 Ãw
@@ -14083,23 +11697,23 @@ ReguÏtiÚTy³
 S‘upTempCheck
 ;
 
-290 
+286 
 	}
 }
 
-293 
+289 
 	gMašWšdow
 ::
 	$Ú_¿dioBu‰Ú_‹mpCurve_şicked
 ()
 
-295 
+291 
 d–‘e
  
 ReguÏtiÚTy³
 ;
 
-296 
+292 
 ui
 ->
 ‹xtBrow£r_£Ëù
@@ -14107,7 +11721,7 @@ ui
 	`£tText
 ("Inhis setupƒxternalemperature curve is used - is shall be‚amed dataCurve.txt. \n"
 
-299 
+295 
 ReguÏtiÚTy³
  = 
 Ãw
@@ -14115,23 +11729,23 @@ ReguÏtiÚTy³
 S‘upExtTempCurv
 ;
 
-300 
+296 
 	}
 }
 
-302 
+298 
 	gMašWšdow
 ::
 	$Ú_¿dioBu‰Ú_2_şicked
 ()
 
-304 
+300 
 d–‘e
  
 ReguÏtiÚTy³
 ;
 
-305 
+301 
 ui
 ->
 ‹xtBrow£r_£Ëù
@@ -14139,21 +11753,21 @@ ui
 	`£tText
 ("Not supported yet.");
 
-306 
+302 
 	}
 }
 
-308 
+304 
 	gMašWšdow
 ::
 	$Ú_pushBu‰Ú_lßdFe_şicked
 ()
 
-310 if(
+306 if(
 ReguÏtiÚTy³
 !=0) {
 
-311 
+307 
 QSŒšg
  
 feName
@@ -14167,11 +11781,11 @@ this
 	`Œ
 ("Open File"),
 
-313 
+309 
 	`Œ
 ("Text (*.txt *.TXT)"));
 
-314 
+310 
 ReguÏtiÚTy³
 ->
 	`chªgeFeName
@@ -14179,7 +11793,7 @@ ReguÏtiÚTy³
 feName
 );
 
-317 
+313 
 ui
 ->
 ‹xtBrow£r_£Ëù
@@ -14187,7 +11801,7 @@ ui
 	`£tText
 ("Noneype of work selected");
 
-319 
+315 
 	}
 }
 
@@ -14251,19 +11865,27 @@ MAINWINDOW_H
 	~"£tupsŞid”šg.h
 "
 
-17 
+17 
+	~<memÜy
+>
+
+18 
+	~"QtUsb/usb-cÚš”.h
+"
+
+20 
 Çme¥aû
  
 	gUi
 
 
-19 
+22 
 şass
  
 	gMašWšdow
 ;
 
-22 şas 
+25 şas 
 	cMašWšdow
  : 
 public
@@ -14271,15 +11893,15 @@ public
 QMašWšdow
 
 
-24 
+27 
 Q_OBJECT
 
 
-26 
+29 
 public
 :
 
-27 
+30 
 ex¶ic™
  
 MašWšdow
@@ -14289,49 +11911,49 @@ QWidg‘
 ·»Á
  = 0);
 
-28 ~
+31 ~
 MašWšdow
 ();
 
-29 
+32 
 S‘up
  *
 	mReguÏtiÚTy³
 ;
 
-30 
+33 
 	mTimmšgV®ue
 ;
 
-32 
+35 
 public
  
 	m¦Ùs
 :
 
-33 
+36 
 li¡v›w_pİuÏ‹_usb_deviûs
 ();
 
-35 
+38 
 ´iv©e
  
 	m¦Ùs
 :
 
-36 
+39 
 Ú_dŸl_PWM_¦id”Moved
 (
 pos™iÚ
 );
 
-38 
+40 
 Ú_dŸl_Temp_¦id”Moved
 (
 pos™iÚ
 );
 
-40 
+41 
 Ú_v”tiÿlSlid”_P_¦id”Moved
 (
 pos™iÚ
@@ -14343,49 +11965,49 @@ pos™iÚ
 pos™iÚ
 );
 
-44 
+43 
 Ú_v”tiÿlSlid”_D_¦id”Moved
 (
 pos™iÚ
 );
 
-46 
+44 
 Ú_dSpšBox_P_v®ueChªged
 (
 ¬g1
 );
 
-48 
+45 
 Ú_dSpšBox_I_v®ueChªged
 (
 ¬g1
 );
 
-50 
+46 
 Ú_dSpšBox_D_v®ueChªged
 (
 ¬g1
 );
 
-52 
+47 
 Ú_v”tiÿlSlid”_P_v®ueChªged
 (
 v®ue
 );
 
-54 
+48 
 Ú_v”tiÿlSlid”_I_v®ueChªged
 (
 v®ue
 );
 
-56 
+49 
 Ú_v”tiÿlSlid”_D_v®ueChªged
 (
 v®ue
 );
 
-58 
+51 
 Ú_li¡Widg‘_şicked
 (cÚ¡ 
 QMod–Index
@@ -14393,7 +12015,7 @@ QMod–Index
 šdex
 );
 
-60 
+53 
 tim”Ev’t
 (
 QTim”Ev’t
@@ -14401,47 +12023,43 @@ QTim”Ev’t
 ev’t
 );
 
-62 
+54 
 Ú_pushBu‰Ú_£nd_şicked
 ();
 
-64 
+55 
 Ú_¿dioBu‰Ú_şicked
 ();
 
-66 
+56 
 Ú_¿dioBu‰Ú_bi¡©e_şicked
 ();
 
-68 
+57 
 Ú_¿dioBu‰Ú_Œi¡©e_şicked
 ();
 
-70 
+58 
 Ú_¿dioBu‰Ú_‹mpCheck_şicked
 ();
 
-72 
+59 
 Ú_¿dioBu‰Ú_‹mpCurve_şicked
 ();
 
-74 
+60 
 Ú_¿dioBu‰Ú_2_şicked
 ();
 
-76 
-Ú_pushBu‰Ú_2_şicked
-();
-
-78 
+61 
 Ú_pushBu‰Ú_lßdFe_şicked
 ();
 
-80 
+63 
 	m´iv©e
 :
 
-81 
+64 
 Ui
 ::
 MašWšdow
@@ -14449,24 +12067,46 @@ MašWšdow
 ui
 ;
 
-83 
+66 
 	mtim”Id
 ;
 
-85 
+68 
 QwtPlÙCurve
  *
 	mCurvePlÙTempD©a
 ;
 
-86 
+69 
 QwtPlÙCurve
  *
 	mCurvePlÙTempS‘
 ;
 
-88 *
-	mu§bËDevCouÁ
+70 
+¶ÙCh¬t
+Ğ
+T_£t
+, 
+aùu®_time
+, 
+T_m—su»d
+ );
+
+72 
+QSŒšg
+ 
+	musbE¼ÜLog
+;
+
+73 
+	m¡d
+::
+unique_±r
+<
+UsbCÚš”
+> 
+usbcÚš”
 ;
 
 	@setup.cpp
@@ -14608,7 +12248,7 @@ pos™iÚ
 =0;
 
 17  
-»tuºV®
+pos™iÚ
 ;
 
 18 
@@ -15883,27 +13523,12 @@ uch¬
 1
 .
 0
-55
-1034
-AVR_Code/PORT/ascii.h
-AVR_Code/PORT/main.c
-AVR_Code/PORT/main.h
-AVR_Code/PORT/n5110.c
-AVR_Code/PORT/n5110.h
-AVR_Code/PORT/periphs.c
-AVR_Code/PORT/periphs.h
-AVR_Code/PORT/pid.h
-AVR_Code/PORT/pt1000.h
-AVR_Code/PORT/spi.c
-AVR_Code/PORT/spi.h
+39
+716
 AVR_Code/adc.c
 AVR_Code/adc.h
 AVR_Code/ascii.h
 AVR_Code/main.c
-AVR_Code/n5110.c
-AVR_Code/n5110.h
-AVR_Code/spi.c
-AVR_Code/spi.h
 AVR_Code/temptable.h
 AVR_Code/usbdrv/oddebug.c
 AVR_Code/usbdrv/oddebug.h
@@ -15915,7 +13540,6 @@ QtUsb/baseinfo.cpp
 QtUsb/baseinfo.h
 QtUsb/main-window.cpp
 QtUsb/main-window.h
-QtUsb/main.cpp
 QtUsb/usb-container.cpp
 QtUsb/usb-container.h
 QtUsb/usbdev.cpp
