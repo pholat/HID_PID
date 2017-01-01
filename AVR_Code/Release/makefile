@@ -80,12 +80,16 @@ sizedummy: m8testboard3_vusb_PID.elf
 
 # Other Targets
 clean:
-	-$(RM) $(OBJS)$(C_DEPS)$(ASM_DEPS)$(EEPROM_IMAGE)$(FLASH_IMAGE)$(ELFS)$(LSS)$(S_DEPS)$(SIZEDUMMY)$(S_UPPER_DEPS) m8testboard3_vusb_PID.elf
+	-$(RM) $(OBJS)$(C_DEPS)$(ASM_DEPS)$(EEPROM_IMAGE)$(FLASH_IMAGE)$(ELFS)$(LSS)$(S_DEPS)$(SIZEDUMMY)$(S_UPPER_DEPS) m8testboard3_vusb_PID.elf m8testboard3_vusb_PID.hex
 	-@echo ' '
+
+flash:
+	sudo avrdude -p m8 -c usbasp -e -U flash:w:m8testboard3_vusb_PID.hex -U lfuse:w:0xde:m -U hfuse:w:0xd9:m 
+
 
 secondary-outputs: $(LSS) $(FLASH_IMAGE) $(EEPROM_IMAGE) $(SIZEDUMMY)
 
-.PHONY: all clean dependents
+.PHONY: all clean dependents flash
 .SECONDARY:
 
 -include ../makefile.targets
