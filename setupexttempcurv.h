@@ -7,7 +7,7 @@
 #include <QtCore/QString>
 #include <QDebug>
 
-#include <list>
+#include <QVector>
 
 /* If no file is selected it's trying to open file in actual dir called dataC*/
 
@@ -23,7 +23,7 @@ public:
     }
 
 private:
-    std::list< double> _values;
+    QVector< double> _values;
     QString fileName;
 };
 

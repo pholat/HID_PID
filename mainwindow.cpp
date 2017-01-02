@@ -7,40 +7,41 @@
 #include "tempTable.h"
 
 #include "QtUsb/usb-container.h"
+#include "QtUsb/usb-hid.h"
 
-double pwm, pwm_min, pwm_max;
-double temp,temp_min, temp_max;
-double prop, prop_min, prop_maxp;
-double integ, integ_min, integ_max;
-double deriv, deriv_min, deriv_max;
-
+// TODO move to common include...
 // libUSB members - these tells us on what endpoints we work
-// this actually might have been done in one transmitt ;=:
+// this actually might have been done in one transmitt
 #define USB_DATA_OUT 		2	//Device to PC
 #define USB_DATA_IN 		4	//Fine PC to Device
 
-// Maybe instead globals use unique pointer here for plot data and usb send / receive data
-const size_t bufsize =8;
-uchar buffer[bufsize]= {0};
-enum bufferByte {
-    Flag,TempYoungADC,TempOldADC,TempYoungSet,TempOldSet,PID_P,PID_I,PID_D
-};
+namespace {
 
-// Plot data
-double timeSecs=1;
-QVector<double> PlotTempData(QVector<double>(100));
-QVector<double> PlotTempSet(QVector<double>(100));
-QVector<double> PlotTime(QVector<double>(100));
-
-void ReportError( QListWidget *on, QString &str ) {
-    on->addItem(str);
-    on->item(on->count() - 1)->setForeground(Qt::white);
-    on->item(on->count() - 1)->setBackground(Qt::red);
-}
-
-void printNonRootUSBDevs( QListWidget *listWidget, UsbContainer &usbContainer) {
-    listWidget->clear();
-    listWidget->addItems(usbContainer.listNonRootDevices());
+    double pwm, temp, prop ,integ,deriv;
+    
+    // Maybe instead globals use unique pointer here for plot data and usb send / receive data
+    const size_t bufsize =8;
+    uchar buffer[bufsize]= {0};
+    enum bufferByte {
+        Flag,TempYoungADC,TempOldADC,TempYoungSet,TempOldSet,PID_P,PID_I,PID_D
+    };
+    
+    // Plot data
+    double timeSecs=1;
+    QVector<double> PlotTempData(QVector<double>(100));
+    QVector<double> PlotTempSet(QVector<double>(100));
+    QVector<double> PlotTime(QVector<double>(100));
+    
+    void ReportError( QListWidget *on, QString &str ) {
+        on->addItem(str);
+        on->item(on->count() - 1)->setForeground(Qt::white);
+        on->item(on->count() - 1)->setBackground(Qt::red);
+    }
+    
+    void printNonRootUSBDevs( QListWidget *listWidget, UsbContainer &usbContainer) {
+        listWidget->clear();
+        listWidget->addItems(usbContainer.listNonRootDevices());
+    }
 }
 
 
