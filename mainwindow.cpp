@@ -9,6 +9,8 @@
 #include "QtUsb/usb-container.h"
 #include "QtUsb/usb-hid.h"
 
+#include <QDebug>
+
 // TODO move to common include...
 // libUSB members - these tells us on what endpoints we work
 // this actually might have been done in one transmitt
@@ -19,12 +21,13 @@ namespace {
 
     double pwm, temp, prop ,integ,deriv;
     
-    // Maybe instead globals use unique pointer here for plot data and usb send / receive data
     const size_t bufsize =8;
     uchar buffer[bufsize]= {0};
     enum bufferByte {
         Flag,TempYoungADC,TempOldADC,TempYoungSet,TempOldSet,PID_P,PID_I,PID_D
     };
+
+    UsbDev *usbDev;
     
     // Plot data
     double timeSecs=1;
@@ -164,11 +167,10 @@ void MainWindow::listview_populate_usb_devices()
     printNonRootUSBDevs( ui->listWidget, *usbcontainer);
 }
 
+/// Device from list selected
 void MainWindow::on_listWidget_clicked(const QModelIndex &index)
 {
-    // TODO connect the device
-    // reimplement!!! selection here write below
-    // QString string =_usbContainer->writeToDevice(_clickedProduct);
+    usbDev = usbcontainer->getDevice( index.row() );
 }
 
 void MainWindow::plotChart( double T_set, double actual_time, double T_measured )
@@ -194,7 +196,7 @@ void MainWindow::plotChart( double T_set, double actual_time, double T_measured 
 /// Calculate temp to set
 void MainWindow::timerEvent(QTimerEvent *event)
 {
-    if((buffer[Flag]==1) && (RegulationType!=0)) {
+    if( usbDev && (buffer[Flag]==1) && (RegulationType!=0)) {
 
         double tempToSet = RegulationType->returnTemp(TimmingValue,temp);
 
@@ -205,14 +207,12 @@ void MainWindow::timerEvent(QTimerEvent *event)
         buffer[PID_I]=(u_int8_t)integ;
         buffer[PID_D]=(u_int8_t)deriv;
 
-        // TODO this transfer needs to be done via QtUsb
-        UsbHid TODO;
-        TODO.control_transfer(buffer, bufsize, USB_DATA_IN );
-        TODO.control_transfer(buffer, bufsize, USB_DATA_OUT);
+        usbDev->control_transfer(buffer, bufsize, USB_DATA_IN );
+        usbDev->control_transfer(buffer, bufsize, USB_DATA_OUT);
         plotChart(tempToSet, timeSecs++, temp_find( buffer[TempYoungADC] | (buffer[TempOldADC]<<8) ) );
     } else {
-//        if(USB_Flag_conected==0) ui->textBrowser_usbMessage->setText("no USB, no plot");
-//        if(RegulationType==0) ui->textBrowser_usbMessage->setText("No regulation");
+        if( usbDev == 0 ) ui->textBrowserLOG->addItem("no USB, no plot");
+        if(RegulationType==0) ui->textBrowserLOG->addItem("No regulation");
     }
 }
 
@@ -229,8 +229,9 @@ void MainWindow::on_pushButton_send_clicked()
     // ADDED for timer start
     // Shall be moved to else part below
     timerId = startTimer(1000);
-    if(RegulationType==0) {
-//        if(RegulationType==0) ui->textBrowser_usbMessage->setText("No regulation");
+    if( usbDev && RegulationType==0 ) {
+        if( usbDev == 0 ) ui->textBrowserLOG->addItem("no USB, no plot");
+        if(RegulationType==0) ui->textBrowserLOG->addItem("No regulation");
     } else {
         buffer[Flag]=1;
         // Calculate temp to set
@@ -242,10 +243,8 @@ void MainWindow::on_pushButton_send_clicked()
         buffer[PID_I]=(u_int8_t)integ;
         buffer[PID_D]=(u_int8_t)deriv;
 
-        // TODO this transfer needs to be done via QtUsb ( 50% )
-        UsbHid TODO;
-        TODO.control_transfer(buffer, bufsize, USB_DATA_IN );
-        TODO.control_transfer(buffer, bufsize, USB_DATA_OUT );
+        usbDev->control_transfer(buffer, bufsize, USB_DATA_IN );
+        usbDev->control_transfer(buffer, bufsize, USB_DATA_OUT);
     }
 
 }
