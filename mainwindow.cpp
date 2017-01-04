@@ -7,7 +7,6 @@
 #include "tempTable.h"
 
 #include "QtUsb/usb-container.h"
-#include "QtUsb/usb-hid.h"
 
 #include <QDebug>
 
@@ -91,7 +90,9 @@ MainWindow::MainWindow(QWidget *parent) :
     // It's so that if we destroy 0 we do nothing.
     // Each time we select something we destroy "before class"
     // and than we use new class.
-    RegulationType=0;
+    // By default we setup halogen lamp soldering curve - btw. RegulationType cries for factory
+    ui->radioButton->setChecked(true);
+    on_radioButton_clicked();
 }
 
 MainWindow::~MainWindow()
@@ -196,7 +197,7 @@ void MainWindow::plotChart( double T_set, double actual_time, double T_measured 
 /// Calculate temp to set
 void MainWindow::timerEvent(QTimerEvent *event)
 {
-    if( usbDev && (buffer[Flag]==1) && (RegulationType!=0)) {
+    if( (usbDev!=0) && (buffer[Flag]==1) && (RegulationType!=0)) {
 
         double tempToSet = RegulationType->returnTemp(TimmingValue,temp);
 
@@ -229,7 +230,7 @@ void MainWindow::on_pushButton_send_clicked()
     // ADDED for timer start
     // Shall be moved to else part below
     timerId = startTimer(1000);
-    if( usbDev && RegulationType==0 ) {
+    if( (usbDev==0) || RegulationType==0 ) {
         if( usbDev == 0 ) ui->textBrowserLOG->addItem("no USB, no plot");
         if(RegulationType==0) ui->textBrowserLOG->addItem("No regulation");
     } else {

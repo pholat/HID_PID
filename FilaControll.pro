@@ -25,7 +25,6 @@ SOURCES += main.cpp\
     QtUsb/baseinfo.cpp \
     QtUsb/usb-container.cpp \
     QtUsb/usbdev.cpp \
-    QtUsb/usb-hid.cpp
 
 HEADERS  += mainwindow.h \
     tempTable.h \
