@@ -2,6 +2,11 @@
 
 SetupExtTempCurv::SetupExtTempCurv()
 {
+    _description = 
+        "In this setup external temperature curve is used - is shall be named dataCurve.txt. \n"
+        "Data format shall be: \n\n"
+        "\t start\n\t ... \n\tdouble value\n\tdouble value\n\t...\n\tend";
+
     fileName="";
     QFile fileToRead;
     fileToRead.setFileName("dataCurve.txt");

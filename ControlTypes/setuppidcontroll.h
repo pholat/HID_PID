@@ -3,10 +3,13 @@
 
 #include "setup.h"
 
+class SetupSwitch;
+
 class SetupPidControll : public Setup
 {
-public:
+    friend SetupSwitch;
     SetupPidControll();
+public:
     ~SetupPidControll();
     virtual double returnTemp(int position/*In seconds*/,double tempValue/*Not needed if temp is not constant*/);
     virtual void changeFileName(QString) {};

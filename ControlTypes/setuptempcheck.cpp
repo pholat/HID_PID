@@ -2,6 +2,8 @@
 
 SetupTempCheck::SetupTempCheck()
 {
+    _description = 
+        "In this setup controller is operating as thermometer with constant temperature plot";
 }
 
 SetupTempCheck::~SetupTempCheck()

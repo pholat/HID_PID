@@ -11,11 +11,14 @@
 class Setup
 {
 public:
+    QString _description;
+    Setup() {}
     enum {SimpleCurve,BistateReg,TristateReg,TempCheck,ExternCurve} SetType;
     //Setup();
     virtual ~Setup();
     virtual double returnTemp(int position/*In seconds*/,double tempValue/*Not needed if temp is not constant*/) =0;
-    virtual void changeFileName(QString) {};
+    virtual void changeFileName(QString) {}
+    virtual QString getDescription() { return _description; }
 };
 
 #endif // SETUP_H

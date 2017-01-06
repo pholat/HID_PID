@@ -1,15 +1,18 @@
-#ifndef SETUPTEMPCHECK_H
-#define SETUPTEMPCHECK_H
+#ifndef SETUPBISTATE_H
+#define SETUPBISTATE_H
 
 #include "setup.h"
 
-class SetupTempCheck : public Setup
+class SetupSwitch;
+
+class SetupBistate : public Setup
 {
+    friend SetupSwitch;
+    SetupBistate();
 public:
-    SetupTempCheck();
-    ~SetupTempCheck();
+    ~SetupBistate();
     virtual double returnTemp(int position/*In seconds*/,double tempValue/*Not needed if temp is not constant*/);
     virtual void changeFileName(QString) {};
 };
 
-#endif // SETUPTEMPCHECK_H
+#endif // SETUPBISTATE_H

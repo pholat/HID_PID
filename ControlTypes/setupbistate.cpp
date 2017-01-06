@@ -2,6 +2,9 @@
 
 SetupBistate::SetupBistate()
 {
+    _description = 
+        "In this setup controller is operating as bistate controller, temperature is being set in"
+        "start tab";
 
 }
 

@@ -14,28 +14,28 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    setup.cpp \
-    setupbistate.cpp \
-    setuptristate.cpp \
-    setuptempcheck.cpp \
-    setupexttempcurv.cpp \
-    setupsolidering.cpp \
-    setuppidcontroll.cpp \
-    usbdevcon.cpp \
+    ControlTypes/SetupSwitch.cpp \
+    ControlTypes/setup.cpp \
+    ControlTypes/setupbistate.cpp \
+    ControlTypes/setuptristate.cpp \
+    ControlTypes/setuptempcheck.cpp \
+    ControlTypes/setupexttempcurv.cpp \
+    ControlTypes/setupsolidering.cpp \
+    ControlTypes/setuppidcontroll.cpp \
     QtUsb/baseinfo.cpp \
     QtUsb/usb-container.cpp \
     QtUsb/usbdev.cpp \
 
 HEADERS  += mainwindow.h \
     tempTable.h \
-    setup.h \
-    setupbistate.h \
-    setuptristate.h \
-    setuptempcheck.h \
-    setupexttempcurv.h \
-    setupsolidering.h \
-    setuppidcontroll.h \
-    usbdevcon.h \
+    ControlTypes/SetupSwitch.h \
+    ControlTypes/setup.h \
+    ControlTypes/setupbistate.h \
+    ControlTypes/setuptristate.h \
+    ControlTypes/setuptempcheck.h \
+    ControlTypes/setupexttempcurv.h \
+    ControlTypes/setupsolidering.h \
+    ControlTypes/setuppidcontroll.h \
     QtUsb/baseinfo.h \
     QtUsb/usb-container.h \
     QtUsb/usbdev.h

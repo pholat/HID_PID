@@ -9,6 +9,7 @@
 #include "QtUsb/usb-container.h"
 
 #include <QDebug>
+#include "ControlTypes/SetupSwitch.h"
 
 // TODO move to common include...
 // libUSB members - these tells us on what endpoints we work
@@ -256,63 +257,51 @@ void MainWindow::on_pushButton_send_clicked()
 
 void MainWindow::on_radioButton_clicked()
 {
-    delete RegulationType;
-    ui->textBrowser_select->setText("In this setup simple temp curve is send to device to easily solider on halogen lamp-oven. \n"
-            "Firstly there is pre heat to cure cheap solder paste, than there is one minute solidering "
-            "after that slow dropdown to 100*C");
+    RegulationType = SetupSwitch::get(SetupSwitch::Type::SetupSolidering);
+    ui->textBrowser_select->setText( RegulationType->getDescription() );
     ui->groupBox->setHidden(true);
     ui->groupBox_2->setHidden(true);
-    RegulationType = new SetupSolidering;
 }
 
 void MainWindow::on_radioButton_bistate_clicked()
 {
-    delete RegulationType;
-    ui->textBrowser_select->setText("In this setup controller is operating as bistate controller, temperature is being set in"
-            "start tab");
+    RegulationType = SetupSwitch::get(SetupSwitch::Type::SetupBistate);
+    ui->textBrowser_select->setText( RegulationType->getDescription() );
     ui->groupBox->setHidden(true);
     ui->groupBox_2->setHidden(false);
-    RegulationType = new SetupBistate;
 }
 
 void MainWindow::on_radioButton_tristate_clicked()
 {
-    delete RegulationType;
-    ui->textBrowser_select->setText("In this setup controller is operating as tristate controller, temperature is being set in"
-            "start tab");
+    RegulationType = SetupSwitch::get(SetupSwitch::Type::SetupTristate);
+    ui->textBrowser_select->setText( RegulationType->getDescription() );
     ui->groupBox->setHidden(true);
     ui->groupBox_2->setHidden(false);
-    RegulationType = new SetupTristate;
 }
 
 void MainWindow::on_radioButton_tempCheck_clicked()
 {
-    delete RegulationType;
-    ui->textBrowser_select->setText("In this setup controller is operating as thermometer with constant temperature plot");
+    RegulationType = SetupSwitch::get(SetupSwitch::Type::SetupTempCheck);
+    ui->textBrowser_select->setText( RegulationType->getDescription() );
     ui->groupBox->setHidden(true);
     ui->groupBox_2->setHidden(false);
-    RegulationType = new SetupTempCheck;
 }
 
 
 void MainWindow::on_radioButton_tempCurve_clicked()
 {
-    delete RegulationType;
-    ui->textBrowser_select->setText("In this setup external temperature curve is used - is shall be named dataCurve.txt. \n"
-            "Data format shall be: \n\n"
-            "\t start\n\t ... \n\tdouble value\n\tdouble value\n\t...\n\tend");
+    RegulationType = SetupSwitch::get(SetupSwitch::Type::SetupExtTempCurv);
+    ui->textBrowser_select->setText( RegulationType->getDescription() );
     ui->groupBox->setHidden(true);
     ui->groupBox_2->setHidden(false);
-    RegulationType = new SetupExtTempCurv;
 }
 
 void MainWindow::on_radioButton_2_clicked()
 {
-    delete RegulationType;
-    ui->textBrowser_select->setText("Not supported yet.");
+    RegulationType = SetupSwitch::get(SetupSwitch::Type::SetupPidControll);
+    ui->textBrowser_select->setText( RegulationType->getDescription() );
     ui->groupBox->setHidden(false);
     ui->groupBox_2->setHidden(true);
-    RegulationType=0;
 }
 
 void MainWindow::on_pushButton_loadFile_clicked()

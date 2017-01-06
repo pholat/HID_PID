@@ -10,11 +10,13 @@
 #include <QVector>
 
 /* If no file is selected it's trying to open file in actual dir called dataC*/
+class SetupSwitch;
 
 class SetupExtTempCurv : public Setup
 {
-public:
+    friend SetupSwitch;
     SetupExtTempCurv();
+public:
     ~SetupExtTempCurv();
     virtual double returnTemp(int position/*In seconds*/,double tempValue/*Not needed if temp is not constant*/);
     virtual void changeFileName(QString Name)

@@ -7,12 +7,12 @@
 #include <QVector>
 #include <QtWidgets/QFileDialog>
 #include "qwt/qwt_plot_curve.h"
-#include "setup.h"
-#include "setupbistate.h"
-#include "setupexttempcurv.h"
-#include "setuptempcheck.h"
-#include "setuptristate.h"
-#include "setupsolidering.h"
+#include "ControlTypes/setup.h"
+#include "ControlTypes/setupbistate.h"
+#include "ControlTypes/setupexttempcurv.h"
+#include "ControlTypes/setuptempcheck.h"
+#include "ControlTypes/setuptristate.h"
+#include "ControlTypes/setupsolidering.h"
 
 #include <memory> // unique poitner
 #include "QtUsb/usb-container.h"

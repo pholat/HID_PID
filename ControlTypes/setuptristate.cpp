@@ -2,6 +2,9 @@
 
 SetupTristate::SetupTristate()
 {
+    _description = 
+        "In this setup controller is operating as tristate controller, temperature is being set in"
+        "start tab";
 }
 
 SetupTristate::~SetupTristate()

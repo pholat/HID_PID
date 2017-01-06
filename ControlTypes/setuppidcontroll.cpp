@@ -2,6 +2,7 @@
 
 SetupPidControll::SetupPidControll()
 {
+    _description = "Not supported yet.";
 }
 
 SetupPidControll::~SetupPidControll()

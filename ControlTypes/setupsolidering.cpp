@@ -2,6 +2,10 @@
 
 SetupSolidering::SetupSolidering()
 {
+    _description = 
+       "In this setup simple temp curve is send to device to easily solider on halogen lamp-oven. \n"
+       "Firstly there is pre heat to cure cheap solder paste, than there is one minute solidering "
+       "after that slow dropdown to 100*C";
     tempToReturn=20;
 }
 
