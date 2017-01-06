@@ -10,15 +10,20 @@
 
 class Setup
 {
+private:
 public:
+    QString fileName;
     QString _description;
     Setup() {}
     enum {SimpleCurve,BistateReg,TristateReg,TempCheck,ExternCurve} SetType;
     //Setup();
     virtual ~Setup();
     virtual double returnTemp(int position/*In seconds*/,double tempValue/*Not needed if temp is not constant*/) =0;
-    virtual void changeFileName(QString) {}
     virtual QString getDescription() { return _description; }
+    virtual void changeFileName(QString Name) {
+        fileName=Name;
+    }
+    virtual void processFile() {};
 };
 
 #endif // SETUP_H

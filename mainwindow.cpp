@@ -204,7 +204,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
 {
     if( (usbDev!=0) && (buffer[Flag]==1) && (RegulationType!=0)) {
 
-        double tempToSet = RegulationType->returnTemp(TimmingValue,temp);
+        double tempToSet = RegulationType->returnTemp(TimmingValue++,temp);
 
         u_int16_t temp_to_device = temp_to_send(tempToSet);
         buffer[TempYoungSet]=temp_to_device&0xFF;
@@ -213,9 +213,12 @@ void MainWindow::timerEvent(QTimerEvent *event)
         buffer[PID_I]=(u_int8_t)integ;
         buffer[PID_D]=(u_int8_t)deriv;
 
-        usbDev->control_transfer(buffer, bufsize, USB_DATA_IN );
-        usbDev->control_transfer(buffer, bufsize, USB_DATA_OUT);
+        usbDev->control_transfer(Endpoint::Direction::Out, USB_DATA_IN, buffer, bufsize );
+        usbDev->control_transfer(Endpoint::Direction::In, USB_DATA_OUT, buffer, bufsize );
         plotChart(tempToSet, timeSecs++, temp_find( buffer[TempYoungADC] | (buffer[TempOldADC]<<8) ) );
+
+        qDebug() << "ADC  val: " << ( buffer[TempYoungADC] | (buffer[TempOldADC]<<8) );
+        qDebug() << "TEMP val: " << temp_find( buffer[TempYoungADC] | (buffer[TempOldADC]<<8) );
     } else {
         if( usbDev == 0 ) ui->textBrowserLOG->addItem("no USB, no plot");
         if(RegulationType==0) ui->textBrowserLOG->addItem("No regulation");
@@ -234,6 +237,7 @@ void MainWindow::on_pushButton_send_clicked()
     // then maybe send rest of data
     // ADDED for timer start
     // Shall be moved to else part below
+    TimmingValue = 0;
     timerId = startTimer(1000);
     if( (usbDev==0) || RegulationType==0 ) {
         if( usbDev == 0 ) ui->textBrowserLOG->addItem("no USB, no plot");
@@ -249,8 +253,8 @@ void MainWindow::on_pushButton_send_clicked()
         buffer[PID_I]=(u_int8_t)integ;
         buffer[PID_D]=(u_int8_t)deriv;
 
-        usbDev->control_transfer(buffer, bufsize, USB_DATA_IN );
-        usbDev->control_transfer(buffer, bufsize, USB_DATA_OUT);
+        usbDev->control_transfer(Endpoint::Direction::Out, USB_DATA_IN, buffer, bufsize );
+        usbDev->control_transfer(Endpoint::Direction::In, USB_DATA_OUT, buffer, bufsize );
     }
 
 }
@@ -311,7 +315,7 @@ void MainWindow::on_pushButton_loadFile_clicked()
                 "/home",
                 tr("Text (*.txt *.TXT)"));
         RegulationType->changeFileName(fileName);
-
+        RegulationType->processFile();
     } else {
         ui->textBrowser_select->setText("None type of work selected");
     }

@@ -891,7 +891,7 @@ Disassembly of section .text:
  652:	aa 98       	cbi	0x15, 2	; 21
  654:	a9 9a       	sbi	0x15, 1	; 21
  656:	60 ec       	ldi	r22, 0xC0	; 192
- 658:	85 e4       	ldi	r24, 0x45	; 69
+ 658:	80 e4       	ldi	r24, 0x40	; 64
  65a:	70 df       	rcall	.-288    	; 0x53c <adc_on>
  65c:	9e e0       	ldi	r25, 0x0E	; 14
  65e:	88 e1       	ldi	r24, 0x18	; 24
@@ -918,7 +918,7 @@ Disassembly of section .text:
  688:	c1 e0       	ldi	r28, 0x01	; 1
  68a:	d0 e0       	ldi	r29, 0x00	; 0
  68c:	a8 95       	wdr
- 68e:	85 e0       	ldi	r24, 0x05	; 5
+ 68e:	80 e0       	ldi	r24, 0x00	; 0
  690:	5f df       	rcall	.-322    	; 0x550 <adc_one>
  692:	24 b1       	in	r18, 0x04	; 4
  694:	35 b1       	in	r19, 0x05	; 5

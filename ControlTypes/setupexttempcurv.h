@@ -19,14 +19,10 @@ class SetupExtTempCurv : public Setup
 public:
     ~SetupExtTempCurv();
     virtual double returnTemp(int position/*In seconds*/,double tempValue/*Not needed if temp is not constant*/);
-    virtual void changeFileName(QString Name)
-    {
-        fileName=Name;
-    }
+    void processFile();
 
 private:
     QVector< double> _values;
-    QString fileName;
 };
 
 #endif // SETUPEXTTEMPCURV_H

@@ -20,14 +20,9 @@
 #include <util/delay.h>
 #include "adc.h"
 
-//////////////// Flaga dla nRF
-#define DATA_READY (1<<0)
-#define ONE_SECOND (1<<1)
-#define NEW_DATA 	(1<<2)
 uint8_t volatile flag = 0;
 #define USB_DATA_SIZE 8		// Its a size of data table.
 //////////////// COMMAND NR ON usbFunctionSetup /////////
-
 #define USB_DATA_OUT 		2	//Device to PC
 #define USB_DATA_IN 		4	//Fine PC to Device
 
@@ -94,7 +89,6 @@ int main()
     replyBuf[TempOldSet]=0x03;
     replyBuf[TempYoungSet]=0xFF;
 
-    uchar i;
     DDRC|=(1<<PC5);
     PORTC|=(1<<PC5);
 
@@ -103,9 +97,7 @@ int main()
     PORTC|=(1<<PC1);
     // ADC on ADC0, On, start, (full 1024 resolution), /*adc interrupt enable*/
     // Aref - internall Vref turned off
-    adc_on(5|(1<<REFS0),(1<<ADEN)|(1<<ADSC)/*|(1<<ADIE)*/);
-    //spi_init();
-    //lcd_init();
+    adc_on(0|(1<<REFS0),(1<<ADEN)|(1<<ADSC)/*|(1<<ADIE)*/);
     wdt_enable(WDTO_1S); // enable 1s watchdog timer
     usbInit();
     usbDeviceDisconnect(); // enforce re-enumeration
@@ -119,40 +111,23 @@ int main()
 
     while(1) {
         wdt_reset(); // keep the watchdog happy
-        uint16_t inUseADCval=adc_one(5);
+        uint16_t inUseADCval=adc_one(0);
         // If you send TempOldSet / Temps Young set it's ping: data which you send from PC
         // shall be back at you and both plots shall be the same.
-        //        replyBuf[TempOldADC]=replyBuf[TempOldSet];//=(ADC>>8)&0x03;
-        //        replyBuf[TempYoungADC]=replyBuf[TempYoungSet];//=(ADC&0xFF);//ADCL;
         replyBuf[TempOldADC]=(ADC>>8)&0x03;
         replyBuf[TempYoungADC]=(ADC&0xFF);//ADCL
-        // Bistate controll - check per 1 sec.
-//        PORTC|=(1<<PC4);
         if((counter==1)) {
             TempSet.u8[1]=replyBuf[TempOldSet];
             TempSet.u8[0]=replyBuf[TempYoungSet];
             if(inUseADCval>TempSet.u16) PORTC|=(1<<PC4);
             else {
                 PORTC&=~(1<<PC4);
-                PORTC|=(1<<PC3);
             }
             counter=250;
         }
         counter--;
         _delay_ms(1);
 
-        /*        lcd_clear();
-                lcd_place(0,0);
-                lcd_int(ADCH);
-                lcd_place(0,1);
-                lcd_int(ADCL);
-                lcd_place(0,2);
-                lcd_int(ADC);
-                lcd_place(0,3);
-                lcd_int(ADC&0xFF);
-                lcd_place(0,4);
-                lcd_int((ADC&0xFF00)>>8);
-                */
         usbPoll();
     }
     return 0;

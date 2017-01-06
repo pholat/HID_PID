@@ -84,7 +84,7 @@ clean:
 	-@echo ' '
 
 flash:
-	sudo avrdude -p m8 -c usbasp -e -U flash:w:m8testboard3_vusb_PID.hex -U lfuse:w:0xde:m -U hfuse:w:0xd9:m 
+	avrdude -p m8 -c usbasp -e -U flash:w:m8testboard3_vusb_PID.hex -U lfuse:w:0xde:m -U hfuse:w:0xd9:m 
 
 
 secondary-outputs: $(LSS) $(FLASH_IMAGE) $(EEPROM_IMAGE) $(SIZEDUMMY)
