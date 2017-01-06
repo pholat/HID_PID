@@ -4,4 +4,4 @@
 	Will be PWM
 → ADC is connected like that: Vcc → divider (100k epcos NTC / (100k epcos NTC + 1kR) )
 	it will be better ilustrated when I make a special brd just for that controller
-	Actually its connected to ADC5
+→ its connected to ADC5

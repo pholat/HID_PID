@@ -93,6 +93,10 @@ MainWindow::MainWindow(QWidget *parent) :
     // By default we setup halogen lamp soldering curve - btw. RegulationType cries for factory
     ui->radioButton->setChecked(true);
     on_radioButton_clicked();
+
+    // Hide not needed elements
+    ui->groupBox->setHidden( true );
+    ui->groupBox_2->setHidden( true );
 }
 
 MainWindow::~MainWindow()
@@ -256,6 +260,8 @@ void MainWindow::on_radioButton_clicked()
     ui->textBrowser_select->setText("In this setup simple temp curve is send to device to easily solider on halogen lamp-oven. \n"
             "Firstly there is pre heat to cure cheap solder paste, than there is one minute solidering "
             "after that slow dropdown to 100*C");
+    ui->groupBox->setHidden(true);
+    ui->groupBox_2->setHidden(true);
     RegulationType = new SetupSolidering;
 }
 
@@ -264,6 +270,8 @@ void MainWindow::on_radioButton_bistate_clicked()
     delete RegulationType;
     ui->textBrowser_select->setText("In this setup controller is operating as bistate controller, temperature is being set in"
             "start tab");
+    ui->groupBox->setHidden(true);
+    ui->groupBox_2->setHidden(false);
     RegulationType = new SetupBistate;
 }
 
@@ -272,6 +280,8 @@ void MainWindow::on_radioButton_tristate_clicked()
     delete RegulationType;
     ui->textBrowser_select->setText("In this setup controller is operating as tristate controller, temperature is being set in"
             "start tab");
+    ui->groupBox->setHidden(true);
+    ui->groupBox_2->setHidden(false);
     RegulationType = new SetupTristate;
 }
 
@@ -279,6 +289,8 @@ void MainWindow::on_radioButton_tempCheck_clicked()
 {
     delete RegulationType;
     ui->textBrowser_select->setText("In this setup controller is operating as thermometer with constant temperature plot");
+    ui->groupBox->setHidden(true);
+    ui->groupBox_2->setHidden(false);
     RegulationType = new SetupTempCheck;
 }
 
@@ -289,6 +301,8 @@ void MainWindow::on_radioButton_tempCurve_clicked()
     ui->textBrowser_select->setText("In this setup external temperature curve is used - is shall be named dataCurve.txt. \n"
             "Data format shall be: \n\n"
             "\t start\n\t ... \n\tdouble value\n\tdouble value\n\t...\n\tend");
+    ui->groupBox->setHidden(true);
+    ui->groupBox_2->setHidden(false);
     RegulationType = new SetupExtTempCurv;
 }
 
@@ -296,6 +310,9 @@ void MainWindow::on_radioButton_2_clicked()
 {
     delete RegulationType;
     ui->textBrowser_select->setText("Not supported yet.");
+    ui->groupBox->setHidden(false);
+    ui->groupBox_2->setHidden(true);
+    RegulationType=0;
 }
 
 void MainWindow::on_pushButton_loadFile_clicked()
