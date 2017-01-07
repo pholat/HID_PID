@@ -9,7 +9,8 @@
 
 Setup *SetupSwitch::_ret=0;
 
-Setup *SetupSwitch::get(const Type what) {
+// TODO Add constructors with our magicall neat beautiful map
+Setup *SetupSwitch::get(const Type what, QMap< Setup::CB, std::function<void(QString)> > cbMap ) {
     delete _ret;
     switch (what) {
         case SetupTempCheck:
@@ -31,6 +32,9 @@ Setup *SetupSwitch::get(const Type what) {
             _ret = new class SetupSolidering;
             break;
         default: _ret = 0;
+    }
+    if ( _ret != 0 ) {
+        _ret->Con = cbMap;
     }
     return _ret;
 }

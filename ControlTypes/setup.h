@@ -1,17 +1,22 @@
 #ifndef SETUP_H
 #define SETUP_H
 
-/* This class shall be purely virtual - it's not, as I do not know why Qt will not let me.
- * There should be added virtual ControllPas function which would pass values which are
- * set in controll box , global values shall be in another class or shall be in maiwindow.h
- * */
-
 #include <QString>
+#include <QMap>
+#include <functional>
 
 class Setup
 {
 private:
 public:
+    enum CB {
+        LOG ,
+        DESCRIPTION,
+    };
+
+    // Set of callback connectors
+    QMap< CB , std::function<void(QString)> > Con;
+
     QString fileName;
     QString _description;
     Setup() {}
@@ -23,7 +28,13 @@ public:
     virtual void changeFileName(QString Name) {
         fileName=Name;
     }
-    virtual void processFile() {};
+    virtual void processFile() {
+        if ( Con.contains(LOG) ) Con[LOG]("Dummy processFile used");
+    };
+
+    void setCB( CB me, std::function<void(QString)> &callback ) {
+        Con[me] = callback;
+    }
 };
 
 #endif // SETUP_H

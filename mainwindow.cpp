@@ -9,7 +9,6 @@
 #include "QtUsb/usb-container.h"
 
 #include <QDebug>
-#include "ControlTypes/SetupSwitch.h"
 
 // TODO move to common include...
 // libUSB members - these tells us on what endpoints we work
@@ -259,34 +258,40 @@ void MainWindow::on_pushButton_send_clicked()
 
 }
 
+void MainWindow::setupType( SetupSwitch::Type t ) {
+    RegulationType = SetupSwitch::get(
+            t,
+            QMap<Setup::CB,std::function<void(QString)>> {
+                { Setup::CB::DESCRIPTION, [this](QString str) {this->ui->textBrowser_select->setText(str);} },
+                { Setup::CB::LOG, [this](QString str) {this->ui->textBrowserLOG->addItem(str);} },
+            }
+            );
+}
+
 void MainWindow::on_radioButton_clicked()
 {
-    RegulationType = SetupSwitch::get(SetupSwitch::Type::SetupSolidering);
-    ui->textBrowser_select->setText( RegulationType->getDescription() );
+    setupType( SetupSwitch::Type::SetupSolidering );
     ui->groupBox->setHidden(true);
     ui->groupBox_2->setHidden(true);
 }
 
 void MainWindow::on_radioButton_bistate_clicked()
 {
-    RegulationType = SetupSwitch::get(SetupSwitch::Type::SetupBistate);
-    ui->textBrowser_select->setText( RegulationType->getDescription() );
+    setupType( SetupSwitch::Type::SetupBistate );
     ui->groupBox->setHidden(true);
     ui->groupBox_2->setHidden(false);
 }
 
 void MainWindow::on_radioButton_tristate_clicked()
 {
-    RegulationType = SetupSwitch::get(SetupSwitch::Type::SetupTristate);
-    ui->textBrowser_select->setText( RegulationType->getDescription() );
+    setupType( SetupSwitch::Type::SetupTristate );
     ui->groupBox->setHidden(true);
     ui->groupBox_2->setHidden(false);
 }
 
 void MainWindow::on_radioButton_tempCheck_clicked()
 {
-    RegulationType = SetupSwitch::get(SetupSwitch::Type::SetupTempCheck);
-    ui->textBrowser_select->setText( RegulationType->getDescription() );
+    setupType( SetupSwitch::Type::SetupTempCheck );
     ui->groupBox->setHidden(true);
     ui->groupBox_2->setHidden(false);
 }
@@ -294,24 +299,23 @@ void MainWindow::on_radioButton_tempCheck_clicked()
 
 void MainWindow::on_radioButton_tempCurve_clicked()
 {
-    RegulationType = SetupSwitch::get(SetupSwitch::Type::SetupExtTempCurv);
-    ui->textBrowser_select->setText( RegulationType->getDescription() );
+    setupType( SetupSwitch::Type::SetupExtTempCurv);
     ui->groupBox->setHidden(true);
     ui->groupBox_2->setHidden(false);
 }
 
 void MainWindow::on_radioButton_2_clicked()
 {
-    RegulationType = SetupSwitch::get(SetupSwitch::Type::SetupPidControll);
-    ui->textBrowser_select->setText( RegulationType->getDescription() );
+    setupType( SetupSwitch::Type::SetupPidControll );
     ui->groupBox->setHidden(false);
     ui->groupBox_2->setHidden(true);
 }
 
 void MainWindow::on_pushButton_loadFile_clicked()
 {
+    // TODO check why file is alredy open
     if(RegulationType!=0) {
-        QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
+        QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), 
                 "/home",
                 tr("Text (*.txt *.TXT)"));
         RegulationType->changeFileName(fileName);

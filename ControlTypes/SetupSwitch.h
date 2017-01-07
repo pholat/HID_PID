@@ -20,7 +20,7 @@ public:
     };
     SetupSwitch();
     virtual ~SetupSwitch();
-    static Setup *get(const Type what);
+    static Setup *get(const Type what, QMap< Setup::CB, std::function<void(QString)> > cbMap );
 };
 
 #endif /* SETUPSWITCH_H */

@@ -16,6 +16,7 @@
 
 #include <memory> // unique poitner
 #include "QtUsb/usb-container.h"
+#include "ControlTypes/SetupSwitch.h"
 
 namespace Ui
 {
@@ -71,6 +72,7 @@ private:
     // Usb container
     QString usbErrorLog;
     std::unique_ptr<UsbContainer> usbcontainer;
+    void setupType( SetupSwitch::Type t );
 };
 
 #endif // MAINWINDOW_H
