@@ -8,7 +8,7 @@ class SetupSwitch;
 class SetupPidControll : public Setup
 {
     friend SetupSwitch;
-    SetupPidControll();
+    SetupPidControll( QMap< CB , std::function<void(QString)> >  con );
 public:
     ~SetupPidControll();
     virtual double returnTemp(int position/*In seconds*/,double tempValue/*Not needed if temp is not constant*/);

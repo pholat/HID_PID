@@ -15,7 +15,7 @@ class SetupSwitch;
 class SetupExtTempCurv : public Setup
 {
     friend SetupSwitch;
-    SetupExtTempCurv();
+    SetupExtTempCurv( QMap< CB , std::function<void(QString)> >  con );
 public:
     ~SetupExtTempCurv();
     virtual double returnTemp(int position/*In seconds*/,double tempValue/*Not needed if temp is not constant*/);

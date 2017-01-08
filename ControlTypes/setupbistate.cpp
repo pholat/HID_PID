@@ -1,10 +1,11 @@
 #include "setupbistate.h"
 
-SetupBistate::SetupBistate()
+SetupBistate::SetupBistate(QMap< CB , std::function<void(QString)> >  con ) : Setup(con)
 {
     _description = 
         "In this setup controller is operating as bistate controller, temperature is being set in"
         "start tab";
+    _connectors[Setup::CB::DESCRIPTION](_description);
 
 }
 

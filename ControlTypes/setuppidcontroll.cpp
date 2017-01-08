@@ -1,8 +1,9 @@
 #include "setuppidcontroll.h"
 
-SetupPidControll::SetupPidControll()
+SetupPidControll::SetupPidControll( QMap< CB , std::function<void(QString)> >  con ) : Setup(con)
 {
     _description = "Not supported yet.";
+    _connectors[Setup::CB::DESCRIPTION](_description);
 }
 
 SetupPidControll::~SetupPidControll()

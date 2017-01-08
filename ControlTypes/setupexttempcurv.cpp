@@ -1,11 +1,12 @@
 #include "setupexttempcurv.h"
 
-SetupExtTempCurv::SetupExtTempCurv()
+SetupExtTempCurv::SetupExtTempCurv( QMap< CB , std::function<void(QString)> >  con ) : Setup(con)
 {
     _description =
         "In this setup external temperature curve is used - is shall be named dataCurve.txt. \n"
         "Data format shall be: \n\n"
         "\t ... \n\tdouble value\n\tdouble value\n\t...";
+    _connectors[Setup::CB::DESCRIPTION](_description);
 
 }
 

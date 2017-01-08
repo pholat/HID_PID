@@ -8,7 +8,7 @@ class SetupSwitch;
 class SetupTempCheck : public Setup
 {
     friend SetupSwitch;
-    SetupTempCheck();
+    SetupTempCheck( QMap< CB , std::function<void(QString)> >  con );
 public:
     ~SetupTempCheck();
     virtual double returnTemp(int position/*In seconds*/,double tempValue/*Not needed if temp is not constant*/);

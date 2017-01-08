@@ -8,7 +8,7 @@ class SetupSwitch;
 class SetupSolidering : public Setup
 {
     friend SetupSwitch;
-    SetupSolidering();
+    SetupSolidering( QMap< CB , std::function<void(QString)> >  con );
 public:
     ~SetupSolidering();
     virtual double returnTemp(int position/*In seconds*/,double tempValue/*Not needed if temp is not constant*/);

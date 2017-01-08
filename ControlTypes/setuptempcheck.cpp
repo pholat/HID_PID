@@ -1,9 +1,10 @@
 #include "setuptempcheck.h"
 
-SetupTempCheck::SetupTempCheck()
+SetupTempCheck::SetupTempCheck( QMap< CB , std::function<void(QString)> >  con ) : Setup(con)
 {
     _description = 
         "In this setup controller is operating as thermometer with constant temperature plot";
+    _connectors[Setup::CB::DESCRIPTION](_description);
 }
 
 SetupTempCheck::~SetupTempCheck()

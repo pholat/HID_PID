@@ -8,7 +8,7 @@ class SetupSwitch;
 class SetupTristate : public Setup
 {
     friend SetupSwitch;
-    SetupTristate();
+    SetupTristate( QMap< CB , std::function<void(QString)> >  con );
 public:
     ~SetupTristate();
     virtual double returnTemp(int position/*In seconds*/,double tempValue/*Not needed if temp is not constant*/);

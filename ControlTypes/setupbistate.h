@@ -8,7 +8,7 @@ class SetupSwitch;
 class SetupBistate : public Setup
 {
     friend SetupSwitch;
-    SetupBistate();
+    SetupBistate( QMap< CB , std::function<void(QString)> >  con );
 public:
     ~SetupBistate();
     virtual double returnTemp(int position/*In seconds*/,double tempValue/*Not needed if temp is not constant*/);

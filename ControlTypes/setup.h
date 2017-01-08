@@ -15,11 +15,11 @@ public:
     };
 
     // Set of callback connectors
-    QMap< CB , std::function<void(QString)> > Con;
+    QMap< CB , std::function<void(QString)> > _connectors;
 
     QString fileName;
     QString _description;
-    Setup() {}
+    Setup(QMap< CB , std::function<void(QString)> > cbmap ) : _connectors(cbmap) {}
     enum {SimpleCurve,BistateReg,TristateReg,TempCheck,ExternCurve} SetType;
     //Setup();
     virtual ~Setup();
@@ -29,12 +29,8 @@ public:
         fileName=Name;
     }
     virtual void processFile() {
-        if ( Con.contains(LOG) ) Con[LOG]("Dummy processFile used");
+        if ( _connectors.contains(LOG) ) _connectors[LOG]("Dummy processFile used");
     };
-
-    void setCB( CB me, std::function<void(QString)> &callback ) {
-        Con[me] = callback;
-    }
 };
 
 #endif // SETUP_H
