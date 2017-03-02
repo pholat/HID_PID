@@ -7,24 +7,16 @@
 #include "tempTable.h"
 
 #include "QtUsb/usb-container.h"
+#include "AVR_Code/common.h"
 
 #include <QDebug>
-
-// TODO move to common include...
-// libUSB members - these tells us on what endpoints we work
-// this actually might have been done in one transmitt
-#define USB_DATA_OUT 		2	//Device to PC
-#define USB_DATA_IN 		4	//Fine PC to Device
+#include <QThread>
 
 namespace {
-
+    Thread compoller;
     double pwm, temp, prop ,integ,deriv;
-    
-    const size_t bufsize =8;
+    const size_t bufsize =USB_DATA_SIZE;
     uchar buffer[bufsize]= {0};
-    enum bufferByte {
-        Flag,TempYoungADC,TempOldADC,TempYoungSet,TempOldSet,PID_P,PID_I,PID_D
-    };
 
     UsbDev *usbDev;
     

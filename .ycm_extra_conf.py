@@ -97,6 +97,7 @@ flags = [
 '-I/home/pholat/Qt/5.7/gcc_64/include/QtWidgets',
 '-I/usr/include',
 '-I/home/pholat/workspace/build-FilaControll-Desktop_Qt_5_7_0_GCC_64bit-Debug/',
+'-I./Extern/hid_controller',
 ]
 
 
