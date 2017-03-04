@@ -3,25 +3,19 @@
 #include <QtCore>
 #include <QThread>
 
-// TODO check how exec/etc works - we want timer overflow frequent, not once
-// TODO move actuall Com code here
+void commRun();
+// TODO move comms really here with nice signal/slot
 class ComWorker : public QObject
 {
     Q_OBJECT;
 
+    public: 
+        ComWorker();
+
     private slots:
-	void onTimeout();
+        void onTimeout();
+        const double timebase;
+        QTimer timer;
+        friend void commRun();
 };
 
-
-class Thread : public QThread 
-{
-	Q_OBJECT;
-
-	private:
-	double timebase_;
-	void run();
-
-	public:
-	Thread( double timebase );
-};
