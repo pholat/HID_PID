@@ -21,9 +21,9 @@ TODO:
  
 Looks
 ========
-![selection](https://raw.githubusercontent.com/pholat/HID_PID/master/in_work1.png)
-![selection](https://raw.githubusercontent.com/pholat/HID_PID/master/in_work2.png)
-![chart](https://raw.githubusercontent.com/pholat/HID_PID/master/itsworking.png)
+![selection](https://raw.githubusercontent.com/pholat/HID_PID/master/Doc/in_work1.png)
+![selection](https://raw.githubusercontent.com/pholat/HID_PID/master/Doc/in_work2.png)
+![chart](https://raw.githubusercontent.com/pholat/HID_PID/master/Doc/itsworking.png)
 
 Qt app compilation
 ========

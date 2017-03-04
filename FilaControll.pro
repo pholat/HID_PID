@@ -12,35 +12,39 @@ TARGET = FilaControll
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
-    ControlTypes/SetupSwitch.cpp \
-    ControlTypes/setup.cpp \
-    ControlTypes/setupbistate.cpp \
-    ControlTypes/setuptristate.cpp \
-    ControlTypes/setuptempcheck.cpp \
-    ControlTypes/setupexttempcurv.cpp \
-    ControlTypes/setupsolidering.cpp \
-    ControlTypes/setuppidcontroll.cpp \
-    QtUsb/baseinfo.cpp \
-    QtUsb/usb-container.cpp \
-    QtUsb/usbdev.cpp \
+SOURCES += \
+    UI/main.cpp\
+    UI/mainwindow.cpp \
+    Controll/SetupSwitch.cpp \
+    Controll/setup.cpp \
+    Controll/setupbistate.cpp \
+    Controll/setuptristate.cpp \
+    Controll/setuptempcheck.cpp \
+    Controll/setupexttempcurv.cpp \
+    Controll/setupsolidering.cpp \
+    Controll/setuppidcontroll.cpp \
+    Extern/QtUsb/baseinfo.cpp \
+    Extern/QtUsb/usb-container.cpp \
+    Extern/QtUsb/usbdev.cpp \
+    Extern/pid/pid.cpp \
 
-HEADERS  += mainwindow.h \
-    tempTable.h \
-    ControlTypes/SetupSwitch.h \
-    ControlTypes/setup.h \
-    ControlTypes/setupbistate.h \
-    ControlTypes/setuptristate.h \
-    ControlTypes/setuptempcheck.h \
-    ControlTypes/setupexttempcurv.h \
-    ControlTypes/setupsolidering.h \
-    ControlTypes/setuppidcontroll.h \
-    QtUsb/baseinfo.h \
-    QtUsb/usb-container.h \
-    QtUsb/usbdev.h
+HEADERS  += \
+    UI/mainwindow.h \
+    Controll/tempTable.h \
+    Controll/SetupSwitch.h \
+    Controll/setup.h \
+    Controll/setupbistate.h \
+    Controll/setuptristate.h \
+    Controll/setuptempcheck.h \
+    Controll/setupexttempcurv.h \
+    Controll/setupsolidering.h \
+    Controll/setuppidcontroll.h \
+    Extern/QtUsb/baseinfo.h \
+    Extern/QtUsb/usb-container.h \
+    Extern/QtUsb/usbdev.h \
+    Extern/pid/pid.h \
 
-FORMS    += mainwindow.ui
+FORMS    += UI/mainwindow.ui
 
 LIBS += -lqwt-qt5 -lusb-1.0
 
