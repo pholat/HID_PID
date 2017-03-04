@@ -13,6 +13,8 @@ Temperature controller based on VUSB device
 TODO:  
 * all setups to one cpp/h file ( faster to edit and these are small righ now... )  
 * end USB device usage refactoring 
+* * This means go for raw libusb on looked up device -> uplug/plug callback
+* change electronics to support partial sine ( 0 crossing detection for nice 0-100% 230V controll ) 
 * windows scaling doesnt work now - this shall be added
 * TODO PID
 * TODO average value from TEMP curve between points

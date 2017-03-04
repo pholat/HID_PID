@@ -11,11 +11,16 @@ class ComWorker : public QObject
 
     public: 
         ComWorker();
+        ~ComWorker();
 
     private slots:
         void onTimeout();
+
+    private:
         const double timebase;
+        bool usbConStatus;
         QTimer timer;
         friend void commRun();
+        bool usbConnected();
 };
 

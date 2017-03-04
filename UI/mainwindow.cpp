@@ -93,7 +93,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    killTimer(timerId);
     delete ui;
 }
 
@@ -102,6 +101,7 @@ void MainWindow::on_dial_PWM_sliderMoved(int position)
     pwm=position;
     ui->dSpinBox_PWM->setValue(pwm);
 }
+
 void MainWindow::on_dial_Temp_sliderMoved(int position)
 {
     temp=position;
@@ -113,6 +113,7 @@ void MainWindow::on_verticalSlider_P_sliderMoved(int position)
     prop=position;
     ui->dSpinBox_P->setValue(prop);
 }
+
 void MainWindow::on_verticalSlider_P_valueChanged(int value)
 {
     prop=value;
@@ -183,39 +184,6 @@ void MainWindow::plotChart( double T_set, double actual_time, double T_measured 
     ui->qwtPlot->replot();
 }
 
-
-/// Write data to send - in use use data table → than tempSet
-///                    - in use buttons and sliders → then temp
-///                    - and so one... "make choice" button shall be added
-/// Grab LSB → Grab MSB → Set PID values (double to uint conversion!)
-/// and finally program will be ready to test
-/// buffer[Flag]=1;
-/// Calculate temp to set
-void MainWindow::timerEvent(QTimerEvent *event)
-{
-    if( (usbDev!=0) && (buffer[Flag]==1) && (RegulationType!=0)) {
-
-        double tempToSet = RegulationType->returnTemp(TimmingValue++,temp);
-
-        u_int16_t temp_to_device = temp_to_send(tempToSet);
-        buffer[TempYoungSet]=temp_to_device&0xFF;
-        buffer[TempOldSet]  =(temp_to_device>>8)&0xFF;
-        buffer[PID_P]=(u_int8_t)prop;
-        buffer[PID_I]=(u_int8_t)integ;
-        buffer[PID_D]=(u_int8_t)deriv;
-
-        usbDev->control_transfer(Endpoint::Direction::Out, USB_DATA_IN, buffer, bufsize );
-        usbDev->control_transfer(Endpoint::Direction::In, USB_DATA_OUT, buffer, bufsize );
-        plotChart(tempToSet, timeSecs++, temp_find( buffer[TempYoungADC] | (buffer[TempOldADC]<<8) ) );
-
-        qDebug() << "ADC  val: " << ( buffer[TempYoungADC] | (buffer[TempOldADC]<<8) );
-        qDebug() << "TEMP val: " << temp_find( buffer[TempYoungADC] | (buffer[TempOldADC]<<8) );
-    } else {
-        if( usbDev == 0 ) ui->textBrowserLOG->addItem("no USB, no plot");
-        if(RegulationType==0) ui->textBrowserLOG->addItem("No regulation");
-    }
-}
-
 /// Write data to send - in use use data table → than tempSet
 ///                    - in use buttons and sliders → then temp
 ///                    - and so one... "make choice" button shall be added
@@ -229,7 +197,6 @@ void MainWindow::on_pushButton_send_clicked()
     // ADDED for timer start
     // Shall be moved to else part below
     TimmingValue = 0;
-    timerId = startTimer(1000);
     if( (usbDev==0) || RegulationType==0 ) {
         if( usbDev == 0 ) ui->textBrowserLOG->addItem("no USB, no plot");
         if(RegulationType==0) ui->textBrowserLOG->addItem("No regulation");
@@ -247,7 +214,6 @@ void MainWindow::on_pushButton_send_clicked()
         usbDev->control_transfer(Endpoint::Direction::Out, USB_DATA_IN, buffer, bufsize );
         usbDev->control_transfer(Endpoint::Direction::In, USB_DATA_OUT, buffer, bufsize );
     }
-
 }
 
 void MainWindow::setupType( SetupSwitch::Type t ) {
