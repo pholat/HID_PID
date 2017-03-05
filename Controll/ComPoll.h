@@ -2,25 +2,32 @@
 
 #include <QtCore>
 #include <QThread>
+#include <QString>
+#include <QStringList>
 
-void commRun();
-// TODO move comms really here with nice signal/slot
+// Here is managed all usb trafic/controll to the avr device
 class ComWorker : public QObject
 {
     Q_OBJECT;
 
     public: 
-        ComWorker();
         ~ComWorker();
+        static ComWorker &instance();
+        ComWorker(ComWorker const&)         = delete;
+        void operator=(ComWorker const&)    = delete;
 
     private slots:
         void onTimeout();
+        void commRun();
+
+    signals:
+        void message(QStringList message);
 
     private:
+        ComWorker();
         const double timebase;
         bool usbConStatus;
         QTimer timer;
-        friend void commRun();
         bool usbConnected();
 };
 

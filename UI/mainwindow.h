@@ -5,18 +5,18 @@
 #include <QtWidgets/QListWidget>
 #include <QTime>
 #include <QVector>
+#include <QStringList>
 #include <QtWidgets/QFileDialog>
 #include "qwt/qwt_plot_curve.h"
-#include "ControlTypes/setup.h"
-#include "ControlTypes/setupbistate.h"
-#include "ControlTypes/setupexttempcurv.h"
-#include "ControlTypes/setuptempcheck.h"
-#include "ControlTypes/setuptristate.h"
-#include "ControlTypes/setupsolidering.h"
+#include "Controll/setup.h"
+#include "Controll/setupbistate.h"
+#include "Controll/setupexttempcurv.h"
+#include "Controll/setuptempcheck.h"
+#include "Controll/setuptristate.h"
+#include "Controll/setupsolidering.h"
 
 #include <memory> // unique poitner
-#include "QtUsb/usb-container.h"
-#include "ControlTypes/SetupSwitch.h"
+#include "Controll/SetupSwitch.h"
 
 namespace Ui
 {
@@ -60,6 +60,8 @@ private slots:
     void on_radioButton_tempCurve_clicked();
     void on_radioButton_2_clicked();
     void on_pushButton_loadFile_clicked();
+    // Added for callbacks
+    void uiMessages( QStringList messages );
 
 private:
     Ui::MainWindow *ui;
@@ -69,9 +71,6 @@ private:
     QwtPlotCurve *CurvePlotTempData;
     QwtPlotCurve *CurvePlotTempSet;
     void plotChart( double T_set, double actual_time, double T_measured );
-    // Usb container
-    QString usbErrorLog;
-    std::unique_ptr<UsbContainer> usbcontainer;
     void setupType( SetupSwitch::Type t );
 };
 

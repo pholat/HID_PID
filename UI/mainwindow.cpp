@@ -4,13 +4,14 @@
 #include <qwt/qwt_plot_curve.h>
 #include <QVector>
 
-#include "tempTable.h"
+#include "Controll/tempTable.h"
 
-#include "QtUsb/usb-container.h"
 #include "AVR_Code/common.h"
 
 #include <QDebug>
 #include <QThread>
+
+#include <Controll/ComPoll.h>
 
 namespace {
     Thread compoller;
@@ -18,8 +19,6 @@ namespace {
     const size_t bufsize =USB_DATA_SIZE;
     uchar buffer[bufsize]= {0};
 
-    UsbDev *usbDev;
-    
     // Plot data
     double timeSecs=1;
     QVector<double> PlotTempData(QVector<double>(100));
@@ -31,18 +30,12 @@ namespace {
         on->item(on->count() - 1)->setForeground(Qt::white);
         on->item(on->count() - 1)->setBackground(Qt::red);
     }
-    
-    void printNonRootUSBDevs( QListWidget *listWidget, UsbContainer &usbContainer) {
-        listWidget->clear();
-        listWidget->addItems(usbContainer.listNonRootDevices());
-    }
 }
 
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    usbcontainer(new UsbContainer(&usbErrorLog))
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     // Setting temperature to 20*C
@@ -66,7 +59,6 @@ MainWindow::MainWindow(QWidget *parent) :
     CurvePlotTempData->attach(ui->qwtPlot);
     CurvePlotTempSet->attach(ui->qwtPlot);
 
-    //USB setup
     ui->dial_Temp->setMaximum(250);
     ui->dSpinBox_Temp->setMaximum(250);
     ui->dial_PWM->setMaximum(100);
@@ -74,21 +66,21 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->qwtPlot->replot();
 
-    // USB initialised
-    ui->textBrowserLOG->addItems(usbErrorLog.split("\n"));
-    printNonRootUSBDevs( ui->listWidget, *usbcontainer);
-
     // Setup initialisation
-    // It's so that if we destroy 0 we do nothing.
-    // Each time we select something we destroy "before class"
-    // and than we use new class.
-    // By default we setup halogen lamp soldering curve - btw. RegulationType cries for factory
     ui->radioButton->setChecked(true);
     on_radioButton_clicked();
 
     // Hide not needed elements
     ui->groupBox->setHidden( true );
     ui->groupBox_2->setHidden( true );
+
+    // Connect Com worker
+    connect( ComWorker::instance(),  SIGNAL(ComWorker::instance().message(QStringLis)) , 
+            this, SLOT(this->uiMessages( QStringList messages )) );
+    // TODO check if it will work without QT moc magic like that
+    connect( this, SIGNAL(pushButton_clicked()), CommWorker::instance(),
+            SLOT(CommWorker::instance().commRun()) );
+
 }
 
 MainWindow::~MainWindow()
@@ -158,19 +150,6 @@ void MainWindow::on_dSpinBox_D_valueChanged(double arg1)
     ui->verticalSlider_D->setValue(deriv);
 }
 
-//------------------------------ USB controll
-void MainWindow::listview_populate_usb_devices()
-{
-    // TODO populate the devices and then ( one below )
-    printNonRootUSBDevs( ui->listWidget, *usbcontainer);
-}
-
-/// Device from list selected
-void MainWindow::on_listWidget_clicked(const QModelIndex &index)
-{
-    usbDev = usbcontainer->getDevice( index.row() );
-}
-
 void MainWindow::plotChart( double T_set, double actual_time, double T_measured )
 {
     PlotTempData.insert(PlotTempData.size(), T_set );
@@ -182,38 +161,6 @@ void MainWindow::plotChart( double T_set, double actual_time, double T_measured 
     CurvePlotTempSet->setSamples(PlotTime,PlotTempSet);
     CurvePlotTempSet->setPen( QPen(Qt::blue));
     ui->qwtPlot->replot();
-}
-
-/// Write data to send - in use use data table → than tempSet
-///                    - in use buttons and sliders → then temp
-///                    - and so one... "make choice" button shall be added
-/// Grab LSB → Grab MSB → Set PID values (double to uint conversion!)
-/// and finally program will be ready to test
-void MainWindow::on_pushButton_send_clicked()
-{
-    // TODO in and out transfer
-    // than add "start plotting"
-    // then maybe send rest of data
-    // ADDED for timer start
-    // Shall be moved to else part below
-    TimmingValue = 0;
-    if( (usbDev==0) || RegulationType==0 ) {
-        if( usbDev == 0 ) ui->textBrowserLOG->addItem("no USB, no plot");
-        if(RegulationType==0) ui->textBrowserLOG->addItem("No regulation");
-    } else {
-        buffer[Flag]=1;
-        // Calculate temp to set
-        // TODO set position
-        u_int16_t temp_to_device = temp_to_send(RegulationType->returnTemp(0,temp));
-        buffer[TempYoungSet]=temp_to_device&0xFF;
-        buffer[TempOldSet]  =(temp_to_device>>8)&0xFF;
-        buffer[PID_P]=(u_int8_t)prop;
-        buffer[PID_I]=(u_int8_t)integ;
-        buffer[PID_D]=(u_int8_t)deriv;
-
-        usbDev->control_transfer(Endpoint::Direction::Out, USB_DATA_IN, buffer, bufsize );
-        usbDev->control_transfer(Endpoint::Direction::In, USB_DATA_OUT, buffer, bufsize );
-    }
 }
 
 void MainWindow::setupType( SetupSwitch::Type t ) {
@@ -282,3 +229,11 @@ void MainWindow::on_pushButton_loadFile_clicked()
         ui->textBrowser_select->setText("None type of work selected");
     }
 }
+
+void MainWindow::uiMessages( QStringList messages ) 
+{
+    for ( auto a : messages ) {
+        ui->textBrowserLOG().addItem( a );
+    }
+}
+
