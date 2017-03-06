@@ -1,3 +1,0 @@
-[submodule "QtUsb"]
-	path = Extern/QtUsb
-	url = https://github.com/pholat/QtUsb.git
