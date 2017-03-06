@@ -18,6 +18,8 @@ class ComWorker : public QObject
 
     private slots:
         void onTimeout();
+
+    public slots:
         void commRun();
 
     signals:

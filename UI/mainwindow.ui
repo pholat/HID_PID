@@ -49,24 +49,11 @@
        </rect>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_connect">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>98</width>
-        <height>27</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>List devices</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="pushButton_send">
       <property name="geometry">
        <rect>
-        <x>100</x>
-        <y>0</y>
+        <x>0</x>
+        <y>340</y>
         <width>101</width>
         <height>27</height>
        </rect>
@@ -288,9 +275,9 @@
      <widget class="QPushButton" name="pushButton_close1">
       <property name="geometry">
        <rect>
-        <x>150</x>
+        <x>100</x>
         <y>340</y>
-        <width>51</width>
+        <width>101</width>
         <height>27</height>
        </rect>
       </property>
@@ -303,7 +290,6 @@
      <zorder>textBrowserLOG</zorder>
      <zorder>groupBox_2</zorder>
      <zorder>pushButton_send</zorder>
-     <zorder>pushButton_connect</zorder>
      <zorder>pushButton_close1</zorder>
     </widget>
     <widget class="QWidget" name="tab_setup">
@@ -546,22 +532,6 @@
     <hint type="sourcelabel">
      <x>620</x>
      <y>422</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>337</x>
-     <y>231</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_connect</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>listview_populate_usb_devices()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>50</x>
-     <y>82</y>
     </hint>
     <hint type="destinationlabel">
      <x>337</x>

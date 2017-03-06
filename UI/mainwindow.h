@@ -35,6 +35,8 @@ public:
 
 public slots:
     void listview_populate_usb_devices();
+    // Added for callbacks
+    void uiMessages( QStringList messages );
 
 private slots:
     void on_dial_PWM_sliderMoved(int position);
@@ -60,8 +62,6 @@ private slots:
     void on_radioButton_tempCurve_clicked();
     void on_radioButton_2_clicked();
     void on_pushButton_loadFile_clicked();
-    // Added for callbacks
-    void uiMessages( QStringList messages );
 
 private:
     Ui::MainWindow *ui;

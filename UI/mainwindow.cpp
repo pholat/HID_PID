@@ -5,16 +5,11 @@
 #include <QVector>
 
 #include "Controll/tempTable.h"
-
 #include "AVR_Code/common.h"
-
 #include <QDebug>
-#include <QThread>
-
 #include <Controll/ComPoll.h>
 
 namespace {
-    Thread compoller;
     double pwm, temp, prop ,integ,deriv;
     const size_t bufsize =USB_DATA_SIZE;
     uchar buffer[bufsize]= {0};
@@ -75,12 +70,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->groupBox_2->setHidden( true );
 
     // Connect Com worker
-    connect( ComWorker::instance(),  SIGNAL(ComWorker::instance().message(QStringLis)) , 
-            this, SLOT(this->uiMessages( QStringList messages )) );
+    connect( ComWorker::instance(),  &ComWorker::message,
+            this, &MainWindow::uiMessages
+           );
     // TODO check if it will work without QT moc magic like that
-    connect( this, SIGNAL(pushButton_clicked()), CommWorker::instance(),
-            SLOT(CommWorker::instance().commRun()) );
-
+    connect( this, &on_pushButton_clicked,
+             ComWorker::instance(), &ComWorker::commRun
+            );
 }
 
 MainWindow::~MainWindow()
@@ -233,7 +229,7 @@ void MainWindow::on_pushButton_loadFile_clicked()
 void MainWindow::uiMessages( QStringList messages ) 
 {
     for ( auto a : messages ) {
-        ui->textBrowserLOG().addItem( a );
+        ui->textBrowserLOG->addItem( a );
     }
 }
 

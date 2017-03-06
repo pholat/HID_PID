@@ -27,6 +27,7 @@ SOURCES += \
     Extern/QtUsb/usb-container.cpp \
     Extern/QtUsb/usbdev.cpp \
     Extern/pid/pid.cpp \
+    Controll/ComPoll.cpp \
 
 HEADERS  += \
     UI/mainwindow.h \
@@ -43,6 +44,7 @@ HEADERS  += \
     Extern/QtUsb/usb-container.h \
     Extern/QtUsb/usbdev.h \
     Extern/pid/pid.h \
+    Controll/ComPoll.h \
 
 FORMS    += UI/mainwindow.ui
 
