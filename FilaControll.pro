@@ -10,6 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = FilaControll
 TEMPLATE = app
+CONFIG += c++11
 
 
 SOURCES += \
@@ -23,9 +24,6 @@ SOURCES += \
     Controll/setupexttempcurv.cpp \
     Controll/setupsolidering.cpp \
     Controll/setuppidcontroll.cpp \
-    Extern/QtUsb/baseinfo.cpp \
-    Extern/QtUsb/usb-container.cpp \
-    Extern/QtUsb/usbdev.cpp \
     Extern/pid/pid.cpp \
     Controll/ComPoll.cpp \
 
@@ -40,9 +38,6 @@ HEADERS  += \
     Controll/setupexttempcurv.h \
     Controll/setupsolidering.h \
     Controll/setuppidcontroll.h \
-    Extern/QtUsb/baseinfo.h \
-    Extern/QtUsb/usb-container.h \
-    Extern/QtUsb/usbdev.h \
     Extern/pid/pid.h \
     Controll/ComPoll.h \
 

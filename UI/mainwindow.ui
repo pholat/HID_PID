@@ -49,7 +49,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_send">
+     <widget class="QPushButton" name="bStart">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -289,7 +289,7 @@
      <zorder>listWidget</zorder>
      <zorder>textBrowserLOG</zorder>
      <zorder>groupBox_2</zorder>
-     <zorder>pushButton_send</zorder>
+     <zorder>bStart</zorder>
      <zorder>pushButton_close1</zorder>
     </widget>
     <widget class="QWidget" name="tab_setup">

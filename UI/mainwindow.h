@@ -54,7 +54,6 @@ private slots:
     void on_listWidget_clicked(const QModelIndex &index);
     //ADDED for timer
     void timerEvent(QTimerEvent *event);
-    void on_pushButton_send_clicked();
     void on_radioButton_clicked();
     void on_radioButton_bistate_clicked();
     void on_radioButton_tristate_clicked();

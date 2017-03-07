@@ -15,16 +15,9 @@ namespace {
     uchar buffer[bufsize]= {0};
 
     // Plot data
-    double timeSecs=1;
     QVector<double> PlotTempData(QVector<double>(100));
     QVector<double> PlotTempSet(QVector<double>(100));
     QVector<double> PlotTime(QVector<double>(100));
-    
-    void ReportError( QListWidget *on, QString &str ) {
-        on->addItem(str);
-        on->item(on->count() - 1)->setForeground(Qt::white);
-        on->item(on->count() - 1)->setBackground(Qt::red);
-    }
 }
 
 
@@ -69,13 +62,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->groupBox->setHidden( true );
     ui->groupBox_2->setHidden( true );
 
-    // Connect Com worker
-    connect( ComWorker::instance(),  &ComWorker::message,
+    connect( &ComWorker::instance(),  &ComWorker::message,
             this, &MainWindow::uiMessages
            );
-    // TODO check if it will work without QT moc magic like that
-    connect( this, &on_pushButton_clicked,
-             ComWorker::instance(), &ComWorker::commRun
+    connect( ui->bStart, &QPushButton::clicked,
+             &ComWorker::instance(), &ComWorker::commRun
             );
 }
 

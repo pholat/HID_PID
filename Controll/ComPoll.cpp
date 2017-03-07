@@ -3,16 +3,21 @@
 
 #include <QDebug>
 #include <QTimer>
-#include <libusb-1.0/libusb.h>
 #include "ComPoll.h"
 #include "AVR_Code/usbdrv/usbconfig.h"
+#include "AVR_Code/common.h"
 
 namespace 
 {
 libusb_hotplug_callback_handle handle;
 static libusb_device_handle *usb_handle = NULL;
 struct libusb_device_descriptor desc;
-}
+// TODO this is very temporary...
+int* tvid =USB_CFG_VENDOR_ID;
+int* tpid =USB_CFG_DEVICE_ID;
+int vid = tvid[0] + (tvid[1]<<8);
+int pid = tpid[0] + (tpid[1]<<8);
+};
 
 ComWorker &ComWorker::instance() 
 {
@@ -26,17 +31,17 @@ int hotplug_callback( struct libusb_context *ctx, struct libusb_device *dev, lib
 	if (LIBUSB_HOTPLUG_EVENT_DEVICE_ARRIVED == event) {
 		rc = libusb_open(dev, &usb_handle);
 		if (LIBUSB_SUCCESS != rc) {
-			emit message(QStringList(QString("Could not open USB device\n")));
+            emit ComWorker::instance().message(QStringList(QString("Could not open USB device\n")));
 		}
 	} else if (LIBUSB_HOTPLUG_EVENT_DEVICE_LEFT == event) {
 		if (usb_handle) {
 			libusb_close(usb_handle);
 			usb_handle = NULL;
-            comWorker.timer.stop();
-            emit message(QStringList(QString("Device disconnected - stopped action")));
+            ComWorker::instance().timer.stop();
+            emit ComWorker::instance().message(QStringList(QString("Device disconnected - stopped action")));
 		}
 	} else {
-		emit message(QStringList(QString("Unhandled event %1s\n").arg( event)));
+        emit ComWorker::instance().message(QStringList(QString("Unhandled event %1s\n").arg( event)));
 	}
 	return 0;
 }
@@ -46,19 +51,19 @@ ComWorker::ComWorker() : timebase(100), usbConStatus(false)
 {
 	libusb_init(NULL);
 	int rc = libusb_hotplug_register_callback( NULL, 
-        LIBUSB_HOTPLUG_EVENT_DEVICE_ARRIVED | LIBUSB_HOTPLUG_EVENT_DEVICE_LEFT, 
-        0,
-        USB_CFG_VENDOR_ID, USB_CFG_DEVICE_ID,
+        (libusb_hotplug_event)(LIBUSB_HOTPLUG_EVENT_DEVICE_ARRIVED | LIBUSB_HOTPLUG_EVENT_DEVICE_LEFT),
+        (libusb_hotplug_flag)0,
+        pid, vid,
 		LIBUSB_HOTPLUG_MATCH_ANY, 
         hotplug_callback, 
         NULL,
-		&handle);
+        &handle);
 	if (LIBUSB_SUCCESS != rc) {
 		qDebug() << "Error creating a hotplug callback\n";
 		libusb_exit(NULL);
 	}
 	libusb_device_handle* tmp =  libusb_open_device_with_vid_pid 	( 	NULL,
-        USB_CFG_VENDOR_ID, USB_CFG_DEVICE_ID
+        vid, pid
 	);
 	if ( tmp ) 
 	{
@@ -82,17 +87,19 @@ bool ComWorker::usbConnected()
 /// get propper values from controllers - timescalled by n*(1/timebase_)
 /// set controler controll data on/off
 /// send/receive data
+/// REMOVE TEMOPORARY DUMMY STUFF in transfer
 void ComWorker::onTimeout() {
-    if( (usb_handle!=0) && (buffer[Flag]==1) && (RegulationType!=0)) {
+    unsigned char buffer[8];
+    if( (usb_handle!=0) ) { // && (buffer[Flag]==1) && (RegulationType!=0)) {
 		libusb_control_transfer(
 				usb_handle,
 				LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE | LIBUSB_ENDPOINT_IN,
-				request ,
+                USB_DATA_OUT ,
 				0,
 				0,
-				data, 
-				size,
-				timeout );
+                buffer,
+                8,
+                100 );
     } else {
 		emit message(QStringList(QString("Cant send! Error: %1s\n").arg( "No USB or regulation" )));
     }
@@ -101,7 +108,7 @@ void ComWorker::onTimeout() {
 void ComWorker::commRun()
 {
     if ( usb_handle != 0 ) {
-        connect(&comWorker.timer, SIGNAL(timeout()), &comWorker , SLOT(onTimeout()));
-        comWorker.timer.start(comWorker.timebase);
+        connect(&timer, SIGNAL(timeout()), this , SLOT(onTimeout()));
+        timer.start(timebase);
     }
 }
