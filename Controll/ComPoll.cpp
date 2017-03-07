@@ -13,10 +13,10 @@ libusb_hotplug_callback_handle handle;
 static libusb_device_handle *usb_handle = NULL;
 struct libusb_device_descriptor desc;
 // TODO this is very temporary...
-int* tvid =USB_CFG_VENDOR_ID;
-int* tpid =USB_CFG_DEVICE_ID;
-int vid = tvid[0] + (tvid[1]<<8);
-int pid = tpid[0] + (tpid[1]<<8);
+char vid[2] = { (char)USB_CFG_VENDOR_ID };
+char pid[2] = { (char)USB_CFG_DEVICE_ID };
+int VID = vid[0] + ((int)vid[1]<<8);
+int PID = pid[0] + ((int)pid[1]<<8);
 };
 
 ComWorker &ComWorker::instance() 
@@ -53,7 +53,7 @@ ComWorker::ComWorker() : timebase(100), usbConStatus(false)
 	int rc = libusb_hotplug_register_callback( NULL, 
         (libusb_hotplug_event)(LIBUSB_HOTPLUG_EVENT_DEVICE_ARRIVED | LIBUSB_HOTPLUG_EVENT_DEVICE_LEFT),
         (libusb_hotplug_flag)0,
-        pid, vid,
+        PID, VID,
 		LIBUSB_HOTPLUG_MATCH_ANY, 
         hotplug_callback, 
         NULL,
@@ -63,7 +63,7 @@ ComWorker::ComWorker() : timebase(100), usbConStatus(false)
 		libusb_exit(NULL);
 	}
 	libusb_device_handle* tmp =  libusb_open_device_with_vid_pid 	( 	NULL,
-        vid, pid
+        VID, PID
 	);
 	if ( tmp ) 
 	{

@@ -34,7 +34,6 @@ public:
     int TimmingValue;
 
 public slots:
-    void listview_populate_usb_devices();
     // Added for callbacks
     void uiMessages( QStringList messages );
 
@@ -51,9 +50,7 @@ private slots:
     void on_verticalSlider_I_valueChanged(int value);
     void on_verticalSlider_D_valueChanged(int value);
 
-    void on_listWidget_clicked(const QModelIndex &index);
     //ADDED for timer
-    void timerEvent(QTimerEvent *event);
     void on_radioButton_clicked();
     void on_radioButton_bistate_clicked();
     void on_radioButton_tristate_clicked();
