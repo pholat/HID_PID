@@ -154,8 +154,8 @@ void MainWindow::setupType( SetupSwitch::Type t ) {
     RegulationType = SetupSwitch::get(
             t,
             QMap<Setup::CB,std::function<void(QString)>> {
-                { Setup::CB::DESCRIPTION, [this](QString str) {this->ui->textBrowser_select->setText(str);} },
-                { Setup::CB::LOG, [this](QString str) {this->ui->textBrowserLOG->addItem(str);} },
+                { Setup::CB::DESCRIPTION, [this](QString str) {this->ui->textBrowserLOG->setText(str);} },
+                { Setup::CB::LOG, [this](QString str) {this->ui->textBrowserLOG->append(str);} },
             }
             );
 }
@@ -213,14 +213,14 @@ void MainWindow::on_pushButton_loadFile_clicked()
         RegulationType->changeFileName(fileName);
         RegulationType->processFile();
     } else {
-        ui->textBrowser_select->setText("None type of work selected");
+        ui->textBrowserLOG->setText("None type of work selected");
     }
 }
 
 void MainWindow::uiMessages( QStringList messages ) 
 {
     for ( auto a : messages ) {
-        ui->textBrowserLOG->addItem( a );
+        ui->textBrowserLOG->append( a );
     }
 }
 
