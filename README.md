@@ -5,6 +5,7 @@ Temperature controller based on VUSB device
 → Right now it works with simple temperature curve used to solidering, external data curve (needed to load or either loaded automaticly from file where executable is) PID is yet to be added.  
 → It's goal it to create usable, minimal temperature controller and soft.  
 → It's dedicated for heat controll purposes.  
+→ Please note that controll works only with VUSB device User and Product ID ( available in AVR_Code/usbdrv/usbconfig.h ) 
 
 TODO:  
 * change electronics to support partial sine ( 0 crossing detection for nice 0-100% 230V controll ) 
